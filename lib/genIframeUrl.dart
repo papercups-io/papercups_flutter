@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'classes.dart';
@@ -65,10 +67,19 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   }
 
   if (props.customer != null) {
-    // TODO: Add Customer Data
+    var map = {
+      "name": props.customer.name,
+      "email": props.customer.email,
+      "externalId": props.customer.externalId,
+    };
+    url += "&customer=" + json.encode(map);
   }
 
-  url += "&version=1.1.2";
+  if (props.customer.otherMetadata != null){
+    url += "&metadata=" + json.encode(props.customer.otherMetadata);
+  }
+
+  //url += "&version=1.1.2";
   print(url);
   return url;
 }
