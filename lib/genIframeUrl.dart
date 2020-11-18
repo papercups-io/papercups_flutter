@@ -8,7 +8,8 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   var uriToEncode = "accountId=${props.accountId}";
 
   if (props.requireEmailUpfront != null) {
-    uriToEncode += "&requireEmailUpfront=" + props.requireEmailUpfront.toString();
+    uriToEncode +=
+        "&requireEmailUpfront=" + props.requireEmailUpfront.toString();
   }
 
   if (props.scrollEnabled != null) {
@@ -16,7 +17,8 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   }
 
   if (props.showAgentAvailability != null) {
-    uriToEncode += "&showAgentAvailability=" + props.showAgentAvailability.toString();
+    uriToEncode +=
+        "&showAgentAvailability=" + props.showAgentAvailability.toString();
   }
 
   if (props.agentAvailableText != null) {
@@ -79,7 +81,7 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   uriToEncode += "&version=1.1.1";
   print(uriToEncode);
 
-  var url = iframeUrl +"?"+ uriToEncode;
+  var url = iframeUrl + "?" + uriToEncode;
   print(url);
   return url;
 }

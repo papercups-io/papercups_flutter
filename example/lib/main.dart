@@ -51,8 +51,8 @@ class MyHomePage extends StatelessWidget {
                           name: "Test App",
                           otherMetadata: {
                             "app": "example",
-                          }
-                          )
+                          },
+                        ),
                       ),
                     ),
                   );
