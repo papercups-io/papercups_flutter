@@ -14,18 +14,19 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   if (props.requireEmailUpfront != null) {
     // Add to URI
     uriToEncode +=
-        "&requireEmailUpfront=" + props.requireEmailUpfront.toString();
+        "&requireEmailUpfront=" + _boolToStr(props.requireEmailUpfront);
   }
 
   // Check if bool is true.
   if (props.scrollEnabled != null) {
-    uriToEncode += "&scrollEnabled=" + props.scrollEnabled.toString();
+    uriToEncode += "&scrollEnabled=" + _boolToStr(props.scrollEnabled);
   }
 
+  // Check if bool is true.
   if (props.showAgentAvailability != null) {
     // Add to URI
     uriToEncode +=
-        "&showAgentAvailability=" + props.showAgentAvailability.toString();
+        "&showAgentAvailability=" + _boolToStr(props.showAgentAvailability);
   }
 
   if (props.agentAvailableText != null) {
@@ -105,4 +106,12 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
 
   // Return url
   return url;
+}
+
+/// Internal function, used to convert a bool to the expected Papercups formatting (1 or 0).
+String _boolToStr(bool input) {
+  if (input)
+    return "1";
+  else
+    return "0";
 }
