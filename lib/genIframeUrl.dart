@@ -73,13 +73,13 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
       "externalId": props.customer.externalId,
     };
     url += "&customer=" + json.encode(map);
+
+    if (props.customer.otherMetadata != null){
+      url += "&metadata=" + json.encode(props.customer.otherMetadata);
+    }
   }
 
-  if (props.customer.otherMetadata != null){
-    url += "&metadata=" + json.encode(props.customer.otherMetadata);
-  }
-
-  //url += "&version=1.1.2";
+  url += "&version=1.1.1";
   print(url);
   return url;
 }
