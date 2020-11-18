@@ -1,13 +1,15 @@
 library papercups_flutter;
 
+// Imports.
 import 'package:flutter/material.dart';
 import 'dart:io';
 
-import 'package:papercups_flutter/classes.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'genIframeUrl.dart';
+import 'classes.dart';
 
+// Exports.
 export 'classes.dart';
 
 class PaperCupsWidget extends StatefulWidget {
@@ -25,14 +27,18 @@ class PaperCupsWidget extends StatefulWidget {
 class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void initState() {
+    //Enables SurfaceAndroidWebView, much better keyboard support. This is the reason for needing a stateful widget!
     if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
     return WebView(
+      // Invokes the genIgrameUrl and passes the required paramaters, will return a url, which will be shown on the webview.
       initialUrl: genIframeUrl(widget.props, widget.iframeUrl, context),
+      // Needs to be unrestricted, default blocks all JS from running.
       javascriptMode: JavascriptMode.unrestricted,
     );
   }

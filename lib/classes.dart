@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+/// Customer Metadata, this contains the customer's information.
 class CustomerMetadata {
+  //Decalration of variables.
   String name;
   String email;
   String externalId;
   Map<String, String> otherMetadata;
 
+  //Class definition.
   CustomerMetadata({
     this.email,
     this.externalId,
@@ -14,7 +17,9 @@ class CustomerMetadata {
   });
 }
 
+/// This contains all the possible configurations for the chat widget.
 class Props {
+  //Decalration of variables.
   String title;
   String subtitle;
   Color primaryColor;
@@ -29,6 +34,7 @@ class Props {
   bool requireEmailUpfront;
   bool scrollEnabled;
 
+  //Class definition.
   Props({
     @required this.accountId,
     this.agentAvailableText,
