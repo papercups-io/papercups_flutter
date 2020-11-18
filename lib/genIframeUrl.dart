@@ -5,42 +5,42 @@ import 'package:flutter/material.dart';
 import 'classes.dart';
 
 String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
-  var url = iframeUrl + "?accountId=${props.accountId}";
+  var uriToEncode = "accountId=${props.accountId}";
 
   if (props.requireEmailUpfront != null) {
-    url += "&requireEmailUpfront=" + props.requireEmailUpfront.toString();
+    uriToEncode += "&requireEmailUpfront=" + props.requireEmailUpfront.toString();
   }
 
   if (props.scrollEnabled != null) {
-    url += "&scrollEnabled=" + props.scrollEnabled.toString();
+    uriToEncode += "&scrollEnabled=" + props.scrollEnabled.toString();
   }
 
   if (props.showAgentAvailability != null) {
-    url += "&showAgentAvailability=" + props.showAgentAvailability.toString();
+    uriToEncode += "&showAgentAvailability=" + props.showAgentAvailability.toString();
   }
 
   if (props.agentAvailableText != null) {
-    url += "&agentAvailableText=" + props.agentAvailableText;
+    uriToEncode += "&agentAvailableText=" + props.agentAvailableText;
   }
 
   if (props.agentUnavailableText != null) {
-    url += "&agentUnavailableText=" + props.agentUnavailableText;
+    uriToEncode += "&agentUnavailableText=" + props.agentUnavailableText;
   }
 
   if (props.baseUrl != null) {
-    url += "&baseUrl=" + props.baseUrl;
+    uriToEncode += "&baseUrl=" + props.baseUrl;
   }
 
   if (props.greeting != null) {
-    url += "&greeting=" + props.greeting;
+    uriToEncode += "&greeting=" + props.greeting;
   }
 
   if (props.newMessagePlaceholder != null) {
-    url += "&newMessagePlaceholder=" + props.newMessagePlaceholder;
+    uriToEncode += "&newMessagePlaceholder=" + props.newMessagePlaceholder;
   }
 
   if (props.primaryColor != null) {
-    url += "&primaryColor=%23" +
+    uriToEncode += "&primaryColor=%23" +
         props.primaryColor
             .withAlpha(255)
             .value
@@ -48,7 +48,7 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
             .substring(2)
             .toUpperCase();
   } else {
-    url += "&primaryColor=%23" +
+    uriToEncode += "&primaryColor=%23" +
         Theme.of(context)
             .primaryColor
             .withAlpha(255)
@@ -59,11 +59,11 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   }
 
   if (props.subtitle != null) {
-    url += "&subtitle=" + props.subtitle;
+    uriToEncode += "&subtitle=" + props.subtitle;
   }
 
   if (props.title != null) {
-    url += "&title=" + props.title;
+    uriToEncode += "&title=" + props.title;
   }
 
   if (props.customer != null) {
@@ -71,15 +71,15 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
       "name": props.customer.name,
       "email": props.customer.email,
       "externalId": props.customer.externalId,
+      ...props.customer.otherMetadata,
     };
-    url += "&customer=" + json.encode(map);
-
-    if (props.customer.otherMetadata != null){
-      url += "&metadata=" + json.encode(props.customer.otherMetadata);
-    }
+    uriToEncode += "&metadata=" + json.encode(map);
   }
 
-  url += "&version=1.1.1";
+  uriToEncode += "&version=1.1.1";
+  print(uriToEncode);
+
+  var url = iframeUrl +"?"+ uriToEncode;
   print(url);
   return url;
 }
