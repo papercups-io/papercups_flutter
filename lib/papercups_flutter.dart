@@ -12,8 +12,12 @@ import 'classes.dart';
 // Exports.
 export 'classes.dart';
 
+/// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
 class PaperCupsWidget extends StatefulWidget {
+  /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
+
+  /// Initialize the iframeURL, it has a default value of https://chat-widget.papercups.io so no need to change this.
   final String iframeUrl;
   PaperCupsWidget({
     this.iframeUrl = "https://chat-widget.papercups.io",
@@ -34,7 +38,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
     return WebView(
       // Invokes the genIgrameUrl and passes the required paramaters, will return a url, which will be shown on the webview.
       initialUrl: genIframeUrl(widget.props, widget.iframeUrl, context),

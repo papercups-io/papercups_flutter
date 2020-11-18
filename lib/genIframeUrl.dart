@@ -7,7 +7,7 @@ import 'classes.dart';
 
 /// This function generates the iframe url we're going to pass into the webview.
 String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
-  // Initialize the uri and add the Account id, will never be null,
+  /// uriToEncode is used to build the required parameters.
   var uriToEncode = "accountId=${props.accountId}";
 
   // Check if bool is true.
@@ -85,7 +85,7 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   }
 
   if (props.customer != null) {
-    // Add to URI, but first make it into a map, allows to convert into a JSON string.
+    /// Add to URI, but first make it into a map, allows to convert into a JSON string. Temporary.
     var map = {
       "name": props.customer.name,
       "email": props.customer.email,
@@ -100,7 +100,7 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   // Add version to URI, latest working is 1.1.1
   uriToEncode += "&version=1.1.1";
 
-  // Add iframeUrl to create final parametes
+  /// Add iframeUrl to create final parameters to be passed to the webview.
   var url = iframeUrl + "?" + uriToEncode;
 
   // Return url
