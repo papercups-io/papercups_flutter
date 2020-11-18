@@ -100,9 +100,9 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   // Add version to URI, latest working is 1.1.1
   uriToEncode += "&version=1.1.1";
 
-  // Add iframeUrl to create final parametes 
+  // Add iframeUrl to create final parametes
   var url = iframeUrl + "?" + uriToEncode;
-  
+
   // Return url
   return url;
 }
