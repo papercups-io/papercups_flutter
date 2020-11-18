@@ -20,12 +20,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +40,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: PaperCupsWidget(
                       props: Props(
                         accountId: "eb504736-0f20-4978-98ff-1a82ae60b266",
+                        title: "Welcome",
+                        primaryColor: Colors.amber,
+                        greeting: "Welcome to the test app!",
+                        newMessagePlaceholder: "Papercups",
+                        subtitle: "This is a test chat widget!",
+                        customer: CustomerMetadata(
+                          email: "flutter-plugin@test.com",
+                          externalId: "123456789876543",
+                          name: "Test App",
+                          otherMetadata: {
+                            "app": "example",
+                          }
+                          )
                       ),
                     ),
                   );
