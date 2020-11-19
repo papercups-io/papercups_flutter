@@ -2,7 +2,7 @@
 
 ### Enhancements
 * 📝 Improved Readme.md (#9)
-* 📝 Imporved API documentation (#1)
+* 📝 Improved API documentation (#1)
 
 ### Bug Fixes
 * 🐛 Fixed external id not working correctly (#9)
