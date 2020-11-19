@@ -1,6 +1,6 @@
 name: papercups_flutter
 description: Flutter implementation of the papercups.io chat widget, built with a webview and provides customization options. 
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/aguilaair/papercups_flutter
 
 environment:
