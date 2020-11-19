@@ -90,7 +90,7 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
     var map = {
       "name": props.customer.name,
       "email": props.customer.email,
-      "externalId": props.customer.externalId,
+      "external_id": props.customer.externalId,
       // This will spread the custom metadata
       ...props.customer.otherMetadata,
     };
