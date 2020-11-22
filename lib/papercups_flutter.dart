@@ -2,14 +2,13 @@ library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'package:webview_flutter/webview_flutter.dart';
-
-import 'genIframeUrl.dart';
 import 'classes.dart';
-import 'webWidget.dart';
+
+import "empty.dart" // Empty version
+    if (dart.library.js) "webWidget.dart"
+    if (dart.library.io) "mobileWidget.dart";
 
 // Exports.
 export 'classes.dart';
@@ -19,10 +18,14 @@ class PaperCupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
 
+  ///Function to run when the close button is clicked. Not supported on web!
+  final Function closeAction;
+
   /// Initialize the iframeURL, it has a default value of https://chat-widget.papercups.io so no need to change this.
   final String iframeUrl;
   PaperCupsWidget({
     this.iframeUrl = "https://chat-widget.papercups.io",
+    this.closeAction,
     @required this.props,
   });
 
@@ -33,26 +36,37 @@ class PaperCupsWidget extends StatefulWidget {
 class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void initState() {
-    //Enables SurfaceAndroidWebView, much better keyboard support. This is the reason for needing a stateful widget!
-    if (!kIsWeb && Platform.isAndroid) {
-      WebView.platform = SurfaceAndroidWebView();
+    if (kIsWeb && widget.closeAction != null) {
+      print("WARNING: closeAction is unsopported on Web!" +
+          " More info at https://github.com/flutter/flutter/issues/54027" +
+          ". Close button will not be shown.");
     }
+    //Enables SurfaceAndroidWebView, much better keyboard support. This is the reason for needing a stateful widget!
 
+    if (widget.props.accountId == null) {
+      throw "Account ID must not be null";
+    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (kIsWeb) {
-      return WebWidget(
-        widget: widget,
-      );
-    } else
-      return WebView(
-        // Invokes the genIgrameUrl and passes the required paramaters, will return a url, which will be shown on the webview.
-        initialUrl: genIframeUrl(widget.props, widget.iframeUrl, context),
-        // Needs to be unrestricted, default blocks all JS from running.
-        javascriptMode: JavascriptMode.unrestricted,
-      );
+    return Stack(
+      alignment: Alignment.topRight,
+      children: [
+        ChatWidget(widget: widget),
+        if (!kIsWeb && widget.closeAction != null)
+          IconButton(
+            onPressed: widget.closeAction,
+            icon: Padding(
+              padding: const EdgeInsets.only(top: 10, right: 10),
+              child: Icon(
+                Icons.close,
+                color: Colors.white,
+              ),
+            ),
+          ),
+      ],
+    );
   }
 }
