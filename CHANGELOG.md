@@ -1,6 +1,10 @@
+## [0.1.2] - 22/11/2020.
+
+* 🐛 Try and fix analyzer error again
+
 ## [0.1.1] - 22/11/2020.
 
-* 🐛 Try and fix analyser error, known issue at https://github.com/flutter/flutter/issues/41563
+* 🐛 Try and fix analyzer error, known issue at https://github.com/flutter/flutter/issues/41563
 
 ## [0.1.0] - 22/11/2020.
 
