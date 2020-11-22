@@ -1,3 +1,15 @@
+## [0.1.0] - 22/11/2020.
+
+### New features
+* ✨ Flutter Web support!
+
+### Enhancements
+* 📝 Added Known Issues (#10)
+* 🎨 Internal restructuring to support Flutter Web.
+
+### Fixes
+* ✏️ Fixed changelog typos
+
 ## [0.0.3] - 20/11/2020.
 
 ### Enhancements
