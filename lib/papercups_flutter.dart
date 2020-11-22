@@ -34,7 +34,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void initState() {
     //Enables SurfaceAndroidWebView, much better keyboard support. This is the reason for needing a stateful widget!
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    if (!kIsWeb && Platform.isAndroid) {
+      WebView.platform = SurfaceAndroidWebView();
+    }
+
     super.initState();
   }
 

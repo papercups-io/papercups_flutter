@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'genIframeUrl.dart';
 import 'papercups_flutter.dart';
 import 'dart:ui' as ui;
+// ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
 
 class WebWidget extends StatelessWidget {
