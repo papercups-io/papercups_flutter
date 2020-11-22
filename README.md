@@ -22,6 +22,7 @@ That should get you up and running in just a few seconds ⚡️.
 | :--- | :--- | :----- | :------ |
 | **`iframeUrl`** | `string` | An override of the iframe URL we use to render the chat, if you chose to self-host that as well | https://chat-widget.papercups.io |
 | **`props`** | `Props` | **Required**, here is where all of the config for the chat is contained| N/A |
+| **`closeAction`** | `Function` | A function to execute on the close button, only visible in mobile versions. If `null`, close button will not render.| N/A |
 
 ### Available Props paramaters
 | Prop | Type | Value | Default |
@@ -46,3 +47,8 @@ That should get you up and running in just a few seconds ⚡️.
 | **`externalId`** | `string` | The customer's external ID | N/A |
 | **`name`** | `string` | The customer's name | N/A |
 | **`otherMetadata`** | `Map<String, String>` | Extra metadata to pass such as OS info. | N/A |
+
+## Known Issues
+
+ - closeAction is not supported on Web at this point in time, this is due to the iframe absorbing all clicks before the button detected them. For more info see https://github.com/flutter/flutter/issues/54027.
+ - Some widgets such as `clipRRect` will not affect the WebView on mobile, and will not change the widget. This works on web though.
