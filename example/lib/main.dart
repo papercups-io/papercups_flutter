@@ -37,21 +37,27 @@ class MyHomePage extends StatelessWidget {
                     margin: EdgeInsets.all(5),
                     width: MediaQuery.of(context).size.width - 10,
                     height: MediaQuery.of(context).size.height * 0.8,
-                    child: PaperCupsWidget(
-                      props: Props(
-                        accountId: "eb504736-0f20-4978-98ff-1a82ae60b266",
-                        title: "Welcome",
-                        primaryColor: Colors.amber,
-                        greeting: "Welcome to the test app!",
-                        newMessagePlaceholder: "Papercups",
-                        subtitle: "This is a test chat widget!",
-                        customer: CustomerMetadata(
-                          email: "flutter-plugin@test.com",
-                          externalId: "123456789876543",
-                          name: "Test App",
-                          otherMetadata: {
-                            "app": "example",
-                          },
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: PaperCupsWidget(
+                        closeAction: () {
+                          Navigator.of(context).pop();
+                        },
+                        props: Props(
+                          accountId: "eb504736-0f20-4978-98ff-1a82ae60b266",
+                          title: "Welcome",
+                          primaryColor: Colors.amber,
+                          greeting: "Welcome to the test app!",
+                          newMessagePlaceholder: "Papercups",
+                          subtitle: "This is a test chat widget!",
+                          customer: CustomerMetadata(
+                            email: "flutter-plugin@test.com",
+                            externalId: "123456789876543",
+                            name: "Test App",
+                            otherMetadata: {
+                              "app": "example",
+                            },
+                          ),
                         ),
                       ),
                     ),
