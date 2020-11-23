@@ -1,3 +1,7 @@
+## [0.1.3] - 23/11/2020.
+
+* 🐛 Add platfromView stub, should fix platfrom id and pub score
+
 ## [0.1.2] - 22/11/2020.
 
 * 🐛 Try and fix analyzer error again
