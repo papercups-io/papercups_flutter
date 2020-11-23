@@ -6,7 +6,7 @@ Then run `flutter pub get`
 
 🎉 Done, It's that simple.
 ## Using the widget
-Integration with your app requires just a few lines of code, add the following widget wehrever you want your papercups chat window to be:
+Integration with your app requires just a few lines of code, add the following widget wherever you want your papercups chat window to be:
 
     PaperCupsWidget(
 	    props: Props(
