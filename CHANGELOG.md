@@ -1,3 +1,7 @@
+## [0.1.4] - 23/11/2020.
+
+* 🎨 Restructure code and fix warnings
+
 ## [0.1.3] - 23/11/2020.
 
 * 🐛 Add platfromView stub, should fix platfrom id and pub score
