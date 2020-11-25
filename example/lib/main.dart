@@ -40,6 +40,15 @@ class MyHomePage extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: PaperCupsWidget(
+                        onStartLoading: () {
+                          print("loading");
+                        },
+                        onFinishLoading: () {
+                          print("Finished");
+                        },
+                        onError: (error) {
+                          print("Error happened!");
+                        },
                         closeAction: () {
                           Navigator.of(context).pop();
                         },
