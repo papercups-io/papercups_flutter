@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: PaperCupsWidget(
                         onStartLoading: () {
-                          print("loading");
+                          print("Loading");
                         },
                         onFinishLoading: () {
                           print("Finished");

@@ -27,6 +27,10 @@ That should get you up and running in just a few seconds ⚡️.
 | **`iframeUrl`** | `string` | An override of the iframe URL we use to render the chat, if you chose to self-host that as well | https://chat-widget.papercups.io |
 | **`props`** | `Props` | **Required**, here is where all of the config for the chat is contained| N/A |
 | **`closeAction`** | `Function` | A function to execute on the close button, only visible in mobile versions. If `null`, close button will not render.| N/A |
+| **`onStartLoading`** | `Function` | A function that will be called when the widget starts loading the website.| N/A |
+| **`onFinishLoading`** | `Function` | A function that will be called when the widget finishes loading the website. **May be called multiple times**| N/A |
+| **`onError`** | `Function` | A function that will be called if the widget finds an error while loading. | N/A |
+
 
 ### Available Props paramaters
 | Prop | Type | Value | Default |
@@ -56,4 +60,4 @@ That should get you up and running in just a few seconds ⚡️.
 
  - closeAction is not supported on Web at this point in time, this is due to the iframe absorbing all clicks before the button detects them. For more info see https://github.com/flutter/flutter/issues/54027.
  - Some widgets such as `clipRRect` will not affect the WebView on mobile, and will not change the widget. This works on web though.
- - On web, onError will send a `null` PaperCupsResourceError as there is not enough information to extract the data.
+ - On mobile, `onFinishedLoading()` will be called multiple times.
