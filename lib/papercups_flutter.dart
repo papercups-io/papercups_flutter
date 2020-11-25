@@ -21,11 +21,28 @@ class PaperCupsWidget extends StatefulWidget {
   ///Function to run when the close button is clicked. Not supported on web!
   final Function closeAction;
 
+  /// Will be invoked once the view is created, and the page starts to load.
+  final Function(String) onStartLoading;
+
+  /// Will be invoken once the page is loaded.
+  final Function(String) onFinishLoading;
+
+  /// Will be inoked as soon as the WebView is created, recommended for something such as a loading spinner.
+  final Function(Map<String, String>) onCreation;
+
+  /// Will be called if there is some sort of issue loading the page, for example if there are images missing. Should not be invoked normally.
+  final Function(PapercupsResourceError) onError;
+
   /// Initialize the iframeURL, it has a default value of https://chat-widget.papercups.io so no need to change this.
   final String iframeUrl;
+
   PaperCupsWidget({
     this.iframeUrl = "https://chat-widget.papercups.io",
     this.closeAction,
+    this.onCreation,
+    this.onError,
+    this.onFinishLoading,
+    this.onStartLoading,
     @required this.props,
   });
 

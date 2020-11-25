@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'genIframeUrl.dart';
@@ -37,6 +38,19 @@ class _ChatWidgetState extends State<ChatWidget> {
           genIframeUrl(widget.widget.props, widget.widget.iframeUrl, context),
       // Needs to be unrestricted, default blocks all JS from running.
       javascriptMode: JavascriptMode.unrestricted,
+      onPageStarted: widget.widget.onStartLoading,
+      onPageFinished: widget.widget.onFinishLoading,
+      onWebResourceError: (WebResourceError error) {
+        widget.widget.onError(
+          PapercupsResourceError(
+            errorCode: error.errorCode,
+            description: error.description,
+            domain: error.domain,
+            errorType: error.errorType.toString(),
+            failingUrl: error.failingUrl,
+          ),
+        );
+      },
     );
   }
 }

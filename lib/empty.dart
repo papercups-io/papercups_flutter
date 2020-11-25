@@ -6,8 +6,6 @@ class ChatWidget extends StatelessWidget {
   ChatWidget({this.widget});
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("This shouldn't be happening..."),
-    );
+    throw "This shouldn't be happening... If you're seeing this message please open an issue!";
   }
 }

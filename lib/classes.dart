@@ -85,3 +85,20 @@ class Props {
     this.title,
   });
 }
+
+class PapercupsResourceError {
+  int errorCode;
+  String description;
+  String domain;
+  String errorType;
+  String failingUrl;
+
+  PapercupsResourceError({
+    @required this.errorCode,
+    @required this.description,
+    this.domain,
+    this.errorType,
+    this.failingUrl,
+  })  : assert(errorCode != null),
+        assert(description != null);
+}
