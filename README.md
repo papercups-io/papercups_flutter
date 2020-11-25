@@ -54,5 +54,6 @@ That should get you up and running in just a few seconds ⚡️.
 
 ## Known Issues
 
- - closeAction is not supported on Web at this point in time, this is due to the iframe absorbing all clicks before the button detected them. For more info see https://github.com/flutter/flutter/issues/54027.
+ - closeAction is not supported on Web at this point in time, this is due to the iframe absorbing all clicks before the button detects them. For more info see https://github.com/flutter/flutter/issues/54027.
  - Some widgets such as `clipRRect` will not affect the WebView on mobile, and will not change the widget. This works on web though.
+ - On web, onError will send a `null` PaperCupsResourceError as there is not enough information to extract the data.
