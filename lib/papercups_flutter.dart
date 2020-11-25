@@ -27,9 +27,6 @@ class PaperCupsWidget extends StatefulWidget {
   /// Will be invoken once the page is loaded.
   final Function(String) onFinishLoading;
 
-  /// Will be inoked as soon as the WebView is created, recommended for something such as a loading spinner.
-  final Function(Map<String, String>) onCreation;
-
   /// Will be called if there is some sort of issue loading the page, for example if there are images missing. Should not be invoked normally.
   final Function(PapercupsResourceError) onError;
 
@@ -39,7 +36,6 @@ class PaperCupsWidget extends StatefulWidget {
   PaperCupsWidget({
     this.iframeUrl = "https://chat-widget.papercups.io",
     this.closeAction,
-    this.onCreation,
     this.onError,
     this.onFinishLoading,
     this.onStartLoading,
