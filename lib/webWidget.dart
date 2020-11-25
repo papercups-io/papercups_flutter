@@ -16,6 +16,7 @@ class ChatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    widget.onStartLoading();
     return LayoutBuilder(
       builder: (ctx, constraints) {
         html.IFrameElement _iframeElement;
@@ -25,15 +26,19 @@ class ChatWidget extends StatelessWidget {
         _iframeElement.src =
             genIframeUrl(widget.props, widget.iframeUrl, context);
         _iframeElement.style.border = 'none';
-
+        _iframeElement.onLoad.listen((event) {
+          widget.onFinishLoading();
+        });
+        _iframeElement.onError.listen((event) {
+          widget.onError(null);
+        });
         // ignore: undefined_prefixed_name
         ui.platformViewRegistry.registerViewFactory(
           'papercupsIFrame',
           (int viewId) => _iframeElement,
         );
-
-        return HtmlElementView(
-          key: UniqueKey(),
+        return const HtmlElementView(
+          key: Key("iframepaperCups"),
           viewType: 'papercupsIFrame',
         );
       },

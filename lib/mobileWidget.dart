@@ -38,11 +38,15 @@ class _ChatWidgetState extends State<ChatWidget> {
           genIframeUrl(widget.widget.props, widget.widget.iframeUrl, context),
       // Needs to be unrestricted, default blocks all JS from running.
       javascriptMode: JavascriptMode.unrestricted,
-      onPageStarted: widget.widget.onStartLoading,
-      onPageFinished: widget.widget.onFinishLoading,
+      onPageStarted: (_) {
+        widget.widget.onStartLoading();
+      },
+      onPageFinished: (_) {
+        widget.widget.onFinishLoading();
+      },
       onWebResourceError: (WebResourceError error) {
         widget.widget.onError(
-          PapercupsResourceError(
+          PaperCupsResourceError(
             errorCode: error.errorCode,
             description: error.description,
             domain: error.domain,

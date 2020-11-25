@@ -22,13 +22,13 @@ class PaperCupsWidget extends StatefulWidget {
   final Function closeAction;
 
   /// Will be invoked once the view is created, and the page starts to load.
-  final Function(String) onStartLoading;
+  final Function onStartLoading;
 
-  /// Will be invoken once the page is loaded.
-  final Function(String) onFinishLoading;
+  /// Will be invoked once the page is loaded.
+  final Function onFinishLoading;
 
   /// Will be called if there is some sort of issue loading the page, for example if there are images missing. Should not be invoked normally.
-  final Function(PapercupsResourceError) onError;
+  final Function(PaperCupsResourceError) onError;
 
   /// Initialize the iframeURL, it has a default value of https://chat-widget.papercups.io so no need to change this.
   final String iframeUrl;
