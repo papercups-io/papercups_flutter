@@ -1,3 +1,13 @@
+## [0.2.0] - 26/11/2020.
+
+### New features
+* ✨ `onStartLoading`, `onFinishLoading` and `onError` functions. (#4)
+
+### Enhancements
+* 📝 Improved docs with higher coverage and syntax highlighting (Thanks to @Immortalin).
+* ⚡️ Web widget is now constant. Better preformance.
+* ✨ Update example to show new features.
+
 ## [0.1.4] - 23/11/2020.
 
 * 🎨 Restructure code and fix warnings
