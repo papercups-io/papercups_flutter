@@ -85,30 +85,3 @@ class Props {
     this.title,
   });
 }
-
-/// If an error ocurrs, the return value will be composed of this class.
-class PaperCupsResourceError {
-  /// HTTP Error code thrown by the element.
-  int errorCode;
-
-  /// Description (if available) of the error.
-  String description;
-
-  /// The domain the error came from.
-  String domain;
-
-  /// Type of error thrown.
-  String errorType;
-
-  /// The full URL which returned an error.
-  String failingUrl;
-
-  PaperCupsResourceError({
-    @required this.errorCode,
-    @required this.description,
-    this.domain,
-    this.errorType,
-    this.failingUrl,
-  })  : assert(errorCode != null),
-        assert(description != null);
-}

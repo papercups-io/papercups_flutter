@@ -44,16 +44,8 @@ class _ChatWidgetState extends State<ChatWidget> {
       onPageFinished: (_) {
         widget.widget.onFinishLoading();
       },
-      onWebResourceError: (WebResourceError error) {
-        widget.widget.onError(
-          PaperCupsResourceError(
-            errorCode: error.errorCode,
-            description: error.description,
-            domain: error.domain,
-            errorType: error.errorType.toString(),
-            failingUrl: error.failingUrl,
-          ),
-        );
+      onWebResourceError: (_) {
+        widget.widget.onError();
       },
     );
   }
