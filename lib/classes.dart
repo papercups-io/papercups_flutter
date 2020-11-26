@@ -90,12 +90,16 @@ class Props {
 class PaperCupsResourceError {
   /// HTTP Error code thrown by the element.
   int errorCode;
+
   /// Description (if available) of the error.
   String description;
+
   /// The domain the error came from.
   String domain;
+
   /// Type of error thrown.
   String errorType;
+
   /// The full URL which returned an error.
   String failingUrl;
 
