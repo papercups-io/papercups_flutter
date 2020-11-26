@@ -1,3 +1,7 @@
+## [0.2.1] - 26/11/2020.
+
+* 🚨 Remove unused import (improve pub score)
+
 ## [0.2.0] - 26/11/2020.
 
 ### New features
