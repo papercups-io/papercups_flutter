@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 /// Customer Metadata, this contains the customer's information.
@@ -23,6 +25,18 @@ class CustomerMetadata {
     this.name,
     this.otherMetadata,
   });
+
+  String toJsonString() {
+    return json.encode(
+      {
+        "name": this.name,
+        "email": this.email,
+        "external_id": this.externalId,
+        // This will spread the custom metadata
+        ...this.otherMetadata,
+      },
+    );
+  }
 }
 
 /// This contains all the possible configurations for the chat widget.
@@ -78,10 +92,35 @@ class Props {
     this.greeting,
     this.newMessagePlaceholder,
     this.primaryColor,
-    this.requireEmailUpfront,
-    this.scrollEnabled,
-    this.showAgentAvailability,
+    this.requireEmailUpfront = false,
+    this.scrollEnabled = false,
+    this.showAgentAvailability = false,
     this.subtitle,
     this.title,
   });
+
+  Map<String, String> toMap() {
+    return {
+      "accountId": this.accountId,
+      "agentAvailableText": this.agentAvailableText,
+      "agentUnavailableText": this.agentUnavailableText,
+      "baseUrl": this.baseUrl,
+      "customer": this.customer.toJsonString(),
+      "greeting": this.greeting,
+      "newMessagePlaceholder": this.newMessagePlaceholder,
+      "primaryColor": "#" +
+          this
+              .primaryColor
+              .withAlpha(255)
+              .value
+              .toRadixString(16)
+              .substring(2)
+              .toUpperCase(),
+      "requireEmailUpfront": this.requireEmailUpfront ? "1" : "0",
+      "scrollEnabled": this.scrollEnabled ? "1" : "0",
+      "showAgentAvailability": this.showAgentAvailability ? "1" : "0",
+      "subtitle": this.subtitle,
+      "title": this.title,
+    };
+  }
 }
