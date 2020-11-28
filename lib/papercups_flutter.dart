@@ -34,7 +34,7 @@ class PaperCupsWidget extends StatefulWidget {
   final String iframeUrl;
 
   PaperCupsWidget({
-    this.iframeUrl = "https://chat-widget.papercups.io",
+    this.iframeUrl = "chat-widget.papercups.io",
     this.closeAction,
     this.onError,
     this.onFinishLoading,
