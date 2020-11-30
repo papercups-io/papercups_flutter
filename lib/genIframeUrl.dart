@@ -20,9 +20,5 @@ String genIframeUrl(Props props, String iframeUrl, BuildContext context) {
   // Add the version key.
   params.putIfAbsent("version", () => "1.1.1");
 
-  // Generated URL
-  var url = Uri.https(iframeUrl, "/", params).toString();
-
-  // Return url
-  return url;
+  return Uri.https(iframeUrl, "/", params).toString();
 }
