@@ -26,6 +26,8 @@ class CustomerMetadata {
     this.otherMetadata,
   });
 
+  /// This transforms the object into a JSON string wihich will 
+  /// be passed onto the URI.
   String toJsonString() {
     return json.encode(
       {
@@ -99,6 +101,8 @@ class Props {
     this.title,
   });
 
+  /// This function will convert the data stored in the object into a map.
+  /// Used for transorming into the URI
   Map<String, String> toMap() {
     return {
       "accountId": this.accountId,
