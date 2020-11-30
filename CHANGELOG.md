@@ -1,3 +1,8 @@
+## [0.2.2] - 30/11/2020.
+
+* ⚡️ Performance imporvements to `genIframeUrl`
+* ✨ Added `toMap()` and `toJsonString()` to the classes, better URI generation.
+
 ## [0.2.1] - 26/11/2020.
 
 * 🚨 Remove unused import (improve pub score)
