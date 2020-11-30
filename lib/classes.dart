@@ -26,7 +26,7 @@ class CustomerMetadata {
     this.otherMetadata,
   });
 
-  /// This transforms the object into a JSON string wihich will 
+  /// This transforms the object into a JSON string wihich will
   /// be passed onto the URI.
   String toJsonString() {
     return json.encode(
