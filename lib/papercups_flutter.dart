@@ -6,6 +6,8 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 
 import 'classes.dart';
+import 'sendMessage.dart';
+import 'header.dart';
 
 // Exports.
 export 'classes.dart';
@@ -45,85 +47,11 @@ class PaperCupsWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: 85,
-            width: double.infinity,
-            color: props.primaryColor,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  props.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 21,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(
-                  height: 3,
-                ),
-                Text(
-                  props.subtitle,
-                  style: TextStyle(
-                    color: Colors.white.withOpacity(
-                      0.8,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
+          Header(props: props),
           Expanded(
             child: Text("Chat here"),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 55,
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              border: Border(
-                top: BorderSide(
-                  color: Theme.of(context).dividerColor,
-                ),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 15, right: 0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: props.newMessagePlaceholder,
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
-                    ),
-                  ),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: props.primaryColor,
-                      shape: CircleBorder(),
-                      padding: EdgeInsets.all(
-                        18,
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.send,
-                      color: Colors.white,
-                      size: 16,
-                    ),
-                    onPressed: () {},
-                  )
-                ],
-              ),
-            ),
-          ),
+          SendMessage(props: props),
         ],
       ),
     );
