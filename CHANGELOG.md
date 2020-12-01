@@ -1,3 +1,7 @@
+## [1.0.0] - 1/12/2020.
+
+* 🎉 1.0 Release!
+
 ## [0.2.2] - 30/11/2020.
 
 * ⚡️ Performance imporvements to `genIframeUrl`
