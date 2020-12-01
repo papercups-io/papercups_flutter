@@ -109,7 +109,7 @@ class Props {
       "agentAvailableText": this.agentAvailableText,
       "agentUnavailableText": this.agentUnavailableText,
       "baseUrl": this.baseUrl,
-      "customer": this.customer.toJsonString(),
+      "metadata": this.customer.toJsonString(),
       "greeting": this.greeting,
       "newMessagePlaceholder": this.newMessagePlaceholder,
       "primaryColor": "#" +
