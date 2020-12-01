@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/papercups_flutter.dart';
 
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(),
@@ -23,6 +25,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text("Papercups demo"),
@@ -34,11 +37,21 @@ class MyHomePage extends StatelessWidget {
               Scaffold.of(context).showBottomSheet(
                 (context) {
                   return Container(
-                    margin: EdgeInsets.all(5),
-                    width: MediaQuery.of(context).size.width - 10,
-                    height: MediaQuery.of(context).size.height * 0.8,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
+                    margin: EdgeInsets.all(10),
+                    width: min(
+                      size.width - 20,
+                      500,
+                    ),
+                    height: min(
+                      size.height * 0.8,
+                      size.height - 20,
+                    ),
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      clipBehavior: Clip.antiAlias,
                       child: PaperCupsWidget(
                         onStartLoading: () {
                           print("Loading");
@@ -55,7 +68,6 @@ class MyHomePage extends StatelessWidget {
                         props: Props(
                           accountId: "eb504736-0f20-4978-98ff-1a82ae60b266",
                           title: "Welcome",
-                          primaryColor: Colors.amber,
                           greeting: "Welcome to the test app!",
                           newMessagePlaceholder: "Papercups",
                           subtitle: "This is a test chat widget!",
