@@ -28,7 +28,6 @@ class _SendMessageState extends State<SendMessage> {
 
   @override
   Widget build(BuildContext context) {
-    String message;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 55,
