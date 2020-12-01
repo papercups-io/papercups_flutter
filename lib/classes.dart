@@ -92,13 +92,13 @@ class Props {
     this.baseUrl,
     this.customer,
     this.greeting,
-    this.newMessagePlaceholder,
+    this.newMessagePlaceholder = "Start typing...",
     this.primaryColor,
     this.requireEmailUpfront = false,
     this.scrollEnabled = false,
     this.showAgentAvailability = false,
-    this.subtitle,
-    this.title,
+    this.subtitle = "How can we help you?",
+    this.title = "Welcome!",
   });
 
   /// This function will convert the data stored in the object into a map.

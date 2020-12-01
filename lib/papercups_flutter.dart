@@ -1,6 +1,8 @@
 library papercups_flutter;
 
 // Imports.
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 import 'classes.dart';
@@ -25,11 +27,7 @@ class PaperCupsWidget extends StatelessWidget {
   /// Will be called if there is some sort of issue loading the page, for example if there are images missing. Should not be invoked normally.
   final Function onError;
 
-  /// Initialize the iframeURL, it has a default value of https://chat-widget.papercups.io so no need to change this.
-  final String iframeUrl;
-
   PaperCupsWidget({
-    this.iframeUrl = "chat-widget.papercups.io",
     this.closeAction,
     this.onError,
     this.onFinishLoading,
@@ -39,6 +37,56 @@ class PaperCupsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Hello");
+    if (props.primaryColor == null) {
+      props.primaryColor = Theme.of(context).primaryColor;
+    }
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            height: 85,
+            width: double.infinity,
+            color: props.primaryColor,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  props.title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(
+                  height: 3,
+                ),
+                Text(
+                  props.subtitle,
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(
+                      0.8,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            child: Text("Chat here"),
+          ),
+          Container(
+            color: Theme.of(context).cardColor,
+            width: double.infinity,
+            height: 55,
+            child: Text("Send chat"),
+          ),
+        ],
+      ),
+    );
   }
 }
