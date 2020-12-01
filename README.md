@@ -1,6 +1,9 @@
 ![logo](https://i.imgur.com/QHer84L.png)
 [![pub package](https://img.shields.io/pub/v/papercups_flutter.svg?label=papercups_flutter&color=blue)](https://pub.dev/packages/papercups_flutter) [![likes](https://badges.bar/papercups_flutter/likes)](https://pub.dev/packages/papercups_flutter/score)  [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
 
+# ⚠️⚠️⚠️ This branch is under active development. Do not use in production ⚠️⚠️⚠️
+
+
 ## Main repository
 https://github.com/papercups-io/papercups
 
@@ -59,9 +62,3 @@ That should get you up and running in just a few seconds ⚡️.
 | **`externalId`** | `string` | The customer's external ID | N/A |
 | **`name`** | `string` | The customer's name | N/A |
 | **`otherMetadata`** | `Map<String, String>` | Extra metadata to pass such as OS info. | N/A |
-
-## Known Issues
-
- - closeAction is not supported on Web at this point in time, this is due to the iframe absorbing all clicks before the button detects them. For more info see https://github.com/flutter/flutter/issues/54027.
- - Some widgets such as `clipRRect` will not affect the WebView on mobile, and will not change the widget. This works on web though.
- - On mobile, `onFinishedLoading()` will be called multiple times.
