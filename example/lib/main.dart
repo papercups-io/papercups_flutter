@@ -25,7 +25,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: PaperCupsWidget(
         onStartLoading: () {
@@ -45,7 +44,7 @@ class MyHomePage extends StatelessWidget {
           title: "Welcome!",
           primaryColor: Color(0xff1890ff),
           greeting: "Welcome to the test app!",
-          newMessagePlaceholder: "Papercups",
+          //newMessagePlaceholder: "Papercups",
           subtitle: "How can we help you?",
           customer: CustomerMetadata(
             email: "flutter-plugin@test.com",

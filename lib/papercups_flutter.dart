@@ -80,10 +80,49 @@ class PaperCupsWidget extends StatelessWidget {
             child: Text("Chat here"),
           ),
           Container(
-            color: Theme.of(context).cardColor,
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             height: 55,
-            child: Text("Send chat"),
+            decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              border: Border(
+                top: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: props.newMessagePlaceholder,
+                        hintStyle: TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: props.primaryColor,
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(
+                        18,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.white,
+                      size: 16,
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            ),
           ),
         ],
       ),
