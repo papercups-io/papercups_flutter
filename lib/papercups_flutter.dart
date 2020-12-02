@@ -5,6 +5,7 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/agentAvaiability.dart';
+import 'package:papercups_flutter/chat.dart';
 
 import 'classes.dart';
 import 'sendMessage.dart';
@@ -51,7 +52,7 @@ class PaperCupsWidget extends StatelessWidget {
           Header(props: props),
           if (props.showAgentAvailability) AgentAvailability(props),
           Expanded(
-            child: Text("Chat here"),
+            child: ChatMessages(props),
           ),
           SendMessage(props: props),
         ],
