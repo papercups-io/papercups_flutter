@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/classes.dart';
+import 'package:papercups_flutter/models/classes.dart';
 
-import 'colorMod.dart';
+import '../utils/colorMod.dart';
 
 class ChatMessages extends StatefulWidget {
   final Props props;

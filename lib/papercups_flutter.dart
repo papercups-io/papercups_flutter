@@ -1,18 +1,16 @@
 library papercups_flutter;
 
 // Imports.
-import 'dart:html';
-
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/agentAvaiability.dart';
-import 'package:papercups_flutter/chat.dart';
+import 'package:papercups_flutter/widgets/agentAvaiability.dart';
+import 'package:papercups_flutter/widgets/chat.dart';
 
-import 'classes.dart';
-import 'sendMessage.dart';
-import 'header.dart';
+import 'models/classes.dart';
+import 'widgets/sendMessage.dart';
+import 'widgets/header.dart';
 
 // Exports.
-export 'classes.dart';
+export 'models/classes.dart';
 
 /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
 class PaperCupsWidget extends StatelessWidget {

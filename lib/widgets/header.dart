@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'classes.dart';
+import '../models/classes.dart';
 
 class Header extends StatelessWidget {
   const Header({
