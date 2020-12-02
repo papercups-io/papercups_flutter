@@ -4,6 +4,7 @@ library papercups_flutter;
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
 import 'package:papercups_flutter/widgets/chat.dart';
+import 'package:phoenix_socket/phoenix_socket.dart';
 
 import 'models/classes.dart';
 import 'widgets/sendMessage.dart';
@@ -13,7 +14,7 @@ import 'widgets/header.dart';
 export 'models/classes.dart';
 
 /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
-class PaperCupsWidget extends StatelessWidget {
+class PaperCupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
 
@@ -38,21 +39,63 @@ class PaperCupsWidget extends StatelessWidget {
   });
 
   @override
+  _PaperCupsWidgetState createState() => _PaperCupsWidgetState();
+}
+
+class _PaperCupsWidgetState extends State<PaperCupsWidget> {
+  bool _connected = false;
+  PhoenixSocket _socket;
+  PhoenixChannel _channel;
+
+  @override
+  void initState() {
+    if (widget.props.baseUrl.contains("http"))
+      throw "Do not provide a protocol in baseURL";
+    if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
+    _socket =
+        PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')
+          ..connect();
+
+    _socket.closeStream.listen((event) {
+      setState(() => _connected = false);
+    });
+
+    _socket.openStream.listen((event) {
+      setState(() {
+        _channel = _socket.addChannel(
+          topic: 'room:' + widget.props.accountId,
+        );
+        _channel.join();
+        return _connected = true;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _channel.close();
+    _socket.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    if (props.primaryColor == null) {
-      props.primaryColor = Theme.of(context).primaryColor;
+    if (widget.props.primaryColor == null) {
+      widget.props.primaryColor = Theme.of(context).primaryColor;
     }
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Header(props: props),
-          if (props.showAgentAvailability) AgentAvailability(props),
+          Header(props: widget.props),
+          if (widget.props.showAgentAvailability)
+            AgentAvailability(widget.props),
           Expanded(
-            child: ChatMessages(props),
+            child: ChatMessages(widget.props),
           ),
-          SendMessage(props: props),
+          SendMessage(props: widget.props),
         ],
       ),
     );

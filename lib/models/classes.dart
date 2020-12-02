@@ -73,7 +73,7 @@ class Props {
     @required this.accountId,
     this.agentAvailableText,
     this.agentUnavailableText,
-    this.baseUrl,
+    this.baseUrl = "app.papercups.io",
     this.customer,
     this.greeting,
     this.newMessagePlaceholder = "Start typing...",
