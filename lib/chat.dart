@@ -20,37 +20,45 @@ class _ChatMessagesState extends State<ChatMessages> {
         itemBuilder: (context, index) {
           bool userSent = true;
           if (index.isEven) userSent = false;
-          var text =
-              "Some very long text, which I am sure is super ineteresting but I am not bothered to read.";
-          return Container(
-            width: double.infinity,
-            alignment: userSent ? Alignment.centerRight : Alignment.centerLeft,
-            child: Container(
-              decoration: BoxDecoration(
-                color: userSent
-                    ? widget.props.primaryColor
-                    : brighten(Theme.of(context).disabledColor, 80),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              constraints: BoxConstraints(
-                maxWidth: MediaQuery.of(context).size.width * 0.65,
-              ),
-              margin: EdgeInsets.symmetric(
-                vertical: 4,
-                horizontal: 16,
-              ),
-              padding: EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 14,
-              ),
-              child: SelectableText(
-                text,
-                style: TextStyle(
-                  color: userSent ? Colors.white : Colors.black,
-                  fontSize: 14,
+          var text = "hey.";
+          return Row(
+            mainAxisAlignment:
+                userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              if (!userSent)
+                Padding(
+                  padding: const EdgeInsets.only(right: 18),
+                  child: CircleAvatar(
+                    radius: 16,
+                  ),
+                ),
+              Container(
+                decoration: BoxDecoration(
+                  color: userSent
+                      ? widget.props.primaryColor
+                      : brighten(Theme.of(context).disabledColor, 80),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.65,
+                ),
+                margin: EdgeInsets.symmetric(
+                  vertical: 4,
+                ),
+                padding: EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 14,
+                ),
+                child: SelectableText(
+                  text,
+                  style: TextStyle(
+                    color: userSent ? Colors.white : Colors.black,
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ),
+            ],
           );
         },
       ),
