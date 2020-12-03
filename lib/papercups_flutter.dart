@@ -7,6 +7,7 @@ import 'package:papercups_flutter/widgets/chat.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 import 'models/classes.dart';
+import 'models/message.dart';
 import 'widgets/sendMessage.dart';
 import 'widgets/header.dart';
 
@@ -47,6 +48,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PhoenixSocket _socket;
   PhoenixChannel _channel;
   PhoenixChannel _conversation;
+  List<PapercupsMessage> messages = [];
+
   var debugConvId = "5220ce7b-6fae-495b-b10a-afb7b84dfbe6";
 
   @override
@@ -54,26 +57,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.baseUrl.contains("http"))
       throw "Do not provide a protocol in baseURL";
     if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
-    _socket =
-        PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')
-          ..connect();
-
-    _socket.closeStream.listen((event) {
-      setState(() => _connected = false);
-    });
-
-    _socket.openStream.listen(
-      (event) {
-        setState(
-          () {
-            _channel = _socket.addChannel(
-              topic: 'room:' + widget.props.accountId,
-            );
-            return _connected = true;
-          },
-        );
-      },
-    );
     super.initState();
   }
 
@@ -85,25 +68,78 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (_connected && (!_channel.isJoined || !_channel.isJoining)) {
-      _channel.join().onReply("ok", (res) {
-        if(res.isOk){
-          _conversation = _socket.addChannel(topic: "conversation:" + debugConvId);
-          _conversation.join();
-          _conversation.messages.listen((event) {
-            if(event.payload["status"] == "error"){
-              _conversation.close();
-              _socket.removeChannel(_conversation);
-              _conversation == null;
-            }else if(event.payload["status"] == "ok"){
-              print("All Ok");
-            }else{
-              print(event.payload["body"]);
-            }
-          });
-        }
+  void didChangeDependencies() {
+    if (_socket == null) {
+      _socket =
+          PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')
+            ..connect();
+
+      _socket.closeStream.listen((event) {
+        setState(() => _connected = false);
       });
+
+      _socket.openStream.listen(
+        (event) {
+          setState(
+            () {
+              return _connected = true;
+            },
+          );
+        },
+      );
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_connected & _socket.channels.isEmpty) {
+      _channel = _socket.addChannel(
+        topic: 'room:' + widget.props.accountId,
+      );
+      _channel.join().onReply(
+        "ok",
+        (res) {
+          if (res.isOk) {
+            _conversation =
+                _socket.addChannel(topic: "conversation:" + debugConvId);
+            _conversation.join();
+            _conversation.messages.listen(
+              (event) {
+                if (event.payload["status"] == "error") {
+                  _conversation.close();
+                  _socket.removeChannel(_conversation);
+                  _conversation == null;
+                } else if (event.payload["status"] == "ok") {
+                  print("All Ok");
+                } else {
+                  if (event.event.toString() == "PhoenixChannelEvent(shout)") {
+                    setState(
+                      () {
+                        messages.add(
+                          PapercupsMessage(
+                            accountId: event.payload["account_id"],
+                            body: event.payload["body"],
+                            conversationId: event.payload["conversation_id"],
+                            customerId: event.payload["customer_id"],
+                            id: event.payload["id"],
+                            user: User(
+                              email: event.payload["user"]["email"],
+                              id: event.payload["user"]["id"],
+                              role: event.payload["user"]["role"],
+                            ),
+                            userId: event.payload["user_id"],
+                          ),
+                        );
+                      },
+                    );
+                  }
+                }
+              },
+            );
+          }
+        },
+      );
     }
     if (widget.props.primaryColor == null) {
       widget.props.primaryColor = Theme.of(context).primaryColor;
@@ -117,7 +153,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           if (widget.props.showAgentAvailability)
             AgentAvailability(widget.props),
           Expanded(
-            child: ChatMessages(widget.props),
+            child: ChatMessages(widget.props, messages),
           ),
           SendMessage(props: widget.props),
         ],
