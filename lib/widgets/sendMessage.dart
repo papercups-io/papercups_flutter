@@ -30,7 +30,9 @@ class _SendMessageState extends State<SendMessage> {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 55,
+      constraints: BoxConstraints(
+        minHeight: 55,
+      ),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         border: Border(
@@ -48,7 +50,7 @@ class _SendMessageState extends State<SendMessage> {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: widget.props.newMessagePlaceholder,
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     fontSize: 14,
                   ),
                 ),
@@ -60,7 +62,7 @@ class _SendMessageState extends State<SendMessage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 primary: widget.props.primaryColor,
-                shape: CircleBorder(),
+                shape: const CircleBorder(),
                 padding: const EdgeInsets.all(18),
               ),
               child: const Icon(

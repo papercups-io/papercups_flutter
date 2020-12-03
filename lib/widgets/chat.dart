@@ -42,9 +42,7 @@ class _ChatMessagesState extends State<ChatMessages> {
                 maxWidth: MediaQuery.of(context).size.width * 0.65,
               ),
               margin: EdgeInsets.symmetric(
-                vertical: 4,
-                horizontal: userSent ? 18 : 0
-              ),
+                  vertical: 4, horizontal: userSent ? 18 : 0),
               padding: const EdgeInsets.symmetric(
                 vertical: 8,
                 horizontal: 14,

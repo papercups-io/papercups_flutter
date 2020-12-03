@@ -60,15 +60,19 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       setState(() => _connected = false);
     });
 
-    _socket.openStream.listen((event) {
-      setState(() {
-        _channel = _socket.addChannel(
-          topic: 'room:' + widget.props.accountId,
+    _socket.openStream.listen(
+      (event) {
+        setState(
+          () {
+            _channel = _socket.addChannel(
+              topic: 'room:' + widget.props.accountId,
+            );
+            _channel.join();
+            return _connected = true;
+          },
         );
-        _channel.join();
-        return _connected = true;
-      });
-    });
+      },
+    );
     super.initState();
   }
 
