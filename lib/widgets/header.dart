@@ -13,7 +13,7 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 16,
         right: 20,
         left: 20,
@@ -36,7 +36,7 @@ class Header extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 3,
           ),
           Flexible(

@@ -13,55 +13,53 @@ class ChatMessages extends StatefulWidget {
 class _ChatMessagesState extends State<ChatMessages> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(18),
-      child: ListView.builder(
-        itemCount: 5,
-        itemBuilder: (context, index) {
-          bool userSent = true;
-          if (index.isEven) userSent = false;
-          var text = "hey.";
-          return Row(
-            mainAxisAlignment:
-                userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              if (!userSent)
-                Padding(
-                  padding: const EdgeInsets.only(right: 18),
-                  child: CircleAvatar(
-                    radius: 16,
-                  ),
-                ),
-              Container(
-                decoration: BoxDecoration(
-                  color: userSent
-                      ? widget.props.primaryColor
-                      : brighten(Theme.of(context).disabledColor, 80),
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.65,
-                ),
-                margin: EdgeInsets.symmetric(
-                  vertical: 4,
-                ),
-                padding: EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 14,
-                ),
-                child: SelectableText(
-                  text,
-                  style: TextStyle(
-                    color: userSent ? Colors.white : Colors.black,
-                    fontSize: 14,
-                  ),
+    return ListView.builder(
+      itemCount: 5,
+      itemBuilder: (context, index) {
+        bool userSent = true;
+        if (index.isEven) userSent = false;
+        var text = "hey.";
+        return Row(
+          mainAxisAlignment:
+              userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            if (!userSent)
+              Padding(
+                padding: const EdgeInsets.only(right: 18),
+                child: CircleAvatar(
+                  radius: 16,
                 ),
               ),
-            ],
-          );
-        },
-      ),
+            Container(
+              decoration: BoxDecoration(
+                color: userSent
+                    ? widget.props.primaryColor
+                    : brighten(Theme.of(context).disabledColor, 80),
+                borderRadius: BorderRadius.circular(4),
+              ),
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.65,
+              ),
+              margin: EdgeInsets.symmetric(
+                vertical: 4,
+                horizontal: userSent ? 18 : 0
+              ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 14,
+              ),
+              child: SelectableText(
+                text,
+                style: TextStyle(
+                  color: userSent ? Colors.white : Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

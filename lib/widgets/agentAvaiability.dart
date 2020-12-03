@@ -8,7 +8,7 @@ class AgentAvailability extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 4,
         horizontal: 20,
       ),
@@ -37,13 +37,13 @@ class AgentAvailability extends StatelessWidget {
             radius: 4,
             backgroundColor: Color(0xfff0f0f0),
           ),
-          SizedBox(
+          const SizedBox(
             width: 8,
           ),
           Flexible(
             child: Text(
               "We're away at the moment.",
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xccffffff),
                 fontSize: 12,
               ),

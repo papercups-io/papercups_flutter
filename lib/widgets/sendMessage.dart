@@ -61,11 +61,9 @@ class _SendMessageState extends State<SendMessage> {
               style: ElevatedButton.styleFrom(
                 primary: widget.props.primaryColor,
                 shape: CircleBorder(),
-                padding: EdgeInsets.all(
-                  18,
-                ),
+                padding: const EdgeInsets.all(18),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.send,
                 color: Colors.white,
                 size: 16,
