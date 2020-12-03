@@ -4,6 +4,8 @@ class User {
   String email;
   int id;
   String role;
+  String fullName;
+  String profilePhotoUrl;
 
   User({
     this.createdAt,
@@ -11,5 +13,7 @@ class User {
     this.email,
     this.id,
     this.role,
+    this.fullName,
+    this.profilePhotoUrl,
   });
 }

@@ -127,6 +127,15 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                               email: event.payload["user"]["email"],
                               id: event.payload["user"]["id"],
                               role: event.payload["user"]["role"],
+                              fullName:
+                                  (event.payload["user"]["full_name"] != null)
+                                      ? event.payload["user"]["full_name"]
+                                      : null,
+                              profilePhotoUrl: (event.payload["user"]
+                                          ["profile_photo_url"] !=
+                                      null)
+                                  ? event.payload["user"]["profile_photo_url"]
+                                  : null,
                             ),
                             userId: event.payload["user_id"],
                           ),
