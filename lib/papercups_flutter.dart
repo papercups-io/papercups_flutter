@@ -46,6 +46,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   bool _connected = false;
   PhoenixSocket _socket;
   PhoenixChannel _channel;
+  PhoenixChannel _conversation;
+  var debugConvId = "5220ce7b-6fae-495b-b10a-afb7b84dfbe6";
 
   @override
   void initState() {
@@ -67,7 +69,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             _channel = _socket.addChannel(
               topic: 'room:' + widget.props.accountId,
             );
-            _channel.join();
             return _connected = true;
           },
         );
@@ -85,6 +86,25 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (_connected && (!_channel.isJoined || !_channel.isJoining)) {
+      _channel.join().onReply("ok", (res) {
+        if(res.isOk){
+          _conversation = _socket.addChannel(topic: "conversation:" + debugConvId);
+          _conversation.join();
+          _conversation.messages.listen((event) {
+            if(event.payload["status"] == "error"){
+              _conversation.close();
+              _socket.removeChannel(_conversation);
+              _conversation == null;
+            }else if(event.payload["status"] == "ok"){
+              print("All Ok");
+            }else{
+              print(event.payload["body"]);
+            }
+          });
+        }
+      });
+    }
     if (widget.props.primaryColor == null) {
       widget.props.primaryColor = Theme.of(context).primaryColor;
     }

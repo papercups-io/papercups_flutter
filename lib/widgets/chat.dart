@@ -26,7 +26,7 @@ class _ChatMessagesState extends State<ChatMessages> {
           children: [
             if (!userSent)
               Padding(
-                padding: const EdgeInsets.only(right: 18),
+                padding: const EdgeInsets.only(right: 14, left: 14),
                 child: CircleAvatar(
                   radius: 16,
                 ),

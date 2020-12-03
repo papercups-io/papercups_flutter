@@ -29,7 +29,7 @@ class Header extends StatelessWidget {
           Flexible(
             child: Text(
               props.title,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 21,
                 fontWeight: FontWeight.w600,

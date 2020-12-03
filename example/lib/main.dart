@@ -38,7 +38,7 @@ class MyHomePage extends StatelessWidget {
           Navigator.of(context).pop();
         },
         props: Props(
-          accountId: "eb504736-0f20-4978-98ff-1a82ae60b266",
+          accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
           title: "Welcome!",
           primaryColor: Color(0xff1890ff),
           greeting: "Welcome to the test app!",
