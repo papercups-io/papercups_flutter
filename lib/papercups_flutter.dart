@@ -106,42 +106,45 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             _conversation.join();
             _conversation.messages.listen(
               (event) {
-                if (event.payload["status"] == "error") {
-                  _conversation.close();
-                  _socket.removeChannel(_conversation);
-                  _conversation == null;
-                } else if (event.payload["status"] == "ok") {
-                  print("All Ok");
-                } else {
-                  if (event.event.toString() == "PhoenixChannelEvent(shout)") {
-                    setState(
-                      () {
-                        messages.add(
-                          PapercupsMessage(
-                            accountId: event.payload["account_id"],
-                            body: event.payload["body"],
-                            conversationId: event.payload["conversation_id"],
-                            customerId: event.payload["customer_id"],
-                            id: event.payload["id"],
-                            user: User(
-                              email: event.payload["user"]["email"],
-                              id: event.payload["user"]["id"],
-                              role: event.payload["user"]["role"],
-                              fullName:
-                                  (event.payload["user"]["full_name"] != null)
-                                      ? event.payload["user"]["full_name"]
-                                      : null,
-                              profilePhotoUrl: (event.payload["user"]
-                                          ["profile_photo_url"] !=
-                                      null)
-                                  ? event.payload["user"]["profile_photo_url"]
-                                  : null,
+                if (event.payload != null) {
+                  if (event.payload["status"] == "error") {
+                    _conversation.close();
+                    _socket.removeChannel(_conversation);
+                    _conversation == null;
+                  } else if (event.payload["status"] == "ok") {
+                    print("All Ok");
+                  } else {
+                    if (event.event.toString() ==
+                        "PhoenixChannelEvent(shout)") {
+                      setState(
+                        () {
+                          messages.add(
+                            PapercupsMessage(
+                              accountId: event.payload["account_id"],
+                              body: event.payload["body"],
+                              conversationId: event.payload["conversation_id"],
+                              customerId: event.payload["customer_id"],
+                              id: event.payload["id"],
+                              user: User(
+                                email: event.payload["user"]["email"],
+                                id: event.payload["user"]["id"],
+                                role: event.payload["user"]["role"],
+                                fullName:
+                                    (event.payload["user"]["full_name"] != null)
+                                        ? event.payload["user"]["full_name"]
+                                        : null,
+                                profilePhotoUrl: (event.payload["user"]
+                                            ["profile_photo_url"] !=
+                                        null)
+                                    ? event.payload["user"]["profile_photo_url"]
+                                    : null,
+                              ),
+                              userId: event.payload["user_id"],
                             ),
-                            userId: event.payload["user_id"],
-                          ),
-                        );
-                      },
-                    );
+                          );
+                        },
+                      );
+                    }
                   }
                 }
               },
