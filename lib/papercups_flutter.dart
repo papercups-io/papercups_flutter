@@ -2,6 +2,7 @@ library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/utils/intitChannels.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
 import 'package:papercups_flutter/widgets/chat.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
@@ -50,8 +51,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PhoenixChannel _conversation;
   List<PapercupsMessage> messages = [];
 
-  var debugConvId = "5220ce7b-6fae-495b-b10a-afb7b84dfbe6";
-
   @override
   void initState() {
     if (widget.props.baseUrl.contains("http"))
@@ -93,66 +92,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (_connected & _socket.channels.isEmpty) {
-      _channel = _socket.addChannel(
-        topic: 'room:' + widget.props.accountId,
-      );
-      _channel.join().onReply(
-        "ok",
-        (res) {
-          if (res.isOk) {
-            _conversation =
-                _socket.addChannel(topic: "conversation:" + debugConvId);
-            _conversation.join();
-            _conversation.messages.listen(
-              (event) {
-                if (event.payload != null) {
-                  if (event.payload["status"] == "error") {
-                    _conversation.close();
-                    _socket.removeChannel(_conversation);
-                    _conversation == null;
-                  } else if (event.payload["status"] == "ok") {
-                    print("All Ok");
-                  } else {
-                    if (event.event.toString() ==
-                        "PhoenixChannelEvent(shout)") {
-                      setState(
-                        () {
-                          messages.add(
-                            PapercupsMessage(
-                              accountId: event.payload["account_id"],
-                              body: event.payload["body"],
-                              conversationId: event.payload["conversation_id"],
-                              customerId: event.payload["customer_id"],
-                              id: event.payload["id"],
-                              user: User(
-                                email: event.payload["user"]["email"],
-                                id: event.payload["user"]["id"],
-                                role: event.payload["user"]["role"],
-                                fullName:
-                                    (event.payload["user"]["full_name"] != null)
-                                        ? event.payload["user"]["full_name"]
-                                        : null,
-                                profilePhotoUrl: (event.payload["user"]
-                                            ["profile_photo_url"] !=
-                                        null)
-                                    ? event.payload["user"]["profile_photo_url"]
-                                    : null,
-                              ),
-                              userId: event.payload["user_id"],
-                            ),
-                          );
-                        },
-                      );
-                    }
-                  }
-                }
-              },
-            );
-          }
-        },
-      );
-    }
+    initChannels(_connected, _socket, _conversation, _channel, widget.props,
+        messages, setState);
     if (widget.props.primaryColor == null) {
       widget.props.primaryColor = Theme.of(context).primaryColor;
     }
