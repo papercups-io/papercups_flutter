@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/models/message.dart';
 import 'package:papercups_flutter/utils/joinConversation.dart';
 import '../models/conversation.dart';
 import '../models/customer.dart';
@@ -18,6 +19,7 @@ class SendMessage extends StatefulWidget {
     this.conversation,
     this.socket,
     this.setState,
+    this.messages,
     @required this.props,
   }) : super(key: key);
 
@@ -29,6 +31,7 @@ class SendMessage extends StatefulWidget {
   final PhoenixChannel conversationChannel;
   final Conversation conversation;
   final PhoenixSocket socket;
+  final List<PapercupsMessage> messages;
 
   @override
   _SendMessageState createState() => _SendMessageState();
@@ -59,6 +62,7 @@ class _SendMessageState extends State<SendMessage> {
       widget.conversationChannel,
       widget.socket,
       widget.setState,
+      widget.messages,
     );
   }
 
@@ -90,7 +94,7 @@ class _SendMessageState extends State<SendMessage> {
                     fontSize: 14,
                   ),
                 ),
-                onSubmitted: (_) => triggerSend,
+                onSubmitted: (_) => triggerSend(),
                 controller: _msgController,
                 focusNode: _msgFocusNode,
               ),
@@ -131,6 +135,7 @@ void _sendMessage(
   PhoenixChannel conversationChannel,
   PhoenixSocket socket,
   Function setState,
+  List<PapercupsMessage> messages,
 ) {
   final text = tc.text;
   print(text);
@@ -145,6 +150,7 @@ void _sendMessage(
           (conversatioDetails) {
             print("Init success!");
             joinConversationAndListen(
+              messages: messages,
               convId: conversatioDetails.id,
               conversation: conversationChannel,
               socket: socket,

@@ -148,6 +148,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             conversation: _conversation,
             socket: _socket,
             setState: setState,
+            messages: messages,
           ),
         ],
       ),
