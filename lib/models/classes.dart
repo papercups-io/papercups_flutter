@@ -65,8 +65,11 @@ class Props {
   /// This Will allow you to require an emial to chat. Not recommended for an app.
   bool requireEmailUpfront;
 
-  /// Wether to allow scrolling.
+  /// Weather to allow scrolling.
   bool scrollEnabled;
+
+  /// Company name to show on greeting
+  String companyName;
 
   //Class definition.
   Props({
@@ -83,5 +86,6 @@ class Props {
     this.showAgentAvailability = false,
     this.subtitle = "How can we help you?",
     this.title = "Welcome!",
+    this.companyName = "Bot",
   });
 }

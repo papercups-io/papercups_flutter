@@ -68,6 +68,18 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   void didChangeDependencies() {
+    if (widget.props.greeting != null) {
+      messages = [
+        PapercupsMessage(
+          body: widget.props.greeting,
+          sentAt: DateTime.now(),
+          accountId: widget.props.accountId,
+          user: User(
+            fullName: widget.props.companyName,
+          ),
+        ),
+      ];
+    }
     if (_socket == null) {
       _socket =
           PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')

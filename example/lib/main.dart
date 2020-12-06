@@ -45,7 +45,7 @@ class MyHomePage extends StatelessWidget {
             greeting: "Welcome to the test app!",
             //newMessagePlaceholder: "Papercups",
             subtitle: "How can we help you?",
-            showAgentAvailability: true,
+            showAgentAvailability: false,
             customer: CustomerMetadata(
               email: "flutter-plugin@test.com",
               externalId: "123456789876543",

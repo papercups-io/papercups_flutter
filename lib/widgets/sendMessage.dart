@@ -5,6 +5,7 @@ import '../models/classes.dart';
 class SendMessage extends StatefulWidget {
   SendMessage({
     Key key,
+    Function setState,
     @required this.props,
   }) : super(key: key);
 
@@ -84,7 +85,8 @@ class _SendMessageState extends State<SendMessage> {
 }
 
 void _sendMessage(FocusNode fn, TextEditingController tc) {
-  print(tc.text);
+  final text = tc.text;
+  print(text);
   fn.requestFocus();
   tc.clear();
 }
