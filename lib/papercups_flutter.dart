@@ -2,6 +2,7 @@ library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/models/conversation.dart';
 import 'package:papercups_flutter/models/customer.dart';
 import 'package:papercups_flutter/utils/intitChannels.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
@@ -49,9 +50,12 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   bool _connected = false;
   PhoenixSocket _socket;
   PhoenixChannel _channel;
-  PhoenixChannel _conversation;
+  PhoenixChannel _conversationChannel;
   List<PapercupsMessage> messages = [];
   PapercupsCustomer customer;
+  bool _canJoinConversation = false;
+  Conversation _conversation;
+
   @override
   void initState() {
     if (widget.props.baseUrl.contains("http"))
@@ -104,16 +108,23 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void setCustomer(PapercupsCustomer c) {
-    setState(() {
-      customer = c;
-    });
+    customer = c;
+  }
+
+  void setConversation(Conversation c) {
+    _conversation = c;
   }
 
   @override
   Widget build(BuildContext context) {
-    print(customer);
-    initChannels(_connected, _socket, _conversation, _channel, widget.props,
-        messages, setState);
+    initChannels(
+      _connected,
+      _socket,
+      _channel,
+      widget.props,
+      _canJoinConversation,
+      setState,
+    );
     if (widget.props.primaryColor == null) {
       widget.props.primaryColor = Theme.of(context).primaryColor;
     }
@@ -132,6 +143,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             props: widget.props,
             customer: customer,
             setCustomer: setCustomer,
+            setConversation: setConversation,
+            conversationChannel: _conversationChannel,
+            conversation: _conversation,
+            socket: _socket,
+            setState: setState,
           ),
         ],
       ),

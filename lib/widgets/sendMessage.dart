@@ -1,24 +1,34 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/models/customer.dart';
-import 'package:http/http.dart' as http;
-import 'package:papercups_flutter/utils/getCustomerDetails.dart';
+import 'package:papercups_flutter/utils/joinConversation.dart';
+import '../models/conversation.dart';
+import '../models/customer.dart';
+import '../utils/getConversationDetails.dart';
+import '../utils/getCustomerDetails.dart';
+import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/classes.dart';
 
 class SendMessage extends StatefulWidget {
   SendMessage({
     Key key,
-    Function setState,
     this.customer,
     this.setCustomer,
+    this.setConversation,
+    this.conversationChannel,
+    this.conversation,
+    this.socket,
+    this.setState,
     @required this.props,
   }) : super(key: key);
 
   final Props props;
   final PapercupsCustomer customer;
   final Function setCustomer;
+  final Function setState;
+  final Function setConversation;
+  final PhoenixChannel conversationChannel;
+  final Conversation conversation;
+  final PhoenixSocket socket;
 
   @override
   _SendMessageState createState() => _SendMessageState();
@@ -34,6 +44,22 @@ class _SendMessageState extends State<SendMessage> {
     _msgController.dispose();
     _msgFocusNode.dispose();
     super.dispose();
+  }
+
+  void triggerSend() {
+    _sendMessage(
+      _msgFocusNode,
+      _msgController,
+      widget.customer,
+      widget.props,
+      widget.setCustomer,
+      widget.conversationChannel,
+      widget.conversation,
+      widget.setConversation,
+      widget.conversationChannel,
+      widget.socket,
+      widget.setState,
+    );
   }
 
   @override
@@ -64,13 +90,7 @@ class _SendMessageState extends State<SendMessage> {
                     fontSize: 14,
                   ),
                 ),
-                onSubmitted: (_) => _sendMessage(
-                  _msgFocusNode,
-                  _msgController,
-                  widget.customer,
-                  widget.props,
-                  widget.setCustomer,
-                ),
+                onSubmitted: (_) => triggerSend,
                 controller: _msgController,
                 focusNode: _msgFocusNode,
               ),
@@ -90,13 +110,7 @@ class _SendMessageState extends State<SendMessage> {
                   size: 16,
                 ),
               ),
-              onPressed: () => _sendMessage(
-                _msgFocusNode,
-                _msgController,
-                widget.customer,
-                widget.props,
-                widget.setCustomer,
-              ),
+              onPressed: triggerSend,
             )
           ],
         ),
@@ -108,16 +122,37 @@ class _SendMessageState extends State<SendMessage> {
 void _sendMessage(
   FocusNode fn,
   TextEditingController tc,
-  PapercupsCustomer c,
+  PapercupsCustomer cu,
   Props p,
-  Function sc,
+  Function setCust,
+  PhoenixChannel roomChannel,
+  Conversation conv,
+  Function setConv,
+  PhoenixChannel conversationChannel,
+  PhoenixSocket socket,
+  Function setState,
 ) {
   final text = tc.text;
   print(text);
   fn.requestFocus();
   tc.clear();
 
-  if (c == null) {
-    getCustomerDetails(p, c, sc);
+  if (roomChannel == null) {
+    getCustomerDetails(p, cu, setCust).then(
+      (customerDetails) {
+        print(customerDetails.id);
+        getConversationDetails(p, conv, customerDetails, setConv).then(
+          (conversatioDetails) {
+            print("Init success!");
+            joinConversationAndListen(
+              convId: conversatioDetails.id,
+              conversation: conversationChannel,
+              socket: socket,
+              setState: setState,
+            );
+          },
+        );
+      },
+    );
   }
 }
