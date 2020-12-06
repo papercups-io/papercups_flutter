@@ -2,6 +2,7 @@ library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/models/customer.dart';
 import 'package:papercups_flutter/utils/intitChannels.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
 import 'package:papercups_flutter/widgets/chat.dart';
@@ -50,7 +51,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PhoenixChannel _channel;
   PhoenixChannel _conversation;
   List<PapercupsMessage> messages = [];
-
+  PapercupsCustomer customer;
   @override
   void initState() {
     if (widget.props.baseUrl.contains("http"))
@@ -102,8 +103,15 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     super.didChangeDependencies();
   }
 
+  void setCustomer(PapercupsCustomer c) {
+    setState(() {
+      customer = c;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(customer);
     initChannels(_connected, _socket, _conversation, _channel, widget.props,
         messages, setState);
     if (widget.props.primaryColor == null) {
@@ -120,7 +128,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           Expanded(
             child: ChatMessages(widget.props, messages),
           ),
-          SendMessage(props: widget.props),
+          SendMessage(
+            props: widget.props,
+            customer: customer,
+            setCustomer: setCustomer,
+          ),
         ],
       ),
     );

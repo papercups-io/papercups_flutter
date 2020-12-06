@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/models/customer.dart';
+import 'package:http/http.dart' as http;
+import 'package:papercups_flutter/utils/getCustomerDetails.dart';
 
 import '../models/classes.dart';
 
@@ -6,10 +11,14 @@ class SendMessage extends StatefulWidget {
   SendMessage({
     Key key,
     Function setState,
+    this.customer,
+    this.setCustomer,
     @required this.props,
   }) : super(key: key);
 
   final Props props;
+  final PapercupsCustomer customer;
+  final Function setCustomer;
 
   @override
   _SendMessageState createState() => _SendMessageState();
@@ -55,7 +64,13 @@ class _SendMessageState extends State<SendMessage> {
                     fontSize: 14,
                   ),
                 ),
-                onSubmitted: (_) => _sendMessage(_msgFocusNode, _msgController),
+                onSubmitted: (_) => _sendMessage(
+                  _msgFocusNode,
+                  _msgController,
+                  widget.customer,
+                  widget.props,
+                  widget.setCustomer,
+                ),
                 controller: _msgController,
                 focusNode: _msgFocusNode,
               ),
@@ -75,7 +90,13 @@ class _SendMessageState extends State<SendMessage> {
                   size: 16,
                 ),
               ),
-              onPressed: () => _sendMessage(_msgFocusNode, _msgController),
+              onPressed: () => _sendMessage(
+                _msgFocusNode,
+                _msgController,
+                widget.customer,
+                widget.props,
+                widget.setCustomer,
+              ),
             )
           ],
         ),
@@ -84,9 +105,19 @@ class _SendMessageState extends State<SendMessage> {
   }
 }
 
-void _sendMessage(FocusNode fn, TextEditingController tc) {
+void _sendMessage(
+  FocusNode fn,
+  TextEditingController tc,
+  PapercupsCustomer c,
+  Props p,
+  Function sc,
+) {
   final text = tc.text;
   print(text);
   fn.requestFocus();
   tc.clear();
+
+  if (c == null) {
+    getCustomerDetails(p, c, sc);
+  }
 }
