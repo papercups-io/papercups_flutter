@@ -21,7 +21,6 @@ initChannels(
       (res) {
         if (res.isOk && !_canJoinConversation) {
           setState(() {
-            print("Can join converstion!");
             _canJoinConversation = true;
           });
         }

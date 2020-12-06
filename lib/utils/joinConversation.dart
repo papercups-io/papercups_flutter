@@ -3,13 +3,13 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/message.dart';
 
-void joinConversationAndListen(
-  {List<PapercupsMessage> messages,
+void joinConversationAndListen({
+  List<PapercupsMessage> messages,
   @required String convId,
   @required PhoenixChannel conversation,
   @required PhoenixSocket socket,
-  @required Function setState,}
-) {
+  @required Function setState,
+}) {
   conversation = socket.addChannel(topic: "conversation:" + convId);
   conversation.join();
   conversation.messages.listen(
@@ -19,8 +19,6 @@ void joinConversationAndListen(
           conversation.close();
           socket.removeChannel(conversation);
           conversation == null;
-        } else if (event.payload["status"] == "ok") {
-          print("All Ok");
         } else {
           if (event.event.toString() == "PhoenixChannelEvent(shout)") {
             setState(

@@ -138,17 +138,14 @@ void _sendMessage(
   List<PapercupsMessage> messages,
 ) {
   final text = tc.text;
-  print(text);
   fn.requestFocus();
   tc.clear();
 
   if (roomChannel == null) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
-        print(customerDetails.id);
         getConversationDetails(p, conv, customerDetails, setConv).then(
           (conversatioDetails) {
-            print("Init success!");
             joinConversationAndListen(
               messages: messages,
               convId: conversatioDetails.id,
