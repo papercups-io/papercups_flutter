@@ -4,12 +4,12 @@ import 'package:http/http.dart';
 import 'package:papercups_flutter/models/classes.dart';
 import 'package:papercups_flutter/models/customer.dart';
 
-void getCustomerDetails(
+Future<PapercupsCustomer> getCustomerDetails(
   Props p,
   PapercupsCustomer c,
   Function sc,
-) {
-  post(
+) async {
+  var res = await post(
     "https://" + p.baseUrl + "/api/customers",
     headers: {
       "content-type": "application/json",
@@ -23,15 +23,12 @@ void getCustomerDetails(
         },
       },
     ),
-  ).then(
-    (res) {
-      var data = jsonDecode(res.body);
-      c = PapercupsCustomer(
-        createdAt: data["created_at"],
-        email: data["email"],
-        id: data["id"],
-      );
-      sc(c);
-    },
   );
+  var data = jsonDecode(res.body)["data"];
+  c = PapercupsCustomer(
+    createdAt: data["created_at"],
+    email: data["email"],
+    id: data["id"],
+  );
+  return c;
 }
