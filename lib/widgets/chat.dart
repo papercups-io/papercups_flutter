@@ -9,7 +9,8 @@ import '../utils/colorMod.dart';
 class ChatMessages extends StatefulWidget {
   final Props props;
   final List<PapercupsMessage> messages;
-  ChatMessages(this.props, this.messages);
+  final ScrollController _controller;
+  ChatMessages(this.props, this.messages, this._controller);
   @override
   _ChatMessagesState createState() => _ChatMessagesState();
 }
@@ -18,6 +19,7 @@ class _ChatMessagesState extends State<ChatMessages> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      controller: widget._controller,
       itemCount: widget.messages.length,
       itemBuilder: (context, index) {
         var msg = widget.messages[index];

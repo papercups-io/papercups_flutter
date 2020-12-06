@@ -1,6 +1,8 @@
 library papercups_flutter;
 
 // Imports.
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/models/conversation.dart';
 import 'package:papercups_flutter/models/customer.dart';
@@ -55,6 +57,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PapercupsCustomer customer;
   bool _canJoinConversation = false;
   Conversation _conversation;
+  ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -67,7 +70,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void dispose() {
     _channel.close();
+    _conversationChannel.close();
     _socket.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -116,9 +121,19 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void setConversationChannel(PhoenixChannel c) {
-    print(c);
     setState(() {
       _conversationChannel = c;
+    });
+  }
+
+  void rebuild(void Function() fn) {
+    setState(fn);
+    Timer(Duration(milliseconds: 50), () {
+      _controller.animateTo(
+        _controller.position.maxScrollExtent,
+        duration: Duration(milliseconds: 200),
+        curve: Curves.easeIn,
+      );
     });
   }
 
@@ -130,7 +145,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _channel,
       widget.props,
       _canJoinConversation,
-      setState,
+      rebuild,
     );
     if (widget.props.primaryColor == null) {
       widget.props.primaryColor = Theme.of(context).primaryColor;
@@ -144,7 +159,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           if (widget.props.showAgentAvailability)
             AgentAvailability(widget.props),
           Expanded(
-            child: ChatMessages(widget.props, messages),
+            child: ChatMessages(widget.props, messages, _controller),
           ),
           SendMessage(
             props: widget.props,
@@ -155,7 +170,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             setConversationChannel: setConversationChannel,
             conversation: _conversation,
             socket: _socket,
-            setState: setState,
+            setState: rebuild,
             messages: messages,
           ),
         ],
