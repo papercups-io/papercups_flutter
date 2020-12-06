@@ -115,6 +115,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     _conversation = c;
   }
 
+  void setConversationChannel(PhoenixChannel c) {
+    print(c);
+    setState(() {
+      _conversationChannel = c;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     initChannels(
@@ -145,6 +152,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             setCustomer: setCustomer,
             setConversation: setConversation,
             conversationChannel: _conversationChannel,
+            setConversationChannel: setConversationChannel,
             conversation: _conversation,
             socket: _socket,
             setState: setState,

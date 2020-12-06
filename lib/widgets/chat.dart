@@ -22,7 +22,7 @@ class _ChatMessagesState extends State<ChatMessages> {
       itemBuilder: (context, index) {
         var msg = widget.messages[index];
         bool userSent = true;
-        if (msg.accountId == widget.props.accountId) userSent = false;
+        if (msg.customer == null) userSent = false;
         var text = msg.body;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +45,7 @@ class _ChatMessagesState extends State<ChatMessages> {
                       backgroundColor: widget.props.primaryColor,
                       child: (msg.user.profilePhotoUrl != null)
                           ? Image.network(msg.user.profilePhotoUrl)
-                          : (msg.user.fullName == null)
+                          : (msg.user != null && msg.user.fullName == null)
                               ? Text(
                                   msg.user.email.substring(0, 1).toUpperCase(),
                                 )
@@ -86,32 +86,34 @@ class _ChatMessagesState extends State<ChatMessages> {
                 ),
               ],
             ),
-            Padding(
-                padding: EdgeInsets.only(left: 16, top: 5),
-                child:
-                    (widget.messages[min(index + 1, widget.messages.length - 1)]
-                                .user ==
-                            msg.user)
-                        ? (msg.user.fullName == null)
-                            ? Text(
-                                msg.user.email,
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .disabledColor
-                                      .withOpacity(0.5),
-                                  fontSize: 14,
-                                ),
-                              )
-                            : Text(
-                                msg.user.fullName,
-                                style: TextStyle(
-                                  color: Theme.of(context)
-                                      .disabledColor
-                                      .withOpacity(0.5),
-                                  fontSize: 14,
-                                ),
-                              )
-                        : null),
+            if (!userSent)
+              Padding(
+                  padding: EdgeInsets.only(left: 16, top: 5),
+                  child: (widget
+                              .messages[
+                                  min(index + 1, widget.messages.length - 1)]
+                              .user ==
+                          msg.user)
+                      ? (msg.user.fullName == null)
+                          ? Text(
+                              msg.user.email,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .disabledColor
+                                    .withOpacity(0.5),
+                                fontSize: 14,
+                              ),
+                            )
+                          : Text(
+                              msg.user.fullName,
+                              style: TextStyle(
+                                color: Theme.of(context)
+                                    .disabledColor
+                                    .withOpacity(0.5),
+                                fontSize: 14,
+                              ),
+                            )
+                      : null),
           ],
         );
       },

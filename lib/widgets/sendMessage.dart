@@ -16,6 +16,7 @@ class SendMessage extends StatefulWidget {
     this.setCustomer,
     this.setConversation,
     this.conversationChannel,
+    this.setConversationChannel,
     this.conversation,
     this.socket,
     this.setState,
@@ -28,6 +29,7 @@ class SendMessage extends StatefulWidget {
   final Function setCustomer;
   final Function setState;
   final Function setConversation;
+  final Function setConversationChannel;
   final PhoenixChannel conversationChannel;
   final Conversation conversation;
   final PhoenixSocket socket;
@@ -56,9 +58,9 @@ class _SendMessageState extends State<SendMessage> {
       widget.customer,
       widget.props,
       widget.setCustomer,
-      widget.conversationChannel,
       widget.conversation,
       widget.setConversation,
+      widget.setConversationChannel,
       widget.conversationChannel,
       widget.socket,
       widget.setState,
@@ -129,9 +131,9 @@ void _sendMessage(
   PapercupsCustomer cu,
   Props p,
   Function setCust,
-  PhoenixChannel roomChannel,
   Conversation conv,
   Function setConv,
+  Function setConvChannel,
   PhoenixChannel conversationChannel,
   PhoenixSocket socket,
   Function setState,
@@ -141,20 +143,49 @@ void _sendMessage(
   fn.requestFocus();
   tc.clear();
 
-  if (roomChannel == null) {
+  setState(() {
+    messages.add(
+      PapercupsMessage(
+        body: text,
+        createdAt: DateTime.now(),
+        customer: PapercupsCustomer(),
+      ),
+    );
+  });
+
+  if (conversationChannel == null) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
+        setCust(customerDetails);
         getConversationDetails(p, conv, customerDetails, setConv).then(
-          (conversatioDetails) {
-            joinConversationAndListen(
+          (conversationDetails) {
+            var conv = joinConversationAndListen(
               messages: messages,
-              convId: conversatioDetails.id,
+              convId: conversationDetails.id,
               conversation: conversationChannel,
               socket: socket,
               setState: setState,
+              setChannel: setConvChannel,
+            );
+            conv.push(
+              "shout",
+              {
+                "body": text,
+                "customer_id": customerDetails.id,
+                "sent_at": DateTime.now().toUtc().toIso8601String(),
+              },
             );
           },
         );
+      },
+    );
+  } else {
+    conversationChannel.push(
+      "shout",
+      {
+        "body": text,
+        "customer_id": cu.id,
+        "sent_at": DateTime.now().toUtc().toIso8601String(),
       },
     );
   }

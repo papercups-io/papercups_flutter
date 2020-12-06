@@ -1,4 +1,5 @@
 import 'user.dart';
+import 'customer.dart';
 export 'user.dart';
 
 class PapercupsMessage {
@@ -11,6 +12,7 @@ class PapercupsMessage {
   DateTime seenAt;
   DateTime sentAt;
   User user;
+  PapercupsCustomer customer;
   int userId;
 
   PapercupsMessage({
@@ -24,5 +26,6 @@ class PapercupsMessage {
     this.sentAt,
     this.user,
     this.userId,
+    this.customer,
   });
 }
