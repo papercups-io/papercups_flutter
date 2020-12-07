@@ -91,11 +91,13 @@ class _ChatMessagesState extends State<ChatMessages> {
             if (!userSent)
               Padding(
                   padding: EdgeInsets.only(left: 16, top: 5),
-                  child: (widget
-                              .messages[
-                                  min(index + 1, widget.messages.length - 1)]
-                              .user ==
-                          msg.user)
+                  child: ((widget
+                                  .messages[min(
+                                      index + 1, widget.messages.length - 1)]
+                                  .customer !=
+                              null) ||
+                          (widget.messages.length - 1 == index &&
+                              msg.customer == null))
                       ? (msg.user.fullName == null)
                           ? Text(
                               msg.user.email,
