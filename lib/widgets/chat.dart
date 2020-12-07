@@ -49,7 +49,6 @@ class _ChatMessageState extends State<ChatMessage> {
 
   @override
   Widget build(BuildContext context) {
-    print("Built");
     if (opacity == 0)
       Timer(
           Duration(

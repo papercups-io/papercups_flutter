@@ -23,7 +23,7 @@ PhoenixChannel joinConversationAndListen({
           socket.removeChannel(conversation);
           conversation == null;
         } else {
-          if (event.event.toString() == "PhoenixChannelEvent(shout)") {
+          if (event.event.toString().contains("shout")) {
             setState(
               () {
                 if (event.payload["customer"] == null)
