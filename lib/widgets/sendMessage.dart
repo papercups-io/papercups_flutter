@@ -141,7 +141,7 @@ void _sendMessage(
 ) {
   final text = tc.text;
   fn.requestFocus();
-  if (text == null) return null;
+  if (text.trim().isEmpty || text == null) return null;
   tc.clear();
 
   setState(() {
