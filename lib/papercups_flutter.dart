@@ -9,6 +9,7 @@ import 'package:papercups_flutter/models/customer.dart';
 import 'package:papercups_flutter/utils/intitChannels.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
 import 'package:papercups_flutter/widgets/chat.dart';
+import 'package:papercups_flutter/widgets/poweredBy.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 import 'models/classes.dart';
@@ -161,6 +162,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           Expanded(
             child: ChatMessages(widget.props, messages, _controller),
           ),
+          PoweredBy(),
           SendMessage(
             props: widget.props,
             customer: customer,
