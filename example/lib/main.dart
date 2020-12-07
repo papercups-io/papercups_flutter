@@ -49,6 +49,10 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Stack(
         alignment: Alignment.center,
         children: [
+          Text(
+            "Open the chat widget!",
+            style: Theme.of(context).textTheme.headline4,
+          ),
           Container(
             width: double.infinity,
             alignment: Alignment.bottomRight,
@@ -110,10 +114,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          Text(
-            "Open the chat widget!",
-            style: Theme.of(context).textTheme.headline4,
-          )
         ],
       ),
     );
