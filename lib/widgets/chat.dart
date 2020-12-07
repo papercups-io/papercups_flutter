@@ -90,9 +90,13 @@ class _ChatMessageState extends State<ChatMessage> {
                         : (msg.user != null && msg.user.fullName == null)
                             ? Text(
                                 msg.user.email.substring(0, 1).toUpperCase(),
+                                style: TextStyle(
+                                    color: Theme.of(context).cardColor),
                               )
                             : Text(
                                 msg.user.fullName.substring(0, 1).toUpperCase(),
+                                style: TextStyle(
+                                    color: Theme.of(context).cardColor),
                               ),
                   ),
                 ),
