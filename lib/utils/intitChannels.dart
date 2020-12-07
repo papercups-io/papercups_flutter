@@ -2,8 +2,6 @@ import 'package:papercups_flutter/models/classes.dart';
 import 'package:papercups_flutter/papercups_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
-import '../models/message.dart';
-
 initChannels(
   bool _connected,
   PhoenixSocket _socket,
