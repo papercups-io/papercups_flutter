@@ -152,6 +152,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       widget.props.primaryColor = Theme.of(context).primaryColor;
     }
     return Container(
+      color: Theme.of(context).canvasColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
