@@ -104,7 +104,9 @@ class _ChatMessageState extends State<ChatMessage> {
                 decoration: BoxDecoration(
                   color: userSent
                       ? widget.props.primaryColor
-                      : brighten(Theme.of(context).disabledColor, 80),
+                      : Theme.of(context).brightness == Brightness.light
+                          ? brighten(Theme.of(context).disabledColor, 80)
+                          : Color(0xff282828),
                   borderRadius: BorderRadius.circular(4),
                 ),
                 constraints: BoxConstraints(
@@ -123,7 +125,9 @@ class _ChatMessageState extends State<ChatMessage> {
                 child: SelectableText(
                   text,
                   style: TextStyle(
-                    color: userSent ? Colors.white : Colors.black,
+                    color: userSent
+                        ? Colors.white
+                        : Theme.of(context).textTheme.bodyText1.color,
                     fontSize: 14,
                   ),
                 ),

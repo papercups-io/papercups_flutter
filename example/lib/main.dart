@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Papercups Demo',
+      darkTheme: ThemeData.dark().copyWith(
+        primaryColor: Colors.cyan,
+      ),
       theme: ThemeData(
         primarySwatch: Colors.cyan,
         visualDensity: VisualDensity.adaptivePlatformDensity,
