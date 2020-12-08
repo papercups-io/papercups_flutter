@@ -85,8 +85,11 @@ class _ChatMessageState extends State<ChatMessage> {
                   child: CircleAvatar(
                     radius: 16,
                     backgroundColor: widget.props.primaryColor,
+                    backgroundImage: (msg.user.profilePhotoUrl != null)
+                        ? NetworkImage(msg.user.profilePhotoUrl)
+                        : null,
                     child: (msg.user.profilePhotoUrl != null)
-                        ? Image.network(msg.user.profilePhotoUrl)
+                        ? null
                         : (msg.user != null && msg.user.fullName == null)
                             ? Text(
                                 msg.user.email.substring(0, 1).toUpperCase(),
