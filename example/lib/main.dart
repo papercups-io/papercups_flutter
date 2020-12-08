@@ -27,9 +27,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      themeMode: MediaQuery.of(context).platformBrightness == Brightness.dark
-          ? ThemeMode.dark
-          : ThemeMode.light,
+      themeMode: MediaQuery.maybeOf(context) == null
+          ? ThemeMode.system
+          : MediaQuery.of(context).platformBrightness == Brightness.dark
+              ? ThemeMode.dark
+              : ThemeMode.light,
       home: MyHomePage(),
     );
   }
