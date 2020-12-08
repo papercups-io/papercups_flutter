@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  phoenix_socket: ^0.4.6
+  phoenix_socket: ^0.4.8
   http: ^0.12.2
 
 dev_dependencies:
