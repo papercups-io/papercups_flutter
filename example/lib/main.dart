@@ -9,7 +9,17 @@ void main() {
       enabled: kIsWeb && !kDebugMode,
       builder: (ctx) => MyApp(),
       availableLocales: [Locale("en", "US")],
-      defaultDevice: Devices.android.samsungS20,
+      devices: [
+        Devices.android.samsungNote10Plus,
+        Devices.android.samsungS8,
+        Devices.ios.iPhone11ProMax,
+        Devices.ios.iPadPro129,
+        Devices.ios.iPhone11ProMax,
+        Devices.macos.iMacPro,
+        Devices.windows.screen,
+        Devices.linux.screen,
+      ],
+      defaultDevice: Devices.android.samsungNote10Plus,
     ),
   );
 }
