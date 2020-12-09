@@ -21,6 +21,7 @@ class SendMessage extends StatefulWidget {
     this.socket,
     this.setState,
     this.messages,
+    this.sending,
     @required this.props,
   }) : super(key: key);
 
@@ -34,6 +35,7 @@ class SendMessage extends StatefulWidget {
   final Conversation conversation;
   final PhoenixSocket socket;
   final List<PapercupsMessage> messages;
+  final bool sending;
 
   @override
   _SendMessageState createState() => _SendMessageState();
@@ -65,6 +67,7 @@ class _SendMessageState extends State<SendMessage> {
       widget.socket,
       widget.setState,
       widget.messages,
+      widget.sending,
     );
   }
 
@@ -138,6 +141,7 @@ void _sendMessage(
   PhoenixSocket socket,
   Function setState,
   List<PapercupsMessage> messages,
+  bool sending,
 ) {
   final text = tc.text;
   fn.requestFocus();
@@ -152,7 +156,7 @@ void _sendMessage(
         customer: PapercupsCustomer(),
       ),
     );
-  });
+  }, stateMsg: true);
 
   if (conversationChannel == null) {
     getCustomerDetails(p, cu, setCust).then(
@@ -176,6 +180,7 @@ void _sendMessage(
                 "sent_at": DateTime.now().toUtc().toIso8601String(),
               },
             );
+            setState(() {});
           },
         );
       },

@@ -59,6 +59,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   bool _canJoinConversation = false;
   Conversation _conversation;
   ScrollController _controller = ScrollController();
+  bool _sending = false;
 
   @override
   void initState() {
@@ -127,9 +128,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     });
   }
 
-  void rebuild(void Function() fn) {
+  void rebuild(void Function() fn, {bool stateMsg = false}) {
+    _sending = stateMsg;
     setState(fn);
-    Timer(Duration(milliseconds: 50), () {
+    Timer(Duration(milliseconds: 1), () {
       _controller.animateTo(
         _controller.position.maxScrollExtent,
         duration: Duration(milliseconds: 200),
@@ -161,7 +163,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           if (widget.props.showAgentAvailability)
             AgentAvailability(widget.props),
           Expanded(
-            child: ChatMessages(widget.props, messages, _controller),
+            child: ChatMessages(widget.props, messages, _controller, _sending),
           ),
           PoweredBy(),
           SendMessage(
@@ -175,6 +177,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             socket: _socket,
             setState: rebuild,
             messages: messages,
+            sending: _sending,
           ),
         ],
       ),

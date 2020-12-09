@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import '../models/classes.dart';
@@ -10,8 +11,9 @@ import '../utils/colorMod.dart';
 class ChatMessages extends StatelessWidget {
   final Props props;
   final List<PapercupsMessage> messages;
+  final bool sending;
   final ScrollController _controller;
-  ChatMessages(this.props, this.messages, this._controller);
+  ChatMessages(this.props, this.messages, this._controller, this.sending);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -22,6 +24,7 @@ class ChatMessages extends StatelessWidget {
           msgs: messages,
           index: index,
           props: props,
+          sending: sending,
         );
       },
     );
@@ -34,11 +37,13 @@ class ChatMessage extends StatefulWidget {
     @required this.msgs,
     @required this.index,
     @required this.props,
+    @required this.sending,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
   final int index;
   final Props props;
+  final bool sending;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -49,6 +54,7 @@ class _ChatMessageState extends State<ChatMessage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.sending);
     if (opacity == 0)
       Timer(
           Duration(
@@ -166,6 +172,20 @@ class _ChatMessageState extends State<ChatMessage> {
                               ),
                             )
                       : null,
+            ),
+          if (userSent && widget.index == widget.msgs.length - 1)
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.only(
+                bottom: 4,
+                left: 18,
+                right: 18,
+              ),
+              child: Text(
+                widget.sending ? "Sending..." : "Sent",
+                textAlign: TextAlign.end,
+                style: TextStyle(color: Colors.grey),
+              ),
             ),
           if (widget.index == widget.msgs.length - 1)
             SizedBox(
