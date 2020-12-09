@@ -88,24 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: PaperCupsWidget(
-                    onStartLoading: () {
-                      print("Loading");
-                    },
-                    onFinishLoading: () {
-                      print("Finished");
-                    },
-                    onError: (error) {
-                      print("Error happened!");
-                    },
-                    closeAction: () {
-                      Navigator.of(context).pop();
-                    },
                     props: Props(
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
                       title: "Welcome!",
                       //primaryColor: Color(0xff1890ff),
                       greeting: "Welcome to the test app!",
-                      //newMessagePlaceholder: "Papercups",
                       subtitle: "How can we help you?",
                       showAgentAvailability: false,
                       customer: CustomerMetadata(
