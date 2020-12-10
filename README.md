@@ -33,12 +33,7 @@ That should get you up and running in just a few seconds ⚡️.
 ### Available PaperCupsWidget arguments
 | Parameter | Type | Value | Default |
 | :--- | :--- | :----- | :------ |
-| **`iframeUrl`** | `string` | An override of the iframe URL we use to render the chat, if you chose to self-host that as well | https://chat-widget.papercups.io |
 | **`props`** | `Props` | **Required**, here is where all of the config for the chat is contained| N/A |
-| **`closeAction`** | `Function` | A function to execute on the close button, only visible in mobile versions. If `null`, close button will not render.| N/A |
-| **`onStartLoading`** | `Function` | A function that will be called when the widget starts loading the website.| N/A |
-| **`onFinishLoading`** | `Function` | A function that will be called when the widget finishes loading the website. **May be called multiple times**| N/A |
-| **`onError`** | `Function` | A function that will be called if the widget finds an error while loading. | N/A |
 
 
 ### Available Props paramaters
@@ -54,7 +49,7 @@ That should get you up and running in just a few seconds ⚡️.
 | **`agentAvailableText`** | `string` | The text shown when you (or your agents) are online | We're online right now! |
 | **`agentUnavailableText`** | `string` | The text shown when you (and your agents) are offline | We're away at the moment. |
 | **`customer`** | `CustomerMetadata` | Identifying information for the customer, including `name`, `email`, `external_id`, and `metadata` (for any custom fields) | N/A |
-| **`baseUrl`** | `string` | The base URL of your API if you're self-hosting Papercups | https://app.papercups.io |
+| **`baseUrl`** | `string` | The base URL of your API if you're self-hosting Papercups. Ensure you do not include the protocol (https) of a trailing dash (/) | app.papercups.io |
 | **`requireEmailUpfront`** | `boolean` | If you want to require unidentified customers to provide their email before they can message you | `false` |
 
 ### Available CustomerMetaData paramaters
@@ -64,3 +59,13 @@ That should get you up and running in just a few seconds ⚡️.
 | **`externalId`** | `string` | The customer's external ID | N/A |
 | **`name`** | `string` | The customer's name | N/A |
 | **`otherMetadata`** | `Map<String, String>` | Extra metadata to pass such as OS info. | N/A |
+
+## Developing
+
+You will need flutter beta and flutter web support enabled.
+
+```
+flutter channel beta
+flutter upgrade
+flutter config --enable-web
+```
