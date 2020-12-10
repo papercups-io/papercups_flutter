@@ -12,7 +12,7 @@ class AgentAvailability extends StatelessWidget {
         vertical: 4,
         horizontal: 20,
       ),
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: brighten(
           props.primaryColor,

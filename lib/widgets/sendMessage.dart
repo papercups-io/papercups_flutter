@@ -74,7 +74,7 @@ class _SendMessageState extends State<SendMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       constraints: BoxConstraints(
         minHeight: 55,
       ),
