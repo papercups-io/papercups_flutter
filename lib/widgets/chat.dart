@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import '../models/classes.dart';
 import '../models/message.dart';
 
@@ -145,13 +146,20 @@ class _ChatMessageState extends State<ChatMessage> {
                   vertical: 8,
                   horizontal: 14,
                 ),
-                child: SelectableText(
-                  text,
-                  style: TextStyle(
-                    color: userSent
-                        ? Colors.white
-                        : Theme.of(context).textTheme.bodyText1.color,
-                    fontSize: 14,
+                child: MarkdownBody(
+                  data: text,
+                  selectable: true,
+                  styleSheet: MarkdownStyleSheet(
+                    p: TextStyle(
+                      color: userSent
+                          ? Colors.white
+                          : Theme.of(context).textTheme.bodyText1.color,
+                    ),
+                    a: TextStyle(
+                      color: userSent
+                          ? Colors.white
+                          : Theme.of(context).textTheme.bodyText1.color,
+                    ),
                   ),
                 ),
               ),
