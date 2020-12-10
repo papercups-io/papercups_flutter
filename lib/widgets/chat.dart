@@ -3,7 +3,6 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import '../models/classes.dart';
 import '../models/message.dart';
 
@@ -14,7 +13,10 @@ class ChatMessages extends StatelessWidget {
   final List<PapercupsMessage> messages;
   final bool sending;
   final ScrollController _controller;
-  ChatMessages(this.props, this.messages, this._controller, this.sending);
+
+  ChatMessages(this.props, this.messages, this._controller, this.sending,
+      {Key key})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -26,6 +28,7 @@ class ChatMessages extends StatelessWidget {
           index: index,
           props: props,
           sending: sending,
+          lvKey: key,
         );
       },
     );
@@ -39,12 +42,14 @@ class ChatMessage extends StatefulWidget {
     @required this.index,
     @required this.props,
     @required this.sending,
+    @required this.lvKey,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
   final int index;
   final Props props;
   final bool sending;
+  final GlobalKey lvKey;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -52,6 +57,15 @@ class ChatMessage extends StatefulWidget {
 
 class _ChatMessageState extends State<ChatMessage> {
   double opacity = 0;
+  double maxWidth = 0;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      maxWidth = widget.lvKey.currentContext.size.width * 0.65;
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +133,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.65,
+                  maxWidth: maxWidth,
                 ),
                 margin: EdgeInsets.only(
                   top: (widget.index == 0) ? 20 : 4,

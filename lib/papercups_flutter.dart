@@ -44,6 +44,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   Conversation _conversation;
   ScrollController _controller = ScrollController();
   bool _sending = false;
+  final GlobalKey _lvKey = GlobalKey();
 
   @override
   void initState() {
@@ -147,7 +148,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           if (widget.props.showAgentAvailability)
             AgentAvailability(widget.props),
           Expanded(
-            child: ChatMessages(widget.props, messages, _controller, _sending),
+            child: ChatMessages(
+              widget.props,
+              messages,
+              _controller,
+              _sending,
+              key: _lvKey,
+            ),
           ),
           PoweredBy(),
           SendMessage(
