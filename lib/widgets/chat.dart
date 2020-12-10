@@ -134,6 +134,7 @@ class _ChatMessageState extends State<ChatMessage> {
                 child: MarkdownBody(
                   data: text,
                   selectable: true,
+                  
                   styleSheet: MarkdownStyleSheet(
                     p: TextStyle(
                       color: userSent
@@ -152,7 +153,7 @@ class _ChatMessageState extends State<ChatMessage> {
           ),
           if (!userSent)
             Padding(
-              padding: EdgeInsets.only(left: 16, top: 5),
+              padding: EdgeInsets.only(left: 16, bottom: 5),
               child:
                   ((widget.msgs[min(widget.index + 1, widget.msgs.length - 1)]
                                   .customer !=
