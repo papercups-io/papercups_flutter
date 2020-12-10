@@ -134,6 +134,18 @@ class _ChatMessageState extends State<ChatMessage> {
                 child: MarkdownBody(
                   data: text,
                   selectable: true,
+                  styleSheet: MarkdownStyleSheet(
+                    p: TextStyle(
+                      color: userSent
+                          ? Colors.white
+                          : Theme.of(context).textTheme.bodyText1.color,
+                    ),
+                    a: TextStyle(
+                      color: userSent
+                          ? Colors.white
+                          : Theme.of(context).textTheme.bodyText1.color,
+                    ),
+                  ),
                 ),
               ),
             ],
