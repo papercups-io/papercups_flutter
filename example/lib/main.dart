@@ -53,7 +53,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var show = false;
+  var show = kDebugMode ? true : false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,14 +105,16 @@ class _MyHomePageState extends State<MyHomePage> {
                       greeting: "Welcome to the test app!",
                       subtitle: "How can we help you?",
                       showAgentAvailability: false,
-                      customer: CustomerMetadata(
-                        email: "flutter-plugin@test.com",
-                        externalId: "123456789876543",
-                        name: "Test App",
-                        otherMetadata: {
-                          "app": "example",
-                        },
-                      ),
+                      customer: kDebugMode
+                          ? CustomerMetadata(
+                              email: "flutter-plugin@test.com",
+                              externalId: "123456789876543",
+                              name: "Test App",
+                              otherMetadata: {
+                                "app": "example",
+                              },
+                            )
+                          : null,
                     ),
                   ),
                 ),
