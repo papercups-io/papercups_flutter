@@ -85,7 +85,7 @@ class _ChatMessageState extends State<ChatMessage> {
     var text = msg.body;
     return AnimatedOpacity(
       curve: Curves.easeIn,
-      duration: Duration(milliseconds: 100),
+      duration: Duration(milliseconds: 300),
       opacity: opacity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
