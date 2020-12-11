@@ -110,7 +110,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         if (customer.id != null) {
           getPastCustomerMessages(widget.props, customer).then((data) {
             if (data["msgs"].isNotEmpty) {
-              messages.addAll(data["msgs"]);
+              {
+                var msgsIn = data["msgs"] as List<PapercupsMessage>;
+                msgsIn.sort((a, b) {
+                  return a.createdAt.compareTo(b.createdAt);
+                });
+                messages.addAll(msgsIn);
+              }
               var msgToProcess = data["msgs"][0] as PapercupsMessage;
               joinConversationAndListen(
                 convId: msgToProcess.conversationId,
