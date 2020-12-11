@@ -1,5 +1,5 @@
-import 'package:papercups_flutter/models/classes.dart';
-import 'package:papercups_flutter/papercups_flutter.dart';
+import '../models/models.dart';
+import '../papercups_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 initChannels(

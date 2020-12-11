@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/models/message.dart';
-import 'package:papercups_flutter/utils/joinConversation.dart';
+import '../models/models.dart';
+import '../utils/utils.dart';
 import '../models/conversation.dart';
 import '../models/customer.dart';
 import '../utils/getConversationDetails.dart';

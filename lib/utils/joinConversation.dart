@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:papercups_flutter/models/customer.dart';
+import '../models/models.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/message.dart';

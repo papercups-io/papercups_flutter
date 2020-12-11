@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/models/classes.dart';
-import 'package:papercups_flutter/utils/colorMod.dart';
+import '../models/models.dart';
+import '../utils/utils.dart';
 
 class AgentAvailability extends StatelessWidget {
   final Props props;

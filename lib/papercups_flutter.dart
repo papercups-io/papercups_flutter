@@ -4,21 +4,10 @@ library papercups_flutter;
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/models/conversation.dart';
-import 'package:papercups_flutter/models/customer.dart';
-import 'package:papercups_flutter/utils/getCustomerDetailsFromMetadata.dart';
-import 'package:papercups_flutter/utils/getPastCustomerMessages.dart';
-import 'package:papercups_flutter/utils/intitChannels.dart';
-import 'package:papercups_flutter/utils/joinConversation.dart';
-import 'package:papercups_flutter/widgets/agentAvaiability.dart';
-import 'package:papercups_flutter/widgets/chat.dart';
-import 'package:papercups_flutter/widgets/poweredBy.dart';
+import 'utils/utils.dart';
+import 'widgets/widgets.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
-
-import 'models/classes.dart';
-import 'models/message.dart';
-import 'widgets/sendMessage.dart';
-import 'widgets/header.dart';
+import 'models/models.dart';
 
 // Exports.
 export 'models/classes.dart';
@@ -102,41 +91,16 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.customer.externalId != null &&
         customer == null &&
         _conversation == null) {
-      getCustomerDetailsFromMetadata(
-        widget.props,
-        customer,
-        setCustomer,
-      ).then((customer) {
-        if (customer.id != null) {
-          getPastCustomerMessages(widget.props, customer).then((data) {
-            if (data["msgs"].isNotEmpty) {
-              {
-                var msgsIn = data["msgs"] as List<PapercupsMessage>;
-                msgsIn.sort((a, b) {
-                  return a.createdAt.compareTo(b.createdAt);
-                });
-                messages.addAll(msgsIn);
-              }
-              var msgToProcess = data["msgs"][0] as PapercupsMessage;
-              joinConversationAndListen(
-                convId: msgToProcess.conversationId,
-                conversation: _conversationChannel,
-                setChannel: setConversationChannel,
-                setState: rebuild,
-                socket: _socket,
-                messages: messages,
-              );
-            }
-            if (data["cust"] != null && data["cust"] == customer)
-              customer = data["cust"];
-
-            if (data["msgs"].isNotEmpty ||
-                (data["cust"] != null && data["cust"] == customer)) {
-              setState(() {});
-            }
-          });
-        }
-      });
+      getCustomerHistory(
+        conversationChannel: _conversationChannel,
+        customer: customer,
+        messages: messages,
+        rebuild: rebuild,
+        setConversationChannel: setConversationChannel,
+        setCustomer: setCustomer,
+        socket: _socket,
+        widget: widget,
+      );
     }
     super.didChangeDependencies();
   }

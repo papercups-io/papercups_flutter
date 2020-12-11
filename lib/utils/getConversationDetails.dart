@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:papercups_flutter/models/classes.dart';
-import 'package:papercups_flutter/models/conversation.dart';
-import 'package:papercups_flutter/models/customer.dart';
+import '../models/models.dart';
 
 Future<Conversation> getConversationDetails(
   Props p,
