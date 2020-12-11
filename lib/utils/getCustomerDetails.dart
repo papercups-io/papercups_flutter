@@ -26,7 +26,7 @@ Future<PapercupsCustomer> getCustomerDetails(
   );
   var data = jsonDecode(res.body)["data"];
   c = PapercupsCustomer(
-    createdAt: data["created_at"],
+    createdAt: DateTime.tryParse(data["created_at"]),
     email: data["email"],
     id: data["id"],
   );

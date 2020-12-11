@@ -1,11 +1,13 @@
 class PapercupsCustomer {
-  String createdAt;
+  DateTime createdAt;
   String email;
+  String name;
+  String phone;
   String externalId;
   DateTime firstSeen;
   String id;
   DateTime lastSeen;
-  DateTime updated_at;
+  DateTime updatedAt;
 
   PapercupsCustomer({
     this.createdAt,
@@ -14,6 +16,8 @@ class PapercupsCustomer {
     this.firstSeen,
     this.id,
     this.lastSeen,
-    this.updated_at,
+    this.updatedAt,
+    this.name,
+    this.phone,
   });
 }
