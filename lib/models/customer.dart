@@ -1,7 +1,7 @@
 class PapercupsCustomer {
   String createdAt;
   String email;
-  String exernalId;
+  String externalId;
   DateTime firstSeen;
   String id;
   DateTime lastSeen;
@@ -10,7 +10,7 @@ class PapercupsCustomer {
   PapercupsCustomer({
     this.createdAt,
     this.email,
-    this.exernalId,
+    this.externalId,
     this.firstSeen,
     this.id,
     this.lastSeen,

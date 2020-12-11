@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/models/conversation.dart';
 import 'package:papercups_flutter/models/customer.dart';
+import 'package:papercups_flutter/utils/getCustomerDetailsFromMetadata.dart';
 import 'package:papercups_flutter/utils/intitChannels.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
 import 'package:papercups_flutter/widgets/chat.dart';
@@ -135,9 +136,19 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _canJoinConversation,
       rebuild,
     );
-    if (widget.props.primaryColor == null) {
-      widget.props.primaryColor = Theme.of(context).primaryColor;
+    if (widget.props.customer.externalId != null) {
+      print("getting metadata...");
+      getCustomerDetailsFromMetadata(
+        widget.props,
+        customer,
+        setCustomer,
+      ).then((customer) {
+        print(customer.id);
+      });
     }
+    if (widget.props.primaryColor == null)
+      widget.props.primaryColor = Theme.of(context).primaryColor;
+
     return Container(
       color: Theme.of(context).canvasColor,
       child: Column(
