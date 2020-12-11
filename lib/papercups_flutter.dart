@@ -9,6 +9,7 @@ import 'package:papercups_flutter/models/customer.dart';
 import 'package:papercups_flutter/utils/getCustomerDetailsFromMetadata.dart';
 import 'package:papercups_flutter/utils/getPastCustomerMessages.dart';
 import 'package:papercups_flutter/utils/intitChannels.dart';
+import 'package:papercups_flutter/utils/joinConversation.dart';
 import 'package:papercups_flutter/widgets/agentAvaiability.dart';
 import 'package:papercups_flutter/widgets/chat.dart';
 import 'package:papercups_flutter/widgets/poweredBy.dart';
@@ -108,9 +109,21 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       ).then((customer) {
         if (customer.id != null) {
           getPastCustomerMessages(widget.props, customer).then((data) {
-            if (data["msgs"].isNotEmpty) messages.addAll(data["msgs"]);
+            if (data["msgs"].isNotEmpty) {
+              messages.addAll(data["msgs"]);
+              var msgToProcess = data["msgs"][0] as PapercupsMessage;
+              joinConversationAndListen(
+                convId: msgToProcess.conversationId,
+                conversation: _conversationChannel,
+                setChannel: setConversationChannel,
+                setState: rebuild,
+                socket: _socket,
+                messages: messages,
+              );
+            }
             if (data["cust"] != null && data["cust"] == customer)
               customer = data["cust"];
+
             if (data["msgs"].isNotEmpty ||
                 (data["cust"] != null && data["cust"] == customer)) {
               setState(() {});
