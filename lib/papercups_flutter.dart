@@ -1,8 +1,6 @@
 library papercups_flutter;
 
 // Imports.
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'utils/utils.dart';
 import 'widgets/widgets.dart';
@@ -76,16 +74,12 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             ..connect();
 
       _socket.closeStream.listen((event) {
-        setState(() => _connected = false);
+        _connected = false;
       });
 
       _socket.openStream.listen(
         (event) {
-          setState(
-            () {
-              return _connected = true;
-            },
-          );
+          return _connected = true;
         },
       );
     }
@@ -115,21 +109,12 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void setConversationChannel(PhoenixChannel c) {
-    setState(() {
       _conversationChannel = c;
-    });
   }
 
   void rebuild(void Function() fn, {bool stateMsg = false}) {
     _sending = stateMsg;
     setState(fn);
-    Timer(Duration(milliseconds: 5), () {
-      _controller.animateTo(
-        _controller.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeIn,
-      );
-    });
   }
 
   @override

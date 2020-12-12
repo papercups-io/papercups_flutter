@@ -18,9 +18,7 @@ initChannels(
       "ok",
       (res) {
         if (res.isOk && !_canJoinConversation) {
-          setState(() {
-            _canJoinConversation = true;
-          });
+          _canJoinConversation = true;
         }
       },
     );

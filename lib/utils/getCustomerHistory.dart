@@ -47,6 +47,7 @@ void getCustomerHistory({
           updateUserMetadata(widget.props, data["cust"].id).then((customer) {
             setCustomer(customer);
           });
+          rebuild(() {});
         }
       });
     }

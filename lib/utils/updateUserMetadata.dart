@@ -20,7 +20,6 @@ Future<PapercupsCustomer> updateUserMetadata(
     body: '{"metadata": ${json}}',
   );
   var data = jsonDecode(res.body)["data"];
-  print(data);
   c = PapercupsCustomer(
     createdAt: data["created_at"] != null
         ? DateTime.tryParse(data["created_at"])
