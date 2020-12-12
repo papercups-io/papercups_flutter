@@ -9,32 +9,44 @@ Future<PapercupsCustomer> getCustomerDetails(
   Function sc,
 ) async {
   var timeNow = DateTime.now().toIso8601String();
+  var jsonString = jsonEncode(
+    {
+      "customer": {
+        "account_id": p.accountId,
+        "name": p.customer.name,
+        "email": p.customer.email,
+        "external_id": p.customer.externalId,
+        "first_seen": timeNow,
+        "last_seen": timeNow,
+        ...p.customer.otherMetadata,
+      }
+    },
+  );
   var res = await post(
     "https://" + p.baseUrl + "/api/customers",
     headers: {
       "content-type": "application/json",
     },
-    body: jsonEncode(
-      {
-        "customer": {
-          "account_id": p.accountId,
-          "first_seen": timeNow,
-          "last_seen": timeNow,
-        },
-      },
-    ),
+    body: jsonString,
   );
   var data = jsonDecode(res.body)["data"];
   c = PapercupsCustomer(
-    createdAt: DateTime.tryParse(data["created_at"]),
+    createdAt: data["created_at"] != null
+        ? DateTime.tryParse(data["created_at"])
+        : null,
     email: data["email"],
-    id: data["id"],
     externalId: data["external_id"],
-    firstSeen: DateTime.tryParse(data["first_seen"]),
-    lastSeen: DateTime.tryParse(data["last_seen"]),
+    firstSeen: data["first_seen"] != null
+        ? DateTime.tryParse(data["first_seen"])
+        : null,
+    id: data["id"],
+    lastSeen:
+        data["last_seen"] != null ? DateTime.tryParse(data["last_seen"]) : null,
+    updatedAt: data["updated_at"] != null
+        ? DateTime.tryParse(data["updated_at"])
+        : null,
     name: data["name"],
     phone: data["phone"],
-    updatedAt: DateTime.tryParse(data["updated_at"]),
   );
   return c;
 }

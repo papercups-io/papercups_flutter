@@ -20,19 +20,24 @@ class ChatMessages extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      controller: _controller,
-      padding: EdgeInsets.zero,
-      itemCount: messages.length,
-      itemBuilder: (context, index) {
-        return ChatMessage(
-          msgs: messages,
-          index: index,
-          props: props,
-          sending: sending,
-          lvKey: key,
-        );
-      },
+    return Container(
+      alignment: Alignment.topCenter,
+      child: ListView.builder(
+        controller: _controller,
+        padding: EdgeInsets.zero,
+        reverse: true,
+        shrinkWrap: true,
+        itemCount: messages.length,
+        itemBuilder: (context, index) {
+          return ChatMessage(
+            msgs: messages.reversed.toList(),
+            index: index,
+            props: props,
+            sending: sending,
+            lvKey: key,
+          );
+        },
+      ),
     );
   }
 }
@@ -81,9 +86,13 @@ class _ChatMessageState extends State<ChatMessage> {
         });
       });
     var msg = widget.msgs[widget.index];
+
     bool userSent = true;
     if (msg.userId != null) userSent = false;
+
     var text = msg.body;
+    var nextMsg = widget.msgs[max(widget.index - 1, 0)];
+
     return AnimatedOpacity(
       curve: Curves.easeIn,
       duration: Duration(milliseconds: 300),
@@ -102,7 +111,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   padding: EdgeInsets.only(
                     right: 14,
                     left: 14,
-                    top: (widget.index == 0) ? 15 : 4,
+                    top: (widget.index == widget.msgs.length - 1) ? 15 : 4,
                   ),
                   child: CircleAvatar(
                     radius: 16,
@@ -138,7 +147,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   maxWidth: maxWidth,
                 ),
                 margin: EdgeInsets.only(
-                  top: (widget.index == 0) ? 15 : 4,
+                  top: (widget.index == widget.msgs.length - 1) ? 15 : 4,
                   bottom: 4,
                   left: userSent ? 18 : 0,
                   right: userSent ? 18 : 0,
@@ -169,34 +178,29 @@ class _ChatMessageState extends State<ChatMessage> {
           if (!userSent)
             Padding(
               padding: EdgeInsets.only(left: 16, bottom: 5),
-              child:
-                  ((widget.msgs[min(widget.index + 1, widget.msgs.length - 1)]
-                                  .customerId !=
-                              null) ||
-                          (widget.msgs.length - 1 == widget.index &&
-                              msg.customerId == null))
-                      ? (msg.user.fullName == null)
-                          ? Text(
-                              msg.user.email,
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .disabledColor
-                                    .withOpacity(0.5),
-                                fontSize: 14,
-                              ),
-                            )
-                          : Text(
-                              msg.user.fullName,
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .disabledColor
-                                    .withOpacity(0.5),
-                                fontSize: 14,
-                              ),
-                            )
-                      : null,
+              child: ((nextMsg.userId == null) || (widget.index == 0))
+                  ? (msg.user.fullName == null)
+                      ? Text(
+                          msg.user.email,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.5),
+                            fontSize: 14,
+                          ),
+                        )
+                      : Text(
+                          msg.user.fullName,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.5),
+                            fontSize: 14,
+                          ),
+                        )
+                  : null,
             ),
-          if (userSent && widget.index == widget.msgs.length - 1)
+          if (userSent && widget.index == 0)
             Container(
               width: double.infinity,
               margin: const EdgeInsets.only(
