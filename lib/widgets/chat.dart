@@ -22,6 +22,7 @@ class ChatMessages extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       controller: _controller,
+      padding: EdgeInsets.zero,
       itemCount: messages.length,
       itemBuilder: (context, index) {
         return ChatMessage(
@@ -101,7 +102,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   padding: EdgeInsets.only(
                     right: 14,
                     left: 14,
-                    top: (widget.index == 0) ? 20 : 4,
+                    top: (widget.index == 0) ? 15 : 4,
                   ),
                   child: CircleAvatar(
                     radius: 16,
@@ -137,7 +138,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   maxWidth: maxWidth,
                 ),
                 margin: EdgeInsets.only(
-                  top: (widget.index == 0) ? 20 : 4,
+                  top: (widget.index == 0) ? 15 : 4,
                   bottom: 4,
                   left: userSent ? 18 : 0,
                   right: userSent ? 18 : 0,
