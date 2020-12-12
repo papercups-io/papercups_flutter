@@ -113,26 +113,34 @@ class _ChatMessageState extends State<ChatMessage> {
                     left: 14,
                     top: (widget.index == widget.msgs.length - 1) ? 15 : 4,
                   ),
-                  child: CircleAvatar(
-                    radius: 16,
-                    backgroundColor: widget.props.primaryColor,
-                    backgroundImage: (msg.user.profilePhotoUrl != null)
-                        ? NetworkImage(msg.user.profilePhotoUrl)
-                        : null,
-                    child: (msg.user.profilePhotoUrl != null)
-                        ? null
-                        : (msg.user != null && msg.user.fullName == null)
-                            ? Text(
-                                msg.user.email.substring(0, 1).toUpperCase(),
-                                style: TextStyle(
-                                    color: Theme.of(context).cardColor),
-                              )
-                            : Text(
-                                msg.user.fullName.substring(0, 1).toUpperCase(),
-                                style: TextStyle(
-                                    color: Theme.of(context).cardColor),
-                              ),
-                  ),
+                  child: (nextMsg.userId != msg.userId)
+                      ? CircleAvatar(
+                          radius: 16,
+                          backgroundColor: widget.props.primaryColor,
+                          backgroundImage: (msg.user.profilePhotoUrl != null)
+                              ? NetworkImage(msg.user.profilePhotoUrl)
+                              : null,
+                          child: (msg.user.profilePhotoUrl != null)
+                              ? null
+                              : (msg.user != null && msg.user.fullName == null)
+                                  ? Text(
+                                      msg.user.email
+                                          .substring(0, 1)
+                                          .toUpperCase(),
+                                      style: TextStyle(
+                                          color: Theme.of(context).cardColor),
+                                    )
+                                  : Text(
+                                      msg.user.fullName
+                                          .substring(0, 1)
+                                          .toUpperCase(),
+                                      style: TextStyle(
+                                          color: Theme.of(context).cardColor),
+                                    ),
+                        )
+                      : SizedBox(
+                          width: 32,
+                        ),
                 ),
               Container(
                 decoration: BoxDecoration(
@@ -175,31 +183,27 @@ class _ChatMessageState extends State<ChatMessage> {
               ),
             ],
           ),
-          if (!userSent)
+          if (!userSent &&
+              ((nextMsg.userId != msg.userId) || (widget.index == 0)))
             Padding(
-              padding: EdgeInsets.only(left: 16, bottom: 5),
-              child: ((nextMsg.userId == null) || (widget.index == 0))
-                  ? (msg.user.fullName == null)
-                      ? Text(
-                          msg.user.email,
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .disabledColor
-                                .withOpacity(0.5),
-                            fontSize: 14,
-                          ),
-                        )
-                      : Text(
-                          msg.user.fullName,
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .disabledColor
-                                .withOpacity(0.5),
-                            fontSize: 14,
-                          ),
-                        )
-                  : null,
-            ),
+                padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
+                child: (msg.user.fullName == null)
+                    ? Text(
+                        msg.user.email,
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).disabledColor.withOpacity(0.5),
+                          fontSize: 14,
+                        ),
+                      )
+                    : Text(
+                        msg.user.fullName,
+                        style: TextStyle(
+                          color:
+                              Theme.of(context).disabledColor.withOpacity(0.5),
+                          fontSize: 14,
+                        ),
+                      )),
           if (userSent && widget.index == 0)
             Container(
               width: double.infinity,
@@ -214,10 +218,10 @@ class _ChatMessageState extends State<ChatMessage> {
                 style: TextStyle(color: Colors.grey),
               ),
             ),
-          if (widget.index == widget.msgs.length - 1)
+          if (widget.index == 0 || nextMsg.userId != msg.userId)
             SizedBox(
-              height: 15,
-            )
+              height: 10,
+            ),
         ],
       ),
     );
