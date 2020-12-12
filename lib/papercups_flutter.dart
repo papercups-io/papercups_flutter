@@ -66,6 +66,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           user: User(
             fullName: widget.props.companyName,
           ),
+          userId: 0,
         ),
       ];
     }
@@ -122,10 +123,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   void rebuild(void Function() fn, {bool stateMsg = false}) {
     _sending = stateMsg;
     setState(fn);
-    Timer(Duration(milliseconds: 1), () {
+    Timer(Duration(milliseconds: 5), () {
       _controller.animateTo(
         _controller.position.maxScrollExtent,
-        duration: Duration(milliseconds: 200),
+        duration: Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     });

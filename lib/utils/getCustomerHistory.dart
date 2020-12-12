@@ -1,3 +1,5 @@
+import 'package:papercups_flutter/utils/updateUserMetadata.dart';
+
 import '../models/models.dart';
 import '../papercups_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
@@ -41,12 +43,10 @@ void getCustomerHistory({
             messages: messages,
           );
         }
-        if (data["cust"] != null && data["cust"] == customer)
-          customer = data["cust"];
-
-        if (data["msgs"].isNotEmpty ||
-            (data["cust"] != null && data["cust"] == customer)) {
-          rebuild(() {});
+        if (data["cust"] != null && data["cust"] != customer) {
+          updateUserMetadata(widget.props, data["cust"].id).then((customer) {
+            setCustomer(customer);
+          });
         }
       });
     }

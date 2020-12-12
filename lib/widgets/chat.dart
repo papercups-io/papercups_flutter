@@ -82,7 +82,7 @@ class _ChatMessageState extends State<ChatMessage> {
       });
     var msg = widget.msgs[widget.index];
     bool userSent = true;
-    if (msg.customer == null) userSent = false;
+    if (msg.userId != null) userSent = false;
     var text = msg.body;
     return AnimatedOpacity(
       curve: Curves.easeIn,
@@ -171,10 +171,10 @@ class _ChatMessageState extends State<ChatMessage> {
               padding: EdgeInsets.only(left: 16, bottom: 5),
               child:
                   ((widget.msgs[min(widget.index + 1, widget.msgs.length - 1)]
-                                  .customer !=
+                                  .customerId !=
                               null) ||
                           (widget.msgs.length - 1 == widget.index &&
-                              msg.customer == null))
+                              msg.customerId == null))
                       ? (msg.user.fullName == null)
                           ? Text(
                               msg.user.email,

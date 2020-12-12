@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 /// Customer Metadata, this contains the customer's information.
@@ -23,6 +25,18 @@ class CustomerMetadata {
     this.name,
     this.otherMetadata,
   });
+
+  String toJsonString() {
+    return json.encode(
+      {
+        "name": this.name,
+        "email": this.email,
+        "external_id": this.externalId,
+        // This will spread the custom metadata
+        ...this.otherMetadata,
+      },
+    );
+  }
 }
 
 /// This contains all the possible configurations for the chat widget.

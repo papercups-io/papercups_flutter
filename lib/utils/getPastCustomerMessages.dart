@@ -8,7 +8,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
   PapercupsCustomer c,
 ) async {
   List<PapercupsMessage> rMsgs = [];
-  
+
   var res = await get(
     Uri.https(p.baseUrl, "/api/conversations/customer", {
       "customer_id": c.id,
@@ -27,6 +27,20 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
         customerId: val["customer_id"],
         customer: c,
         id: val["id"],
+        userId: val["user_id"],
+        user: val["user"] != null
+            ? User(
+                email: val["user"]["email"],
+                id: val["user"]["id"],
+                role: val["user"]["role"],
+                fullName: (val["user"]["full_name"] != null)
+                    ? val["user"]["full_name"]
+                    : null,
+                profilePhotoUrl: (val["user"]["profile_photo_url"] != null)
+                    ? val["user"]["profile_photo_url"]
+                    : null,
+              )
+            : null,
       ),
     );
   });
