@@ -8,6 +8,7 @@ Future<PapercupsCustomer> getCustomerDetails(
   PapercupsCustomer c,
   Function sc,
 ) async {
+  var timeNow = DateTime.now().toIso8601String();
   var res = await post(
     "https://" + p.baseUrl + "/api/customers",
     headers: {
@@ -17,8 +18,8 @@ Future<PapercupsCustomer> getCustomerDetails(
       {
         "customer": {
           "account_id": p.accountId,
-          "first_seen": DateTime.now().toUtc().toIso8601String(),
-          "last_seen": DateTime.now().toUtc().toIso8601String(),
+          "first_seen": timeNow,
+          "last_seen": timeNow,
         },
       },
     ),
@@ -28,6 +29,12 @@ Future<PapercupsCustomer> getCustomerDetails(
     createdAt: DateTime.tryParse(data["created_at"]),
     email: data["email"],
     id: data["id"],
+    externalId: data["external_id"],
+    firstSeen: DateTime.tryParse(data["first_seen"]),
+    lastSeen: DateTime.tryParse(data["last_seen"]),
+    name: data["name"],
+    phone: data["phone"],
+    updatedAt: DateTime.tryParse(data["updated_at"]),
   );
   return c;
 }

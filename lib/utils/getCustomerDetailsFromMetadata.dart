@@ -21,8 +21,14 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   var data = jsonDecode(res.body)["data"];
   c = PapercupsCustomer(
     id: data["customer_id"],
-    externalId: p.customer.externalId,
-    email: p.customer.email,
+    externalId: c == null ? null : c.externalId,
+    email: c == null ? null : c.email,
+    createdAt: c == null ? null : c.createdAt,
+    firstSeen: c == null ? null : c.firstSeen,
+    lastSeen: c == null ? null : c.lastSeen,
+    name: c == null ? null : c.name,
+    phone: c == null ? null : c.phone,
+    updatedAt: c == null ? null : c.updatedAt,
   );
   sc(c);
   return c;
