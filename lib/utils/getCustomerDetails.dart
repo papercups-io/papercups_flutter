@@ -9,16 +9,17 @@ Future<PapercupsCustomer> getCustomerDetails(
   Function sc,
 ) async {
   var timeNow = DateTime.now().toIso8601String();
+  var metadata = p.customer != null ? p.customer.otherMetadata : {};
   var jsonString = jsonEncode(
     {
       "customer": {
         "account_id": p.accountId,
-        "name": p.customer.name,
-        "email": p.customer.email,
-        "external_id": p.customer.externalId,
+        "name": p.customer != null ? p.customer.name : null,
+        "email": p.customer != null ? p.customer.email : null,
+        "external_id": p.customer != null ? p.customer.externalId : null,
         "first_seen": timeNow,
         "last_seen": timeNow,
-        ...p.customer.otherMetadata,
+        ...metadata,
       }
     },
   );
