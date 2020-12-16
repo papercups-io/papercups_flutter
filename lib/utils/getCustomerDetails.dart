@@ -9,7 +9,9 @@ Future<PapercupsCustomer> getCustomerDetails(
   Function sc,
 ) async {
   var timeNow = DateTime.now().toIso8601String();
-  var metadata = p.customer != null ? p.customer.otherMetadata : {};
+  var metadata = p.customer != null && p.customer.otherMetadata != null
+      ? p.customer.otherMetadata
+      : {};
   var jsonString = jsonEncode(
     {
       "customer": {
