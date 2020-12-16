@@ -60,11 +60,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         PapercupsMessage(
           body: widget.props.greeting,
           sentAt: DateTime.now(),
+          createdAt: DateTime.now(),
           accountId: widget.props.accountId,
           user: User(
             fullName: widget.props.companyName,
           ),
           userId: 0,
+          id: "greeting",
         ),
       ];
     }
@@ -83,7 +85,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         },
       );
     }
-    if (widget.props.customer.externalId != null &&
+    if (widget.props.customer != null &&
+        widget.props.customer.externalId != null &&
         customer == null &&
         _conversation == null) {
       getCustomerHistory(
@@ -109,12 +112,21 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void setConversationChannel(PhoenixChannel c) {
-      _conversationChannel = c;
+    _conversationChannel = c;
   }
 
-  void rebuild(void Function() fn, {bool stateMsg = false}) {
+  void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     setState(fn);
+    if (animate) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _controller.animateTo(
+          _controller.position.maxScrollExtent,
+          curve: Curves.easeIn,
+          duration: Duration(milliseconds: 300),
+        );
+      });
+    }
   }
 
   @override
@@ -129,6 +141,17 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     );
     if (widget.props.primaryColor == null)
       widget.props.primaryColor = Theme.of(context).primaryColor;
+
+    if (_sending)
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) {
+          _controller.animateTo(
+            _controller.position.maxScrollExtent,
+            curve: Curves.easeIn,
+            duration: Duration(milliseconds: 300),
+          );
+        },
+      );
 
     return Container(
       color: Theme.of(context).canvasColor,
@@ -149,19 +172,21 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             ),
           ),
           PoweredBy(),
-          SendMessage(
-            props: widget.props,
-            customer: customer,
-            setCustomer: setCustomer,
-            setConversation: setConversation,
-            conversationChannel: _conversationChannel,
-            setConversationChannel: setConversationChannel,
-            conversation: _conversation,
-            socket: _socket,
-            setState: rebuild,
-            messages: messages,
-            sending: _sending,
-          ),
+          (widget.props.requireEmailUpfront && customer.email != null)
+              ? Text("Require upfront")
+              : SendMessage(
+                  props: widget.props,
+                  customer: customer,
+                  setCustomer: setCustomer,
+                  setConversation: setConversation,
+                  conversationChannel: _conversationChannel,
+                  setConversationChannel: setConversationChannel,
+                  conversation: _conversation,
+                  socket: _socket,
+                  setState: rebuild,
+                  messages: messages,
+                  sending: _sending,
+                ),
         ],
       ),
     );
