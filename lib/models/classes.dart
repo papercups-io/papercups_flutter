@@ -27,13 +27,14 @@ class CustomerMetadata {
   });
 
   String toJsonString() {
+    var metadata = this.otherMetadata != null ? this.otherMetadata : {};
     return json.encode(
       {
         "name": this.name,
         "email": this.email,
         "external_id": this.externalId,
         // This will spread the custom metadata
-        ...this.otherMetadata,
+        ...metadata,
       },
     );
   }
