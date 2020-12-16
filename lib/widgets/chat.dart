@@ -22,21 +22,26 @@ class ChatMessages extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.topCenter,
-      child: ListView.builder(
-        controller: _controller,
-        padding: EdgeInsets.zero,
-        reverse: true,
-        shrinkWrap: true,
-        itemCount: messages.length,
-        itemBuilder: (context, index) {
-          return ChatMessage(
-            msgs: messages.reversed.toList(),
-            index: index,
-            props: props,
-            sending: sending,
-            lvKey: key,
-          );
+      child: NotificationListener<OverscrollIndicatorNotification>(
+        onNotification: (OverscrollIndicatorNotification overscroll) {
+          overscroll.disallowGlow();
+          return false;
         },
+        child: ListView.builder(
+          controller: _controller,
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          itemCount: messages.length,
+          itemBuilder: (context, index) {
+            return ChatMessage(
+              msgs: messages,
+              index: index,
+              props: props,
+              sending: sending,
+              lvKey: key,
+            );
+          },
+        ),
       ),
     );
   }
@@ -91,7 +96,9 @@ class _ChatMessageState extends State<ChatMessage> {
     if (msg.userId != null) userSent = false;
 
     var text = msg.body;
-    var nextMsg = widget.msgs[max(widget.index - 1, 0)];
+    var nextMsg = widget.msgs[min(widget.index + 1, widget.msgs.length - 1)];
+    var isLast = widget.index == widget.msgs.length - 1;
+    var isFirst = widget.index == 0;
 
     return AnimatedOpacity(
       curve: Curves.easeIn,
@@ -111,9 +118,10 @@ class _ChatMessageState extends State<ChatMessage> {
                   padding: EdgeInsets.only(
                     right: 14,
                     left: 14,
-                    top: (widget.index == widget.msgs.length - 1) ? 15 : 4,
+                    top: (isFirst) ? 15 : 4,
                   ),
-                  child: (nextMsg.userId != msg.userId)
+                  child: (widget.msgs.length == 1 ||
+                          nextMsg.userId != msg.userId)
                       ? CircleAvatar(
                           radius: 16,
                           backgroundColor: widget.props.primaryColor,
@@ -155,7 +163,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   maxWidth: maxWidth,
                 ),
                 margin: EdgeInsets.only(
-                  top: (widget.index == widget.msgs.length - 1) ? 15 : 4,
+                  top: (isFirst) ? 15 : 4,
                   bottom: 4,
                   left: userSent ? 18 : 0,
                   right: userSent ? 18 : 0,
@@ -183,8 +191,7 @@ class _ChatMessageState extends State<ChatMessage> {
               ),
             ],
           ),
-          if (!userSent &&
-              ((nextMsg.userId != msg.userId) || (widget.index == 0)))
+          if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
             Padding(
                 padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
                 child: (msg.user.fullName == null)
@@ -204,7 +211,7 @@ class _ChatMessageState extends State<ChatMessage> {
                           fontSize: 14,
                         ),
                       )),
-          if (userSent && widget.index == 0)
+          if (userSent && isLast)
             Container(
               width: double.infinity,
               margin: const EdgeInsets.only(
@@ -218,7 +225,7 @@ class _ChatMessageState extends State<ChatMessage> {
                 style: TextStyle(color: Colors.grey),
               ),
             ),
-          if (widget.index == 0 || nextMsg.userId != msg.userId)
+          if (isLast || nextMsg.userId != msg.userId)
             SizedBox(
               height: 10,
             ),
