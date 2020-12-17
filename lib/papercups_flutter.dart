@@ -118,9 +118,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     if(mounted)setState(fn);
-    if (animate && mounted && messages.isNotEmpty && _controller.position.maxScrollExtent != null) {
+    if (animate && mounted && messages.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        _controller.animateTo(
+        print(_controller.position.maxScrollExtent);
+        if(_controller.position.maxScrollExtent != null) _controller.animateTo(
           _controller.position.maxScrollExtent,
           curve: Curves.easeIn,
           duration: Duration(milliseconds: 300),
@@ -145,7 +146,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (_sending && mounted && messages.isNotEmpty && _controller.position.maxScrollExtent != null)
       WidgetsBinding.instance.addPostFrameCallback(
         (_) {
-          _controller.animateTo(
+          if(_controller.position.maxScrollExtent != null) _controller.animateTo(
             _controller.position.maxScrollExtent,
             curve: Curves.easeIn,
             duration: Duration(milliseconds: 300),
