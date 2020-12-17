@@ -111,7 +111,7 @@ class _ChatMessageState extends State<ChatMessage> {
             mainAxisAlignment:
                 userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               if (!userSent)
                 Padding(
@@ -119,6 +119,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     right: 14,
                     left: 14,
                     top: (isFirst) ? 15 : 4,
+                    bottom: 5,
                   ),
                   child: (widget.msgs.length == 1 ||
                           nextMsg.userId != msg.userId || isLast)
