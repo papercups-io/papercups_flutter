@@ -117,8 +117,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
-    setState(fn);
-    if (animate) {
+    if(mounted)setState(fn);
+    if (animate && mounted && messages.isNotEmpty && _controller.position.maxScrollExtent != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _controller.animateTo(
           _controller.position.maxScrollExtent,
@@ -142,7 +142,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.primaryColor == null)
       widget.props.primaryColor = Theme.of(context).primaryColor;
 
-    if (_sending)
+    if (_sending && mounted && messages.isNotEmpty && _controller.position.maxScrollExtent != null)
       WidgetsBinding.instance.addPostFrameCallback(
         (_) {
           _controller.animateTo(

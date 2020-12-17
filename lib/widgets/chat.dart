@@ -82,13 +82,14 @@ class _ChatMessageState extends State<ChatMessage> {
   @override
   Widget build(BuildContext context) {
     if (opacity == 0)
-      Timer(
+      Future.delayed(
           Duration(
             milliseconds: 0,
           ), () {
-        setState(() {
+        if(mounted) setState(() {
           opacity = 1;
         });
+        this.dispose();
       });
     var msg = widget.msgs[widget.index];
 
