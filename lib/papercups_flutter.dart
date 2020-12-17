@@ -41,6 +41,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.baseUrl.contains("http"))
       throw "Do not provide a protocol in baseURL";
     if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
+    if(widget.props.primaryGradient != null && widget.props.primaryColor != null) throw "Expected either primaryColor or primaryGradient to be null";
     super.initState();
   }
 
@@ -140,7 +141,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _canJoinConversation,
       rebuild,
     );
-    if (widget.props.primaryColor == null)
+    if (widget.props.primaryColor == null && widget.props.primaryGradient == null)
       widget.props.primaryColor = Theme.of(context).primaryColor;
 
     if (_sending && mounted && messages.isNotEmpty && _controller.position.maxScrollExtent != null)

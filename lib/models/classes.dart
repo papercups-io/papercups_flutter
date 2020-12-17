@@ -53,6 +53,9 @@ class Props {
   /// Color in which the header is going to be in, if not defined will be primary color used in app.
   Color primaryColor;
 
+  /// Gradient to specify, should be used instead of primaryColor, DO NOT USE BOTH.
+  Gradient primaryGradient;
+
   /// Required to create the wig¡dget, identifies the account.
   String accountId;
 
@@ -102,5 +105,6 @@ class Props {
     this.subtitle = "How can we help you?",
     this.title = "Welcome!",
     this.companyName = "Bot",
+    this.primaryGradient,
   });
 }

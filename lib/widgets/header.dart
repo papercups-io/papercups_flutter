@@ -20,7 +20,10 @@ class Header extends StatelessWidget {
         bottom: 12,
       ),
       width: double.infinity,
-      color: props.primaryColor,
+      decoration: BoxDecoration(
+        color: (props.primaryGradient == null) ? props.primaryColor : null,
+        gradient: (props.primaryGradient != null) ? props.primaryGradient : null,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
