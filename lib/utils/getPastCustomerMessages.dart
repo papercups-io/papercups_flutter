@@ -23,6 +23,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
         accountId: val["account_id"],
         body: val["body"],
         createdAt: DateTime.tryParse(val["created_at"]),
+        sentAt: DateTime.tryParse(val["sent_at"]),
         conversationId: val["conversation_id"],
         customerId: val["customer_id"],
         customer: c,
