@@ -82,14 +82,13 @@ class _ChatMessageState extends State<ChatMessage> {
   @override
   Widget build(BuildContext context) {
     if (opacity == 0)
-      Future.delayed(
+      Timer(
           Duration(
             milliseconds: 0,
           ), () {
         if(mounted) setState(() {
           opacity = 1;
         });
-        this.dispose();
       });
     var msg = widget.msgs[widget.index];
 
@@ -122,7 +121,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     top: (isFirst) ? 15 : 4,
                   ),
                   child: (widget.msgs.length == 1 ||
-                          nextMsg.userId != msg.userId)
+                          nextMsg.userId != msg.userId || isLast)
                       ? CircleAvatar(
                           radius: 16,
                           backgroundColor: widget.props.primaryColor,
