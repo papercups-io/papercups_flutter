@@ -121,7 +121,7 @@ PhoenixChannel joinConversationAndListen({
                   }
                 }
               },
-            );
+             animate: true);
           }
         }
       }
