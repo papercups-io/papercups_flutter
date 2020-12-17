@@ -168,7 +168,7 @@ class _ChatMessageState extends State<ChatMessage> {
                       : Theme.of(context).brightness == Brightness.light
                           ? brighten(Theme.of(context).disabledColor, 80)
                           : Color(0xff282828),
-                  gradient: widget.props.primaryGradient,
+                  gradient: userSent ? widget.props.primaryGradient : null,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 constraints: BoxConstraints(
