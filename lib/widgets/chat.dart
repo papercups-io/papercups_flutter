@@ -86,9 +86,10 @@ class _ChatMessageState extends State<ChatMessage> {
           Duration(
             milliseconds: 0,
           ), () {
-        if(mounted) setState(() {
-          opacity = 1;
-        });
+        if (mounted)
+          setState(() {
+            opacity = 1;
+          });
       });
     var msg = widget.msgs[widget.index];
 
@@ -122,30 +123,39 @@ class _ChatMessageState extends State<ChatMessage> {
                     bottom: 5,
                   ),
                   child: (widget.msgs.length == 1 ||
-                          nextMsg.userId != msg.userId || isLast)
-                      ? CircleAvatar(
-                          radius: 16,
-                          backgroundColor: widget.props.primaryColor,
-                          backgroundImage: (msg.user.profilePhotoUrl != null)
-                              ? NetworkImage(msg.user.profilePhotoUrl)
-                              : null,
-                          child: (msg.user.profilePhotoUrl != null)
-                              ? null
-                              : (msg.user != null && msg.user.fullName == null)
-                                  ? Text(
-                                      msg.user.email
-                                          .substring(0, 1)
-                                          .toUpperCase(),
-                                      style: TextStyle(
-                                          color: Theme.of(context).cardColor),
-                                    )
-                                  : Text(
-                                      msg.user.fullName
-                                          .substring(0, 1)
-                                          .toUpperCase(),
-                                      style: TextStyle(
-                                          color: Theme.of(context).cardColor),
-                                    ),
+                          nextMsg.userId != msg.userId ||
+                          isLast)
+                      ? Container(
+                          decoration: BoxDecoration(
+                            color: widget.props.primaryColor,
+                            gradient: widget.props.primaryGradient,
+                            shape: BoxShape.circle,
+                          ),
+                          child: CircleAvatar(
+                            radius: 16,
+                            backgroundColor: Colors.transparent,
+                            backgroundImage: (msg.user.profilePhotoUrl != null)
+                                ? NetworkImage(msg.user.profilePhotoUrl)
+                                : null,
+                            child: (msg.user.profilePhotoUrl != null)
+                                ? null
+                                : (msg.user != null &&
+                                        msg.user.fullName == null)
+                                    ? Text(
+                                        msg.user.email
+                                            .substring(0, 1)
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).cardColor),
+                                      )
+                                    : Text(
+                                        msg.user.fullName
+                                            .substring(0, 1)
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                            color: Theme.of(context).cardColor),
+                                      ),
+                          ),
                         )
                       : SizedBox(
                           width: 32,
@@ -158,6 +168,7 @@ class _ChatMessageState extends State<ChatMessage> {
                       : Theme.of(context).brightness == Brightness.light
                           ? brighten(Theme.of(context).disabledColor, 80)
                           : Color(0xff282828),
+                  gradient: userSent ? widget.props.primaryGradient : null,
                   borderRadius: BorderRadius.circular(4),
                 ),
                 constraints: BoxConstraints(

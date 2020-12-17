@@ -104,23 +104,24 @@ class _SendMessageState extends State<SendMessage> {
                 focusNode: _msgFocusNode,
               ),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: widget.props.primaryColor,
-                shape: const CircleBorder(),
-                //padding: const EdgeInsets.all(12),
+            Container(
+              height: 36,
+              width: 36,
+              margin: EdgeInsets.only(right: 8),
+              decoration: BoxDecoration(
+                color: widget.props.primaryColor,
+                gradient: widget.props.primaryGradient,
+                shape: BoxShape.circle,
               ),
-              child: Container(
-                height: 36,
-                width: 36,
+              child: InkWell(
+                onTap: triggerSend,
                 child: const Icon(
                   Icons.send,
                   color: Colors.white,
                   size: 16,
                 ),
               ),
-              onPressed: triggerSend,
-            )
+            ),
           ],
         ),
       ),
