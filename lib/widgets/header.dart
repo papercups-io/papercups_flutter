@@ -21,9 +21,8 @@ class Header extends StatelessWidget {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: (props.primaryGradient == null) ? props.primaryColor : null,
-        gradient:
-            (props.primaryGradient != null) ? props.primaryGradient : null,
+        color: props.primaryColor,
+        gradient: props.primaryGradient,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
