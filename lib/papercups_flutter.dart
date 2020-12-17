@@ -41,7 +41,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.baseUrl.contains("http"))
       throw "Do not provide a protocol in baseURL";
     if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
-    if(widget.props.primaryGradient != null && widget.props.primaryColor != null) throw "Expected either primaryColor or primaryGradient to be null";
+    if (widget.props.primaryGradient != null &&
+        widget.props.primaryColor != null)
+      throw "Expected either primaryColor or primaryGradient to be null";
     super.initState();
   }
 
@@ -118,15 +120,15 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
-    if(mounted)setState(fn);
+    if (mounted) setState(fn);
     if (animate && mounted && messages.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        print(_controller.position.maxScrollExtent);
-        if(_controller.position.maxScrollExtent != null) _controller.animateTo(
-          _controller.position.maxScrollExtent,
-          curve: Curves.easeIn,
-          duration: Duration(milliseconds: 300),
-        );
+        if (_controller.position.maxScrollExtent != null)
+          _controller.animateTo(
+            _controller.position.maxScrollExtent,
+            curve: Curves.easeIn,
+            duration: Duration(milliseconds: 300),
+          );
       });
     }
   }
@@ -141,17 +143,22 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _canJoinConversation,
       rebuild,
     );
-    if (widget.props.primaryColor == null && widget.props.primaryGradient == null)
+    if (widget.props.primaryColor == null &&
+        widget.props.primaryGradient == null)
       widget.props.primaryColor = Theme.of(context).primaryColor;
 
-    if (_sending && mounted && messages.isNotEmpty && _controller.position.maxScrollExtent != null)
+    if (_sending &&
+        mounted &&
+        messages.isNotEmpty &&
+        _controller.position.maxScrollExtent != null)
       WidgetsBinding.instance.addPostFrameCallback(
         (_) {
-          if(_controller.position.maxScrollExtent != null) _controller.animateTo(
-            _controller.position.maxScrollExtent,
-            curve: Curves.easeIn,
-            duration: Duration(milliseconds: 300),
-          );
+          if (_controller.position.maxScrollExtent != null)
+            _controller.animateTo(
+              _controller.position.maxScrollExtent,
+              curve: Curves.easeIn,
+              duration: Duration(milliseconds: 300),
+            );
         },
       );
 
