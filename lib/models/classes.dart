@@ -100,7 +100,7 @@ class Props {
     this.newMessagePlaceholder = "Start typing...",
     this.primaryColor,
     this.requireEmailUpfront = false,
-    this.scrollEnabled = false,
+    this.scrollEnabled = true,
     this.showAgentAvailability = false,
     this.subtitle = "How can we help you?",
     this.title = "Welcome!",
