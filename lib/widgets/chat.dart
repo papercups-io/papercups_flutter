@@ -29,7 +29,9 @@ class ChatMessages extends StatelessWidget {
         },
         child: ListView.builder(
           controller: _controller,
-          physics: ClampingScrollPhysics(),
+          physics: props.scrollEnabled
+              ? ClampingScrollPhysics()
+              : NeverScrollableScrollPhysics(),
           padding: EdgeInsets.zero,
           itemCount: messages.length,
           itemBuilder: (context, index) {
