@@ -57,13 +57,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-          child: Icon(show ? Icons.close : Icons.chat),
-          onPressed: () {
+      floatingActionButton: Container(
+        height: 55,
+        width: 55,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.lightBlueAccent],
+          ),
+          shape: BoxShape.circle,
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(double.infinity),
+          onTap: () {
             setState(() {
               show = !show;
             });
-          }),
+          },
+          child: Icon(
+            show ? Icons.close : Icons.chat_bubble_rounded,
+            color: Colors.white,
+            size: 25,
+          ),
+        ),
+      ),
       body: Stack(
         alignment: Alignment.center,
         children: [

@@ -65,7 +65,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     };
   } catch (e) {
     return {
-      "msgs": null,
+      "msgs": rMsgs,
       "cust": c,
     };
   }
