@@ -65,7 +65,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                       style: BorderStyle.solid,
                     ),
                   ),
-                  hintText: "Enter your email",
+                  hintText: widget.props.enterEmailPlaceholer,
                   hintStyle: const TextStyle(
                     fontSize: 14,
                   ),
@@ -88,7 +88,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                     decoration: InputDecoration(
                       enabled: false,
                       border: InputBorder.none,
-                      hintText: "Enter your email before sending a message.",
+                      hintText: widget.props.newMessagePlaceholder,
                       hintStyle: const TextStyle(
                         fontSize: 14,
                       ),

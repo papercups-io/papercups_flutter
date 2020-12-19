@@ -71,6 +71,8 @@ class Props {
   /// This is the placeholder text in the input section.
   String newMessagePlaceholder;
 
+  String enterEmailPlaceholer;
+
   /// This text will be shown if the showAgentAvailability is true and you are online.
   String agentAvailableText;
 
@@ -106,5 +108,6 @@ class Props {
     this.title = "Welcome!",
     this.companyName = "Bot",
     this.primaryGradient,
+    this.enterEmailPlaceholer = "Enter your email",
   });
 }
