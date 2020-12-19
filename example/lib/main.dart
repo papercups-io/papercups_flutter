@@ -102,6 +102,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
                       title: "Welcome!",
                       //primaryColor: Color(0xff1890ff),
+                      primaryGradient: LinearGradient(
+                        colors: [Colors.blue, Colors.lightBlueAccent],
+                      ),
                       greeting: "Welcome to the test app!",
                       subtitle: "How can we help you?",
                       showAgentAvailability: false,
