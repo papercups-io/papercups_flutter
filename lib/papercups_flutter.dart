@@ -44,6 +44,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.primaryGradient != null &&
         widget.props.primaryColor != null)
       throw "Expected either primaryColor or primaryGradient to be null";
+    if (widget.props.customer != null) {
+      setCustomer(PapercupsCustomer(
+        email: widget.props.customer.email,
+        externalId: widget.props.customer.externalId,
+        name: widget.props.customer.name,
+      ));
+    }
     super.initState();
   }
 
@@ -106,8 +113,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     super.didChangeDependencies();
   }
 
-  void setCustomer(PapercupsCustomer c) {
+  void setCustomer(PapercupsCustomer c, {rebuild = false}) {
     customer = c;
+    if (rebuild) setState(() {});
   }
 
   void setConversation(Conversation c) {
@@ -181,8 +189,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             ),
           ),
           PoweredBy(),
-          (widget.props.requireEmailUpfront && customer.email != null)
-              ? Text("Require upfront")
+          (widget.props.requireEmailUpfront &&
+                  (customer == null || customer.email == null))
+              ? RequireEmailUpfront(setCustomer, widget.props)
               : SendMessage(
                   props: widget.props,
                   customer: customer,

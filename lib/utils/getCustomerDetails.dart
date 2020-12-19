@@ -16,9 +16,9 @@ Future<PapercupsCustomer> getCustomerDetails(
     {
       "customer": {
         "account_id": p.accountId,
-        "name": p.customer != null ? p.customer.name : null,
-        "email": p.customer != null ? p.customer.email : null,
-        "external_id": p.customer != null ? p.customer.externalId : null,
+        "name": c != null ? c.name : null,
+        "email": c != null ? c.email : null,
+        "external_id": c != null ? c.externalId : null,
         "first_seen": timeNow,
         "last_seen": timeNow,
         ...metadata,
