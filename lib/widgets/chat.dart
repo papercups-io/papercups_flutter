@@ -124,7 +124,7 @@ class _ChatMessageState extends State<ChatMessage> {
           "Text copied to clipboard",
           context,
           backgroundColor: Theme.of(context).bottomAppBarColor,
-          gravity: Alert.center,
+          gravity: Alert.bottom,
         );
       },
       onTapUp: (_) {
