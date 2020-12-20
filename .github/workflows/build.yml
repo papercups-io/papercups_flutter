@@ -1,0 +1,34 @@
+name: Build Flutter App
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Install Fluter
+        uses: britannio/action-install-flutter@v0.4
+        with:
+          version: beta 
+
+      - name: Flutter Version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: ./example
+
+      - name: Run build apk
+        run: flutter build apk 
+        working-directory: ./example
+      
+      - name: Run build web
+        run: flutter build web
+        working-directory: ./example
