@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/classes.dart';
@@ -112,6 +113,10 @@ class _ChatMessageState extends State<ChatMessage> {
           isTimeSentVisible = true;
         });
       },
+      onLongPress: () {
+        HapticFeedback.vibrate();
+        Clipboard.setData(ClipboardData(text: msg.body));
+      },
       onTapUp: (_) {
         Timer(
             Duration(
@@ -216,7 +221,6 @@ class _ChatMessageState extends State<ChatMessage> {
                   ),
                   child: MarkdownBody(
                     data: text,
-                    selectable: true,
                     styleSheet: MarkdownStyleSheet(
                       p: TextStyle(
                         color: userSent
