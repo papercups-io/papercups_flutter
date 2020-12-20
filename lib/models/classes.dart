@@ -85,7 +85,7 @@ class Props {
   /// This Will allow you to require an emial to chat. Not recommended for an app.
   bool requireEmailUpfront;
 
-  /// Weather to allow scrolling.
+  /// Whether to allow scrolling.
   bool scrollEnabled;
 
   /// Company name to show on greeting

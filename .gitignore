@@ -9,6 +9,11 @@
 .history
 .svn/
 
+# Vscode
+.vscode/
+
+# FVM
+.fvm/
 # IntelliJ related
 *.iml
 *.ipr

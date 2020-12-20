@@ -3,7 +3,9 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import '../models/classes.dart';
 import '../models/message.dart';
 
@@ -20,32 +22,35 @@ class ChatMessages extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter,
-      child: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (OverscrollIndicatorNotification overscroll) {
-          overscroll.disallowGlow();
-          return false;
-        },
-        child: ListView.builder(
-          controller: _controller,
-          physics: props.scrollEnabled
-              ? ClampingScrollPhysics()
-              : NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            return ChatMessage(
-              msgs: messages,
-              index: index,
-              props: props,
-              sending: sending,
-              lvKey: key,
-            );
+    return LayoutBuilder(builder: (context, layout) {
+      return Container(
+        alignment: Alignment.topCenter,
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            overscroll.disallowGlow();
+            return false;
           },
+          child: ListView.builder(
+            controller: _controller,
+            physics: props.scrollEnabled
+                ? ClampingScrollPhysics()
+                : NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return ChatMessage(
+                msgs: messages,
+                index: index,
+                props: props,
+                sending: sending,
+                lvKey: key,
+                maxWidth: layout.maxWidth,
+              );
+            },
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -57,6 +62,7 @@ class ChatMessage extends StatefulWidget {
     @required this.props,
     @required this.sending,
     @required this.lvKey,
+    @required this.maxWidth,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
@@ -64,6 +70,7 @@ class ChatMessage extends StatefulWidget {
   final Props props;
   final bool sending;
   final GlobalKey lvKey;
+  final double maxWidth;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -72,15 +79,15 @@ class ChatMessage extends StatefulWidget {
 class _ChatMessageState extends State<ChatMessage> {
   double opacity = 0;
   double maxWidth = 0;
+  bool isTimeSentVisible = false;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      maxWidth = widget.lvKey.currentContext.size.width * 0.65;
-    });
+    maxWidth = widget.maxWidth;
     super.initState();
   }
 
+  TimeOfDay senderTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
     if (opacity == 0)
@@ -103,147 +110,216 @@ class _ChatMessageState extends State<ChatMessage> {
     var isLast = widget.index == widget.msgs.length - 1;
     var isFirst = widget.index == 0;
 
-    return AnimatedOpacity(
-      curve: Curves.easeIn,
-      duration: Duration(milliseconds: 300),
-      opacity: opacity,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment:
-                userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              if (!userSent)
-                Padding(
-                  padding: EdgeInsets.only(
-                    right: 14,
-                    left: 14,
-                    top: (isFirst) ? 15 : 4,
-                    bottom: 5,
-                  ),
-                  child: (widget.msgs.length == 1 ||
-                          nextMsg.userId != msg.userId ||
-                          isLast)
-                      ? Container(
-                          decoration: BoxDecoration(
-                            color: widget.props.primaryColor,
-                            gradient: widget.props.primaryGradient,
-                            shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isTimeSentVisible = true;
+        });
+      },
+      onLongPress: () {
+        HapticFeedback.vibrate();
+        Clipboard.setData(ClipboardData(text: msg.body));
+      },
+      onTapUp: (_) {
+        Timer(
+            Duration(
+              seconds: 10,
+            ), () {
+          if (mounted)
+            setState(() {
+              isTimeSentVisible = false;
+            });
+        });
+      },
+      child: AnimatedOpacity(
+        curve: Curves.easeIn,
+        duration: Duration(milliseconds: 300),
+        opacity: opacity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment:
+                  userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                if (!userSent)
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: 14,
+                      left: 14,
+                      top: (isFirst) ? 15 : 4,
+                      bottom: 5,
+                    ),
+                    child: (widget.msgs.length == 1 ||
+                            nextMsg.userId != msg.userId ||
+                            isLast)
+                        ? Container(
+                            decoration: BoxDecoration(
+                              color: widget.props.primaryColor,
+                              gradient: widget.props.primaryGradient,
+                              shape: BoxShape.circle,
+                            ),
+                            child: CircleAvatar(
+                              radius: 16,
+                              backgroundColor: Colors.transparent,
+                              backgroundImage:
+                                  (msg.user.profilePhotoUrl != null)
+                                      ? NetworkImage(msg.user.profilePhotoUrl)
+                                      : null,
+                              child: (msg.user.profilePhotoUrl != null)
+                                  ? null
+                                  : (msg.user != null &&
+                                          msg.user.fullName == null)
+                                      ? Text(
+                                          msg.user.email
+                                              .substring(0, 1)
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).cardColor),
+                                        )
+                                      : Text(
+                                          msg.user.fullName
+                                              .substring(0, 1)
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color:
+                                                  Theme.of(context).cardColor),
+                                        ),
+                            ),
+                          )
+                        : SizedBox(
+                            width: 32,
                           ),
-                          child: CircleAvatar(
-                            radius: 16,
-                            backgroundColor: Colors.transparent,
-                            backgroundImage: (msg.user.profilePhotoUrl != null)
-                                ? NetworkImage(msg.user.profilePhotoUrl)
-                                : null,
-                            child: (msg.user.profilePhotoUrl != null)
-                                ? null
-                                : (msg.user != null &&
-                                        msg.user.fullName == null)
-                                    ? Text(
-                                        msg.user.email
-                                            .substring(0, 1)
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).cardColor),
-                                      )
-                                    : Text(
-                                        msg.user.fullName
-                                            .substring(0, 1)
-                                            .toUpperCase(),
-                                        style: TextStyle(
-                                            color: Theme.of(context).cardColor),
-                                      ),
+                  ),
+                if (userSent)
+                  TimeWidget(
+                    userSent: userSent,
+                    msg: msg,
+                    isVisible: isTimeSentVisible,
+                  ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: userSent
+                        ? widget.props.primaryColor
+                        : Theme.of(context).brightness == Brightness.light
+                            ? brighten(Theme.of(context).disabledColor, 80)
+                            : Color(0xff282828),
+                    gradient: userSent ? widget.props.primaryGradient : null,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  constraints: BoxConstraints(
+                    maxWidth: maxWidth,
+                  ),
+                  margin: EdgeInsets.only(
+                    top: (isFirst) ? 15 : 4,
+                    bottom: 4,
+                    right: userSent ? 18 : 0,
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 14,
+                  ),
+                  child: MarkdownBody(
+                    data: text,
+                    styleSheet: MarkdownStyleSheet(
+                      p: TextStyle(
+                        color: userSent
+                            ? Colors.white
+                            : Theme.of(context).textTheme.bodyText1.color,
+                      ),
+                      a: TextStyle(
+                        color: userSent
+                            ? Colors.white
+                            : Theme.of(context).textTheme.bodyText1.color,
+                      ),
+                    ),
+                  ),
+                ),
+                if (!userSent)
+                  TimeWidget(
+                    userSent: userSent,
+                    msg: msg,
+                    isVisible: isTimeSentVisible,
+                  ),
+              ],
+            ),
+            if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
+              Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
+                  child: (msg.user.fullName == null)
+                      ? Text(
+                          msg.user.email,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.5),
+                            fontSize: 14,
                           ),
                         )
-                      : SizedBox(
-                          width: 32,
-                        ),
-                ),
+                      : Text(
+                          msg.user.fullName,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.5),
+                            fontSize: 14,
+                          ),
+                        )),
+            if (userSent && isLast)
               Container(
-                decoration: BoxDecoration(
-                  color: userSent
-                      ? widget.props.primaryColor
-                      : Theme.of(context).brightness == Brightness.light
-                          ? brighten(Theme.of(context).disabledColor, 80)
-                          : Color(0xff282828),
-                  gradient: userSent ? widget.props.primaryGradient : null,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                constraints: BoxConstraints(
-                  maxWidth: maxWidth,
-                ),
-                margin: EdgeInsets.only(
-                  top: (isFirst) ? 15 : 4,
+                width: double.infinity,
+                margin: const EdgeInsets.only(
                   bottom: 4,
-                  left: userSent ? 18 : 0,
-                  right: userSent ? 18 : 0,
+                  left: 18,
+                  right: 18,
                 ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 14,
-                ),
-                child: MarkdownBody(
-                  data: text,
-                  selectable: true,
-                  styleSheet: MarkdownStyleSheet(
-                    p: TextStyle(
-                      color: userSent
-                          ? Colors.white
-                          : Theme.of(context).textTheme.bodyText1.color,
-                    ),
-                    a: TextStyle(
-                      color: userSent
-                          ? Colors.white
-                          : Theme.of(context).textTheme.bodyText1.color,
-                    ),
-                  ),
+                child: Text(
+                  widget.sending
+                      ? "Sending..."
+                      : "Sent ${timeago.format(msg.createdAt)}",
+                  textAlign: TextAlign.end,
+                  style: TextStyle(color: Colors.grey),
                 ),
               ),
-            ],
+            if (isLast || nextMsg.userId != msg.userId)
+              SizedBox(
+                height: 10,
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TimeWidget extends StatelessWidget {
+  const TimeWidget({
+    Key key,
+    @required this.userSent,
+    @required this.msg,
+    @required this.isVisible,
+  }) : super(key: key);
+
+  final bool userSent;
+  final PapercupsMessage msg;
+  final bool isVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: isVisible,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
+        child: Text(
+          TimeOfDay.fromDateTime(msg.createdAt).format(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color.withAlpha(100),
+            fontSize: 10,
           ),
-          if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
-            Padding(
-                padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
-                child: (msg.user.fullName == null)
-                    ? Text(
-                        msg.user.email,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).disabledColor.withOpacity(0.5),
-                          fontSize: 14,
-                        ),
-                      )
-                    : Text(
-                        msg.user.fullName,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).disabledColor.withOpacity(0.5),
-                          fontSize: 14,
-                        ),
-                      )),
-          if (userSent && isLast)
-            Container(
-              width: double.infinity,
-              margin: const EdgeInsets.only(
-                bottom: 4,
-                left: 18,
-                right: 18,
-              ),
-              child: Text(
-                widget.sending ? "Sending..." : "Sent",
-                textAlign: TextAlign.end,
-                style: TextStyle(color: Colors.grey),
-              ),
-            ),
-          if (isLast || nextMsg.userId != msg.userId)
-            SizedBox(
-              height: 10,
-            ),
-        ],
+        ),
       ),
     );
   }
