@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../markdown/flutter_markdown.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/classes.dart';
 import '../models/message.dart';
@@ -22,32 +22,35 @@ class ChatMessages extends StatelessWidget {
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.topCenter,
-      child: NotificationListener<OverscrollIndicatorNotification>(
-        onNotification: (OverscrollIndicatorNotification overscroll) {
-          overscroll.disallowGlow();
-          return false;
-        },
-        child: ListView.builder(
-          controller: _controller,
-          physics: props.scrollEnabled
-              ? ClampingScrollPhysics()
-              : NeverScrollableScrollPhysics(),
-          padding: EdgeInsets.zero,
-          itemCount: messages.length,
-          itemBuilder: (context, index) {
-            return ChatMessage(
-              msgs: messages,
-              index: index,
-              props: props,
-              sending: sending,
-              lvKey: key,
-            );
+    return LayoutBuilder(builder: (context, layout) {
+      return Container(
+        alignment: Alignment.topCenter,
+        child: NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (OverscrollIndicatorNotification overscroll) {
+            overscroll.disallowGlow();
+            return false;
           },
+          child: ListView.builder(
+            controller: _controller,
+            physics: props.scrollEnabled
+                ? ClampingScrollPhysics()
+                : NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.zero,
+            itemCount: messages.length,
+            itemBuilder: (context, index) {
+              return ChatMessage(
+                msgs: messages,
+                index: index,
+                props: props,
+                sending: sending,
+                lvKey: key,
+                maxWidth: layout.maxWidth,
+              );
+            },
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
@@ -59,6 +62,7 @@ class ChatMessage extends StatefulWidget {
     @required this.props,
     @required this.sending,
     @required this.lvKey,
+    @required this.maxWidth,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
@@ -66,6 +70,7 @@ class ChatMessage extends StatefulWidget {
   final Props props;
   final bool sending;
   final GlobalKey lvKey;
+  final double maxWidth;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -78,9 +83,7 @@ class _ChatMessageState extends State<ChatMessage> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      maxWidth = widget.lvKey.currentContext.size.width * 0.65;
-    });
+    maxWidth = widget.maxWidth;
     super.initState();
   }
 
