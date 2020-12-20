@@ -13,6 +13,7 @@ dependencies:
   phoenix_socket: ^0.4.8
   http: ^0.12.2
   flutter_markdown: ^0.5.1
+  timeago: ^2.0.29
 
 dev_dependencies:
   flutter_test:
