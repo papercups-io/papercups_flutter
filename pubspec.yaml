@@ -12,11 +12,14 @@ dependencies:
     sdk: flutter
   phoenix_socket: ^0.4.8
   http: ^0.12.2
-  flutter_markdown: ^0.5.1
+  markdown: ^3.0.0
+  meta: ^1.1.7
+  path: ^1.6.4
   timeago: ^2.0.29
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mockito: ^4.0.0
 
 flutter:

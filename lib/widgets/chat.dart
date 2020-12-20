@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import '../markdown/flutter_markdown.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/classes.dart';
 import '../models/message.dart';
@@ -245,25 +245,26 @@ class _ChatMessageState extends State<ChatMessage> {
             ),
             if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
               Padding(
-                padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
-                child: (msg.user.fullName == null)
-                    ? Text(
-                        msg.user.email,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).disabledColor.withOpacity(0.5),
-                          fontSize: 14,
-                        ),
-                      )
-                    : Text(
-                        msg.user.fullName,
-                        style: TextStyle(
-                          color:
-                              Theme.of(context).disabledColor.withOpacity(0.5),
-                          fontSize: 14,
-                        ),
-                      ),
-              ),
+                  padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
+                  child: (msg.user.fullName == null)
+                      ? Text(
+                          msg.user.email,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.5),
+                            fontSize: 14,
+                          ),
+                        )
+                      : Text(
+                          msg.user.fullName,
+                          style: TextStyle(
+                            color: Theme.of(context)
+                                .disabledColor
+                                .withOpacity(0.5),
+                            fontSize: 14,
+                          ),
+                        )),
             if (userSent && isLast)
               Container(
                 width: double.infinity,
