@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:papercups_flutter/widgets/alert.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/classes.dart';
 import '../models/message.dart';
@@ -119,6 +120,12 @@ class _ChatMessageState extends State<ChatMessage> {
       onLongPress: () {
         HapticFeedback.vibrate();
         Clipboard.setData(ClipboardData(text: msg.body));
+        Alert.show(
+          "Text copied to clipboard",
+          context,
+          backgroundColor: Theme.of(context).bottomAppBarColor,
+          gravity: Alert.center,
+        );
       },
       onTapUp: (_) {
         Timer(
