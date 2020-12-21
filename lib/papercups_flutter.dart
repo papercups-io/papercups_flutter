@@ -2,6 +2,7 @@ library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/widgets/alert.dart';
 import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
@@ -35,6 +36,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   ScrollController _controller = ScrollController();
   bool _sending = false;
   final GlobalKey _lvKey = GlobalKey();
+  bool noConnection = false;
 
   @override
   void initState() {
@@ -108,7 +110,21 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         setCustomer: setCustomer,
         socket: _socket,
         widget: widget,
-      );
+      ).then((failed) {
+        if (failed) {
+          Alert.show(
+            "There was an issue retrieving your details. Please try again!",
+            context,
+            backgroundColor: Theme.of(context).bottomAppBarColor,
+            textStyle: Theme.of(context).textTheme.bodyText2,
+            gravity: Alert.bottom,
+            duration: Alert.lengthLong,
+          );
+          setState(() {
+            noConnection = true;
+          });
+        }
+      });
     }
     super.didChangeDependencies();
   }
@@ -172,41 +188,86 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
     return Container(
       color: Theme.of(context).canvasColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Header(props: widget.props),
-          if (widget.props.showAgentAvailability)
-            AgentAvailability(widget.props),
-          Expanded(
-            child: ChatMessages(
-              widget.props,
-              messages,
-              _controller,
-              _sending,
-              key: _lvKey,
-            ),
-          ),
-          PoweredBy(),
-          (widget.props.requireEmailUpfront &&
-                  (customer == null || customer.email == null))
-              ? RequireEmailUpfront(setCustomer, widget.props)
-              : SendMessage(
-                  props: widget.props,
-                  customer: customer,
-                  setCustomer: setCustomer,
-                  setConversation: setConversation,
-                  conversationChannel: _conversationChannel,
-                  setConversationChannel: setConversationChannel,
-                  conversation: _conversation,
-                  socket: _socket,
-                  setState: rebuild,
-                  messages: messages,
-                  sending: _sending,
+      child: noConnection
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.wifi_off_rounded,
+                    size: 100,
+                    color: Colors.grey,
+                  ),
+                  Text(
+                    "No Connection",
+                    style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: Colors.grey,
+                        ),
+                  ),
+                  FlatButton.icon(
+                    onPressed: () {
+                      getCustomerHistory(
+                        conversationChannel: _conversationChannel,
+                        c: customer,
+                        messages: messages,
+                        rebuild: rebuild,
+                        setConversationChannel: setConversationChannel,
+                        setCustomer: setCustomer,
+                        socket: _socket,
+                        widget: widget,
+                      ).then((failed) {
+                        if (!failed) {
+                          setState(() {
+                            noConnection = false;
+                          });
+                        }
+                      });
+                    },
+                    icon: Icon(Icons.refresh_rounded),
+                    label: Text("Retry"),
+                    textColor: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(90),
+                    ),
+                  )
+                ],
+              ),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Header(props: widget.props),
+                if (widget.props.showAgentAvailability)
+                  AgentAvailability(widget.props),
+                Expanded(
+                  child: ChatMessages(
+                    widget.props,
+                    messages,
+                    _controller,
+                    _sending,
+                    key: _lvKey,
+                  ),
                 ),
-        ],
-      ),
+                PoweredBy(),
+                (widget.props.requireEmailUpfront &&
+                        (customer == null || customer.email == null))
+                    ? RequireEmailUpfront(setCustomer, widget.props)
+                    : SendMessage(
+                        props: widget.props,
+                        customer: customer,
+                        setCustomer: setCustomer,
+                        setConversation: setConversation,
+                        conversationChannel: _conversationChannel,
+                        setConversationChannel: setConversationChannel,
+                        conversation: _conversation,
+                        socket: _socket,
+                        setState: rebuild,
+                        messages: messages,
+                        sending: _sending,
+                      ),
+              ],
+            ),
     );
   }
 }

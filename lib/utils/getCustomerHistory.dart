@@ -19,38 +19,46 @@ Future<bool> getCustomerHistory({
   Function rebuild,
   PhoenixSocket socket,
 }) async {
-  var customer = await getCustomerDetailsFromMetadata(
-    widget.props,
-    c,
-    setCustomer,
-  );
-  if (customer != null && customer.id != null) {
-    var data = await getPastCustomerMessages(widget.props, customer);
-    if (data["msgs"].isNotEmpty) {
-      {
-        var msgsIn = data["msgs"] as List<PapercupsMessage>;
-        msgsIn.sort((a, b) {
-          return a.createdAt.compareTo(b.createdAt);
-        });
-        messages.addAll(msgsIn);
+  var failed = true;
+  try {
+    var customer = await getCustomerDetailsFromMetadata(
+      widget.props,
+      c,
+      setCustomer,
+    );
+    if (customer != null && customer.id != null) {
+      var data = await getPastCustomerMessages(widget.props, customer);
+      if (data["msgs"].isNotEmpty) {
+        {
+          failed = false;
+          var msgsIn = data["msgs"] as List<PapercupsMessage>;
+          msgsIn.sort((a, b) {
+            return a.createdAt.compareTo(b.createdAt);
+          });
+          messages.addAll(msgsIn);
+        }
+        var msgToProcess = data["msgs"][0] as PapercupsMessage;
+        joinConversationAndListen(
+          convId: msgToProcess.conversationId,
+          conversation: conversationChannel,
+          setChannel: setConversationChannel,
+          setState: rebuild,
+          socket: socket,
+          messages: messages,
+        );
       }
-      var msgToProcess = data["msgs"][0] as PapercupsMessage;
-      joinConversationAndListen(
-        convId: msgToProcess.conversationId,
-        conversation: conversationChannel,
-        setChannel: setConversationChannel,
-        setState: rebuild,
-        socket: socket,
-        messages: messages,
-      );
+      if (data["cust"] != null && data["cust"] != customer) {
+        var nCust = await updateUserMetadata(widget.props, data["cust"].id);
+        if (nCust == null) {
+          failed = true;
+        } else if (nCust != customer) {
+          setCustomer(nCust);
+          rebuild(() {}, animate: true);
+        }
+      }
     }
-    if (data["cust"] != null && data["cust"] != customer) {
-      updateUserMetadata(widget.props, data["cust"].id).then((customer) {
-        setCustomer(customer);
-      });
-      rebuild(() {}, animate: true);
-      return true;
-    }
+  } catch (e) {
+    failed = true;
   }
-  return false;
+  return failed;
 }

@@ -123,6 +123,7 @@ class _ChatMessageState extends State<ChatMessage> {
         Alert.show(
           "Text copied to clipboard",
           context,
+          textStyle: Theme.of(context).textTheme.bodyText2,
           backgroundColor: Theme.of(context).bottomAppBarColor,
           gravity: Alert.bottom,
           duration: Alert.lengthLong,

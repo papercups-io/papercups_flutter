@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
           Container(
             width: double.infinity,
             alignment: Alignment.bottomRight,
-            padding: const EdgeInsets.only(bottom: 70),
+            margin: const EdgeInsets.only(bottom: 70, top: 50),
             child: AnimatedOpacity(
               duration: Duration(milliseconds: 100),
               opacity: show ? 1 : 0,
