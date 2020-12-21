@@ -23,15 +23,19 @@ Future<Conversation> getConversationDetails(
       },
     ),
   );
-  var data = jsonDecode(res.body)["data"];
-  conv = Conversation(
-    id: data["id"],
-    customerId: data["customer_id"],
-    accountId: data["account_id"],
-    asigneeId: data["asignee_id"],
-    createdAt: data["created_at"],
-    read: data["read"],
-  );
-  sc(conv);
-  return conv;
+  try {
+    var data = jsonDecode(res.body)["data"];
+    conv = Conversation(
+      id: data["id"],
+      customerId: data["customer_id"],
+      accountId: data["account_id"],
+      asigneeId: data["asignee_id"],
+      createdAt: data["created_at"],
+      read: data["read"],
+    );
+    sc(conv);
+    return conv;
+  } catch (e) {
+    return null;
+  }
 }

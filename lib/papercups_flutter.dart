@@ -101,7 +101,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         _conversation == null) {
       getCustomerHistory(
         conversationChannel: _conversationChannel,
-        customer: customer,
+        c: customer,
         messages: messages,
         rebuild: rebuild,
         setConversationChannel: setConversationChannel,
