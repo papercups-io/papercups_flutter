@@ -319,7 +319,7 @@ class TimeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: isVisible ? 1 : 0,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 100),
       curve: Curves.easeIn,
       child: Padding(
         padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
