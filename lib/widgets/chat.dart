@@ -125,6 +125,7 @@ class _ChatMessageState extends State<ChatMessage> {
           context,
           backgroundColor: Theme.of(context).bottomAppBarColor,
           gravity: Alert.bottom,
+          duration: Alert.lengthLong,
         );
       },
       onTapUp: (_) {
@@ -316,8 +317,10 @@ class TimeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: isVisible,
+    return AnimatedOpacity(
+      opacity: isVisible ? 1 : 0,
+      duration: Duration(milliseconds: 300),
+      curve: Curves.easeIn,
       child: Padding(
         padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
         child: Text(

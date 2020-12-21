@@ -28,7 +28,7 @@ import 'dart:async';
 
 class Alert {
   static final int lengthShort = 1;
-  static final int lengthLong = 2;
+  static final int lengthLong = 3;
   static final int bottom = 0;
   static final int center = 1;
   static final int top = 2;
@@ -128,6 +128,7 @@ class ToastWidget extends StatefulWidget {
 
 class _ToastWidgetState extends State<ToastWidget> {
   double opacity = 0;
+  bool timerset = false;
 
   @override
   Widget build(BuildContext context) {
@@ -136,9 +137,10 @@ class _ToastWidgetState extends State<ToastWidget> {
           Duration(
             milliseconds: 0,
           ), () {
-        if (mounted)
+        if (mounted & !timerset)
           setState(() {
             opacity = 1;
+            timerset = true;
           });
       });
       Timer(Duration(milliseconds: widget.duration.inMilliseconds - 200), () {
