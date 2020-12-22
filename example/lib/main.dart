@@ -54,7 +54,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var show = kDebugMode ? true : false;
-  var showing = kDebugMode ? true : false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
             alignment: Alignment.bottomRight,
             margin: const EdgeInsets.only(bottom: 70, top: 50),
             child: Visibility(
-              visible: showing,
+              visible: show,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
