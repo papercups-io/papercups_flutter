@@ -54,6 +54,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var show = kDebugMode ? true : false;
+  var showing = kDebugMode ? true : false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
           shape: BoxShape.circle,
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(double.infinity),
+          customBorder: CircleBorder(),
           onTap: () {
             setState(() {
               show = !show;
@@ -91,9 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
             width: double.infinity,
             alignment: Alignment.bottomRight,
             margin: const EdgeInsets.only(bottom: 70, top: 50),
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 100),
-              opacity: show ? 1 : 0,
+            child: Visibility(
+              visible: showing,
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),

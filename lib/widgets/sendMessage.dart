@@ -114,6 +114,7 @@ class _SendMessageState extends State<SendMessage> {
                 shape: BoxShape.circle,
               ),
               child: InkWell(
+                customBorder: CircleBorder(),
                 onTap: triggerSend,
                 child: const Icon(
                   Icons.send,
