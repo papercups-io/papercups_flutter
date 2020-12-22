@@ -242,8 +242,13 @@ class _ChatMessageState extends State<ChatMessage> {
                       a: TextStyle(
                         color: userSent
                             ? Colors.white
-                            : Theme.of(context).textTheme.bodyText1.color,
+                            : Theme.of(context).textTheme .bodyText1.color,
                       ),
+                      blockquotePadding: EdgeInsets.only(left: 14),
+                      blockquoteDecoration: BoxDecoration(
+                          border: Border(
+                        left: BorderSide(color: Colors.grey[300], width: 4),
+                      )),
                     ),
                   ),
                 ),

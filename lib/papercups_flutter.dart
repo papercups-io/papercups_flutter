@@ -86,16 +86,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _socket =
           PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')
             ..connect();
-
-      _socket.closeStream.listen((event) {
-        _connected = false;
-      });
-
-      _socket.openStream.listen(
-        (event) {
-          return _connected = true;
-        },
-      );
+      _subscribeToSocket();
     }
     if (widget.props.customer != null &&
         widget.props.customer.externalId != null &&
@@ -206,22 +197,35 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   ),
                   FlatButton.icon(
                     onPressed: () {
-                      getCustomerHistory(
-                        conversationChannel: _conversationChannel,
-                        c: customer,
-                        messages: messages,
-                        rebuild: rebuild,
-                        setConversationChannel: setConversationChannel,
-                        setCustomer: setCustomer,
-                        socket: _socket,
-                        widget: widget,
-                      ).then((failed) {
-                        if (!failed) {
-                          setState(() {
-                            noConnection = false;
-                          });
-                        }
-                      });
+                      if (!_socket.isConnected) {
+                        _socket.dispose();
+                        _socket = PhoenixSocket("wss://" +
+                            widget.props.baseUrl +
+                            '/socket/websocket')
+                          ..connect();
+                        _subscribeToSocket();
+                      }
+                      if (widget.props.customer != null &&
+                          widget.props.customer.externalId != null &&
+                          (customer == null || customer.createdAt == null) &&
+                          _conversation == null)
+                        getCustomerHistory(
+                          conversationChannel: _conversationChannel,
+                          c: customer,
+                          messages: messages,
+                          rebuild: rebuild,
+                          setConversationChannel: setConversationChannel,
+                          setCustomer: setCustomer,
+                          socket: _socket,
+                          widget: widget,
+                        ).then((failed) {
+                          if (!failed) {
+                            _socket.connect();
+                            setState(() {
+                              noConnection = false;
+                            });
+                          }
+                        });
                     },
                     icon: Icon(Icons.refresh_rounded),
                     label: Text("Retry"),
@@ -268,6 +272,28 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                       ),
               ],
             ),
+    );
+  }
+
+  void _subscribeToSocket() {
+    _socket.closeStream.listen((event) {
+      if (mounted)
+        setState(() {
+          _connected = false;
+          noConnection = true;
+        });
+    });
+
+    _socket.openStream.listen(
+      (event) {
+        print("Opened");
+        if (noConnection && mounted) {
+          rebuild(() {
+            noConnection = false;
+          }, animate: true);
+        }
+        return _connected = true;
+      },
     );
   }
 }
