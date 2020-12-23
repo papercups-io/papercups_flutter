@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/models/classes.dart';
-import 'package:papercups_flutter/models/customer.dart';
+import '../models/models.dart';
 
 class RequireEmailUpfront extends StatefulWidget {
   final Function setCustomer;

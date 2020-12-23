@@ -5,12 +5,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:papercups_flutter/widgets/alert.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../models/classes.dart';
-import '../models/message.dart';
+import '../models/models.dart';
 
-import '../utils/colorMod.dart';
+import '../utils/utils.dart';
+import 'widgets.dart';
 
 class ChatMessages extends StatelessWidget {
   final Props props;
@@ -242,7 +241,7 @@ class _ChatMessageState extends State<ChatMessage> {
                       a: TextStyle(
                         color: userSent
                             ? Colors.white
-                            : Theme.of(context).textTheme .bodyText1.color,
+                            : Theme.of(context).textTheme.bodyText1.color,
                       ),
                       blockquotePadding: EdgeInsets.only(left: 14),
                       blockquoteDecoration: BoxDecoration(

@@ -1,4 +1,4 @@
-import 'package:papercups_flutter/utils/updateUserMetadata.dart';
+import 'updateUserMetadata.dart';
 
 import '../models/models.dart';
 import '../papercups_flutter.dart';

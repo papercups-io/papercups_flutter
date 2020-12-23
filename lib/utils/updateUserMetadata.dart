@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:papercups_flutter/papercups_flutter.dart';
+import '../papercups_flutter.dart';
 
 import '../models/models.dart';
 

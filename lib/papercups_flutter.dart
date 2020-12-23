@@ -2,7 +2,6 @@ library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
-import 'package:papercups_flutter/widgets/alert.dart';
 import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
@@ -29,8 +28,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PhoenixSocket _socket;
   PhoenixChannel _channel;
   PhoenixChannel _conversationChannel;
-  List<PapercupsMessage> messages = [];
-  PapercupsCustomer customer;
+  List<PapercupsMessage> _messages = [];
+  PapercupsCustomer _customer;
   bool _canJoinConversation = false;
   Conversation _conversation;
   ScrollController _controller = ScrollController();
@@ -68,7 +67,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void didChangeDependencies() {
     if (widget.props.greeting != null) {
-      messages = [
+      _messages = [
         PapercupsMessage(
           body: widget.props.greeting,
           sentAt: DateTime.now(),
@@ -90,12 +89,12 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     }
     if (widget.props.customer != null &&
         widget.props.customer.externalId != null &&
-        (customer == null || customer.createdAt == null) &&
+        (_customer == null || _customer.createdAt == null) &&
         _conversation == null) {
       getCustomerHistory(
         conversationChannel: _conversationChannel,
-        c: customer,
-        messages: messages,
+        c: _customer,
+        messages: _messages,
         rebuild: rebuild,
         setConversationChannel: setConversationChannel,
         setCustomer: setCustomer,
@@ -121,7 +120,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void setCustomer(PapercupsCustomer c, {rebuild = false}) {
-    customer = c;
+    _customer = c;
     if (rebuild) setState(() {});
   }
 
@@ -136,7 +135,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     if (mounted) setState(fn);
-    if (animate && mounted && messages.isNotEmpty) {
+    if (animate && mounted && _messages.isNotEmpty) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (_controller.position.maxScrollExtent != null)
           _controller.animateTo(
@@ -164,7 +163,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
     if (_sending &&
         mounted &&
-        messages.isNotEmpty &&
+        _messages.isNotEmpty &&
         _controller.position.maxScrollExtent != null)
       WidgetsBinding.instance.addPostFrameCallback(
         (_) {
@@ -207,12 +206,12 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                       }
                       if (widget.props.customer != null &&
                           widget.props.customer.externalId != null &&
-                          (customer == null || customer.createdAt == null) &&
+                          (_customer == null || _customer.createdAt == null) &&
                           _conversation == null)
                         getCustomerHistory(
                           conversationChannel: _conversationChannel,
-                          c: customer,
-                          messages: messages,
+                          c: _customer,
+                          messages: _messages,
                           rebuild: rebuild,
                           setConversationChannel: setConversationChannel,
                           setCustomer: setCustomer,
@@ -221,9 +220,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                         ).then((failed) {
                           if (!failed) {
                             _socket.connect();
-                            setState(() {
-                              noConnection = false;
-                            });
+                            if (mounted)
+                              setState(() {
+                                noConnection = false;
+                              });
                           }
                         });
                     },
@@ -247,7 +247,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Expanded(
                   child: ChatMessages(
                     widget.props,
-                    messages,
+                    _messages,
                     _controller,
                     _sending,
                     key: _lvKey,
@@ -255,11 +255,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 ),
                 PoweredBy(),
                 (widget.props.requireEmailUpfront &&
-                        (customer == null || customer.email == null))
+                        (_customer == null || _customer.email == null))
                     ? RequireEmailUpfront(setCustomer, widget.props)
                     : SendMessage(
                         props: widget.props,
-                        customer: customer,
+                        customer: _customer,
                         setCustomer: setCustomer,
                         setConversation: setConversation,
                         conversationChannel: _conversationChannel,
@@ -267,7 +267,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                         conversation: _conversation,
                         socket: _socket,
                         setState: rebuild,
-                        messages: messages,
+                        messages: _messages,
                         sending: _sending,
                       ),
               ],
@@ -286,7 +286,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
     _socket.openStream.listen(
       (event) {
-        print("Opened");
         if (noConnection && mounted) {
           rebuild(() {
             noConnection = false;
