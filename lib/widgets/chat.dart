@@ -18,11 +18,21 @@ class ChatMessages extends StatelessWidget {
   final bool sending;
   final ScrollController _controller;
   final String locale;
+  final timeagoLocale;
+  final String sendingText;
+  final String sentText;
 
   ChatMessages(
-      this.props, this.messages, this._controller, this.sending, this.locale,
-      {Key key})
-      : super(key: key);
+    this.props,
+    this.messages,
+    this._controller,
+    this.sending,
+    this.locale,
+    this.timeagoLocale,
+    this.sendingText,
+    this.sentText, {
+    Key key,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, layout) {
@@ -46,9 +56,11 @@ class ChatMessages extends StatelessWidget {
                 index: index,
                 props: props,
                 sending: sending,
-                lvKey: key,
                 locale: locale,
+                timeagoLocale: timeagoLocale,
                 maxWidth: layout.maxWidth,
+                sendingText: sendingText,
+                sentText: sentText,
               );
             },
           ),
@@ -65,18 +77,22 @@ class ChatMessage extends StatefulWidget {
     @required this.index,
     @required this.props,
     @required this.sending,
-    @required this.lvKey,
     @required this.maxWidth,
     @required this.locale,
+    @required this.timeagoLocale,
+    @required this.sendingText,
+    @required this.sentText,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
   final int index;
   final Props props;
   final bool sending;
-  final GlobalKey lvKey;
   final double maxWidth;
   final String locale;
+  final timeagoLocale;
+  final String sendingText;
+  final String sentText;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -124,6 +140,10 @@ class _ChatMessageState extends State<ChatMessage> {
         print("ERROR: Error generating localized date!");
         longDay = "Loading...";
       }
+    }
+    if (userSent && isLast && widget.timeagoLocale != null) {
+      timeago.setLocaleMessages(widget.locale, widget.timeagoLocale);
+      timeago.setDefaultLocale(widget.locale);
     }
     return GestureDetector(
       onTap: () {
@@ -306,8 +326,8 @@ class _ChatMessageState extends State<ChatMessage> {
                 ),
                 child: Text(
                   widget.sending
-                      ? "Sending..."
-                      : "Sent ${timeago.format(msg.createdAt)}",
+                      ? widget.sendingText
+                      : "${widget.sentText} ${timeago.format(msg.createdAt)}",
                   textAlign: TextAlign.end,
                   style: TextStyle(color: Colors.grey),
                 ),

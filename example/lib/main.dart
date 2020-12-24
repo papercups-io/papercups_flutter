@@ -113,6 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: PaperCupsWidget(
+                    dateLocale: "es",
+                    timeagoLocale: EsMessages(),
+                    sendingText: "Enviando...",
+                    sentText: "Enviado",
                     props: Props(
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
                       title: "Welcome!",

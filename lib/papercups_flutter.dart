@@ -10,16 +10,23 @@ import 'package:intl/date_symbol_data_local.dart';
 
 // Exports.
 export 'models/classes.dart';
+export 'package:timeago/timeago.dart';
 
 /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
 class PaperCupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
-  final String locale;
+  final String dateLocale;
+  final timeagoLocale;
+  final String sendingText;
+  final String sentText;
 
   PaperCupsWidget({
     @required this.props,
-    this.locale = "es",
+    this.dateLocale = "en-US",
+    this.timeagoLocale,
+    this.sendingText = "Sending...",
+    this.sentText = "Sent",
   });
 
   @override
@@ -37,7 +44,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   Conversation _conversation;
   ScrollController _controller = ScrollController();
   bool _sending = false;
-  final GlobalKey _lvKey = GlobalKey();
   bool noConnection = false;
 
   @override
@@ -55,7 +61,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         name: widget.props.customer.name,
       ));
     }
-    if (widget.locale != "en-US") {
+    if (widget.dateLocale != "en-US") {
       initializeDateFormatting().then((_) {
         if (mounted) setState(() {});
       });
@@ -243,8 +249,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     _messages,
                     _controller,
                     _sending,
-                    widget.locale,
-                    key: _lvKey,
+                    widget.dateLocale,
+                    widget.timeagoLocale,
+                    widget.sendingText,
+                    widget.sentText,
                   ),
                 ),
                 PoweredBy(),
