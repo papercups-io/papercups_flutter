@@ -6,6 +6,7 @@ import 'utils/utils.dart';
 import 'widgets/widgets.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'models/models.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 // Exports.
 export 'models/classes.dart';
@@ -53,6 +54,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         externalId: widget.props.customer.externalId,
         name: widget.props.customer.name,
       ));
+    }
+    if (widget.locale != "en-US") {
+      initializeDateFormatting().then((_) {
+        if (mounted) setState(() {});
+      });
     }
     super.initState();
   }

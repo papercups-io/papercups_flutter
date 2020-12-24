@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -119,16 +118,11 @@ class _ChatMessageState extends State<ChatMessage> {
     var isFirst = widget.index == 0;
 
     if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day) && longDay == null) {
-      longDay = "Loading...";
-      if (widget.locale != "en-US") {
-        initializeDateFormatting().then((_) {
-          if (mounted && longDay == "Loading...")
-            setState(() {
-              longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt);
-            });
-        });
-      } else {
-        longDay = DateFormat.yMMMMd().format(nextMsg.sentAt);
+      try {
+        longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt);
+      } catch (e) {
+        print("ERROR: Error generating localized date!");
+        longDay = "Loading...";
       }
     }
     return GestureDetector(
