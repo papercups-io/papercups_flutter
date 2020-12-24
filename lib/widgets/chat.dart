@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,8 +18,10 @@ class ChatMessages extends StatelessWidget {
   final List<PapercupsMessage> messages;
   final bool sending;
   final ScrollController _controller;
+  final String locale;
 
-  ChatMessages(this.props, this.messages, this._controller, this.sending,
+  ChatMessages(
+      this.props, this.messages, this._controller, this.sending, this.locale,
       {Key key})
       : super(key: key);
   @override
@@ -45,6 +48,7 @@ class ChatMessages extends StatelessWidget {
                 props: props,
                 sending: sending,
                 lvKey: key,
+                locale: locale,
                 maxWidth: layout.maxWidth,
               );
             },
@@ -64,6 +68,7 @@ class ChatMessage extends StatefulWidget {
     @required this.sending,
     @required this.lvKey,
     @required this.maxWidth,
+    @required this.locale,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
@@ -72,6 +77,7 @@ class ChatMessage extends StatefulWidget {
   final bool sending;
   final GlobalKey lvKey;
   final double maxWidth;
+  final String locale;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -81,6 +87,7 @@ class _ChatMessageState extends State<ChatMessage> {
   double opacity = 0;
   double maxWidth = 0;
   bool isTimeSentVisible = false;
+  String longDay;
 
   @override
   void initState() {
@@ -111,6 +118,19 @@ class _ChatMessageState extends State<ChatMessage> {
     var isLast = widget.index == widget.msgs.length - 1;
     var isFirst = widget.index == 0;
 
+    if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day) && longDay == null) {
+      longDay = "Loading...";
+      if (widget.locale != "en-US") {
+        initializeDateFormatting().then((_) {
+          if (mounted && longDay == "Loading...")
+            setState(() {
+              longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt);
+            });
+        });
+      } else {
+        longDay = DateFormat.yMMMMd().format(nextMsg.sentAt);
+      }
+    }
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -302,14 +322,14 @@ class _ChatMessageState extends State<ChatMessage> {
               SizedBox(
                 height: 10,
               ),
-            if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day))
+            if (longDay != null)
               IgnorePointer(
                 ignoring: true,
                 child: Container(
                   margin: EdgeInsets.all(15),
                   width: double.infinity,
                   child: Text(
-                    DateFormat.yMMMMd().format(nextMsg.sentAt),
+                    longDay,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,

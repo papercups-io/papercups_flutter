@@ -14,9 +14,11 @@ export 'models/classes.dart';
 class PaperCupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
+  final String locale;
 
   PaperCupsWidget({
     @required this.props,
+    this.locale = "es",
   });
 
   @override
@@ -235,6 +237,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     _messages,
                     _controller,
                     _sending,
+                    widget.locale,
                     key: _lvKey,
                   ),
                 ),
