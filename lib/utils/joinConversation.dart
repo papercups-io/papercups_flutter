@@ -12,7 +12,6 @@ PhoenixChannel joinConversationAndListen({
   @required Function setState,
   @required Function setChannel,
 }) {
-  var animate = false;
   conversation = socket.addChannel(topic: "conversation:" + convId);
   conversation.join();
   setChannel(conversation);
@@ -27,7 +26,6 @@ PhoenixChannel joinConversationAndListen({
           if (event.event.toString().contains("shout")) {
             setState(() {
               if (event.payload["customer"] == null) {
-                animate = true;
                 messages.add(
                   PapercupsMessage(
                     accountId: event.payload["account_id"],
@@ -123,7 +121,7 @@ PhoenixChannel joinConversationAndListen({
                 //     );
                 //   }
               }
-            }, animate: animate);
+            }, animate: true);
           }
         }
       }

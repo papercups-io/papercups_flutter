@@ -161,21 +161,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         widget.props.primaryGradient == null)
       widget.props.primaryColor = Theme.of(context).primaryColor;
 
-    if (_sending &&
-        mounted &&
-        _messages.isNotEmpty &&
-        _controller.position.maxScrollExtent != null)
-      WidgetsBinding.instance.addPostFrameCallback(
-        (_) {
-          if (_controller.position.maxScrollExtent != null)
-            _controller.animateTo(
-              _controller.position.maxScrollExtent,
-              curve: Curves.easeIn,
-              duration: Duration(milliseconds: 300),
-            );
-        },
-      );
-
     return Container(
       color: Theme.of(context).canvasColor,
       child: noConnection
