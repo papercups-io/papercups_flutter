@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -300,6 +301,21 @@ class _ChatMessageState extends State<ChatMessage> {
             if (isLast || nextMsg.userId != msg.userId)
               SizedBox(
                 height: 10,
+              ),
+            if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day))
+              IgnorePointer(
+                ignoring: true,
+                child: Container(
+                  margin: EdgeInsets.all(15),
+                  width: double.infinity,
+                  child: Text(
+                    DateFormat.yMMMMd().format(nextMsg.sentAt),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
               ),
           ],
         ),
