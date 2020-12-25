@@ -155,10 +155,10 @@ class _ChatMessageState extends State<ChatMessage> {
     if (isLast && userSent && timer == null)
       timer = Timer.periodic(Duration(minutes: 1), (timer) {
         if (mounted && timer.isActive) {
-          setState(() {
-          });
+          setState(() {});
         }
       });
+    if (!isLast && timer != null) timer.cancel();
     return GestureDetector(
       onTap: () {
         setState(() {
