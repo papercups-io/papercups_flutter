@@ -16,9 +16,20 @@ export 'package:timeago/timeago.dart';
 class PaperCupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
+
+  /// Locale for the date, use the locales from the `intl` package.
+  /// For example `"es"` or `"en-UK"`.
   final String dateLocale;
+
+  /// Locale for the sent x ago. Check timeago locales. For example `EsMessages()`.
+  /// Check https://github.com/andresaraujo/timeago.dart/tree/master/timeago/lib/src/messages
+  /// for the available classes.
   final timeagoLocale;
+
+  /// Text to show while message is sending. Default `"Sending..."`
   final String sendingText;
+
+  /// Text to show when the messgae is sent. Default is `"Sent"` time will be added after.
   final String sentText;
 
   PaperCupsWidget({
@@ -71,10 +82,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   void dispose() {
-    _channel.close();
-    _conversationChannel.close();
-    _socket.dispose();
-    _controller.dispose();
+    if (_channel != null) _channel.close();
+    if (_conversationChannel != null) _conversationChannel.close();
+    if(_socket != null) _socket.dispose();
+    if(_controller != null) _controller.dispose();
     super.dispose();
   }
 
