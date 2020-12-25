@@ -71,6 +71,7 @@ class Props {
   /// This is the placeholder text in the input section.
   String newMessagePlaceholder;
 
+  /// This is the placeholder text in the email input section.
   String enterEmailPlaceholer;
 
   /// This text will be shown if the showAgentAvailability is true and you are online.
