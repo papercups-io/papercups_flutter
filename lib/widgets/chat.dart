@@ -103,6 +103,13 @@ class _ChatMessageState extends State<ChatMessage> {
   double maxWidth = 0;
   bool isTimeSentVisible = false;
   String longDay;
+  Timer timer;
+
+  @override
+  void dispose() {
+    if (timer != null) timer.cancel();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -145,6 +152,13 @@ class _ChatMessageState extends State<ChatMessage> {
       timeago.setLocaleMessages(widget.locale, widget.timeagoLocale);
       timeago.setDefaultLocale(widget.locale);
     }
+    if (isLast && userSent && timer == null)
+      timer = Timer.periodic(Duration(minutes: 1), (timer) {
+        if (mounted && timer.isActive) {
+          setState(() {
+          });
+        }
+      });
     return GestureDetector(
       onTap: () {
         setState(() {
