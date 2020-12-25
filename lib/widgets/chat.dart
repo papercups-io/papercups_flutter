@@ -58,7 +58,7 @@ class ChatMessages extends StatelessWidget {
                 sending: sending,
                 locale: locale,
                 timeagoLocale: timeagoLocale,
-                maxWidth: layout.maxWidth,
+                maxWidth: layout.maxWidth * 0.65,
                 sendingText: sendingText,
                 sentText: sentText,
               );
