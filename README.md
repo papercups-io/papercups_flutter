@@ -33,7 +33,11 @@ That should get you up and running in just a few seconds ⚡️.
 ### Available PaperCupsWidget arguments
 | Parameter | Type | Value | Default |
 | :--- | :--- | :----- | :------ |
-| **`props`** | `Props` | **Required**, here is where all of the config for the chat is contained| N/A |
+| **`props`** | `Props` | **Required**, here is where all of the config for the chat is contained.| N/A |
+| **`dateLocale`** | `String` |Locale for the date, use the locales from the `intl` package.| `"en-US"` |
+| **`timeagoLocale`** | `dynamic` | Check https://github.com/andresaraujo/timeago.dart/tree/master/timeago/lib/src/messages for the available classes.| N/A |
+| **`sendingText`** | `String` | Text to show while message is sending.| `Sending...` |
+| **`sentText`** | `String` | Text to show when the messgae is sent.| `Sent` |
 
 
 ### Available Props paramaters
@@ -44,13 +48,13 @@ That should get you up and running in just a few seconds ⚡️.
 | **`subtitle`** | `string` | The subtitle in the header of your chat widget | How can we help you? |
 | **`newMessagePlaceholder`** | `string` | The placeholder text in the new message input | Start typing... |
 | **`primaryColor`** | `Color` | The theme color of your chat widget | `Theme.of(context).primaryColor` without alpha |
+| **`primaryGradient`** | `Gradient` | Gradient to specify, should be used instead of primaryColor, DO NOT USE BOTH. | N/A |
 | **`greeting`** | `string` | An optional initial message to greet your customers with | N/A |
-| **`showAgentAvailability`** | `boolean` | If you want to show whether you (or your agents) are online or not | `false` |
-| **`agentAvailableText`** | `string` | The text shown when you (or your agents) are online | We're online right now! |
-| **`agentUnavailableText`** | `string` | The text shown when you (and your agents) are offline | We're away at the moment. |
 | **`customer`** | `CustomerMetadata` | Identifying information for the customer, including `name`, `email`, `external_id`, and `metadata` (for any custom fields) | N/A |
 | **`baseUrl`** | `string` | The base URL of your API if you're self-hosting Papercups. Ensure you do not include the protocol (https) of a trailing dash (/) | app.papercups.io |
 | **`requireEmailUpfront`** | `boolean` | If you want to require unidentified customers to provide their email before they can message you | `false` |
+| **`companyName`** | `String` | Company name to show on greeting | `"Bot"` |
+| **`enterEmailPlaceholer`** | `String` | This is the placeholder text in the email input section | `"Enter your email"` |
 
 ### Available CustomerMetaData paramaters
 | Parameters | Type | Value | Default |
