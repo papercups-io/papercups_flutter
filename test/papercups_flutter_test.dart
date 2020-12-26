@@ -12,9 +12,9 @@ void main() {
       );
 
       expect(props.accountId, "this-is-an-account-id");
-      expect(props.agentAvailableText, null);
+      //expect(props.agentAvailableText, null);
       expect(props.baseUrl, "app.papercups.io");
-      expect(props.agentUnavailableText, null);
+      //expect(props.agentUnavailableText, null);
       expect(props.companyName, "Bot");
       expect(props.newMessagePlaceholder, "Start typing...");
       expect(props.primaryColor, null);
@@ -29,8 +29,8 @@ void main() {
     test('are loaded correctly', () {
       props = Props(
           accountId: "this-is-an-account-id",
-          agentAvailableText: "test",
-          agentUnavailableText: "unavailable",
+          //agentAvailableText: "test",
+          //agentUnavailableText: "unavailable",
           baseUrl: "app.papercups.io",
           companyName: "name",
           greeting: "greeting",
@@ -41,9 +41,9 @@ void main() {
           customer: CustomerMetadata());
 
       expect(props.accountId, "this-is-an-account-id");
-      expect(props.agentAvailableText, "test");
+      //expect(props.agentAvailableText, "test");
       expect(props.baseUrl, "app.papercups.io");
-      expect(props.agentUnavailableText, "unavailable");
+      //expect(props.agentUnavailableText, "unavailable");
       expect(props.companyName, "name");
       expect(props.newMessagePlaceholder, "placeHolder");
       expect(props.primaryColor, Color(0xffffff));

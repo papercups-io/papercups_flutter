@@ -122,7 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       greeting: "Welcome to the test app!",
                       subtitle: "How can we help you?",
-                      showAgentAvailability: false,
                       customer: kDebugMode
                           ? CustomerMetadata(
                               email: "flutter-plugin@test.com",

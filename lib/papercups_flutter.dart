@@ -21,7 +21,7 @@ class PaperCupsWidget extends StatefulWidget {
   /// For example `"es"` or `"en-UK"`.
   final String dateLocale;
 
-  /// Locale for the sent x ago. Check timeago locales. For example `EsMessages()`.
+  /// Locale for the fuzzy timestamps. Check timeago locales. For example `EsMessages()`.
   /// Check https://github.com/andresaraujo/timeago.dart/tree/master/timeago/lib/src/messages
   /// for the available classes.
   final timeagoLocale;
@@ -252,8 +252,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Header(props: widget.props),
-                if (widget.props.showAgentAvailability)
-                  AgentAvailability(widget.props),
+                // if (widget.props.showAgentAvailability)
+                //   AgentAvailability(widget.props),
                 Expanded(
                   child: ChatMessages(
                     widget.props,

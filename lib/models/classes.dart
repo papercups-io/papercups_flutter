@@ -75,13 +75,13 @@ class Props {
   String enterEmailPlaceholer;
 
   /// This text will be shown if the showAgentAvailability is true and you are online.
-  String agentAvailableText;
+  //String agentAvailableText;
 
   /// This text will be shown if the showAgentAvailability is true and you are offline.
-  String agentUnavailableText;
+  //String agentUnavailableText;
 
   /// This allows you to choose if you want to show your status.
-  bool showAgentAvailability;
+  //bool showAgentAvailability;
 
   /// This Will allow you to require an emial to chat. Not recommended for an app.
   bool requireEmailUpfront;
@@ -95,8 +95,8 @@ class Props {
   //Class definition.
   Props({
     @required this.accountId,
-    this.agentAvailableText,
-    this.agentUnavailableText,
+    //this.agentAvailableText,
+    //this.agentUnavailableText,
     this.baseUrl = "app.papercups.io",
     this.customer,
     this.greeting,
@@ -104,7 +104,7 @@ class Props {
     this.primaryColor,
     this.requireEmailUpfront = false,
     this.scrollEnabled = true,
-    this.showAgentAvailability = false,
+    //this.showAgentAvailability = false,
     this.subtitle = "How can we help you?",
     this.title = "Welcome!",
     this.companyName = "Bot",
