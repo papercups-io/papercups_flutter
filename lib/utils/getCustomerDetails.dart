@@ -6,8 +6,12 @@ import '../models/models.dart';
 Future<PapercupsCustomer> getCustomerDetails(
   Props p,
   PapercupsCustomer c,
-  Function sc,
-) async {
+  Function sc, {
+  Client client,
+}) async {
+  if (client == null) {
+    client = Client();
+  }
   var timeNow = DateTime.now().toIso8601String();
   var metadata = p.customer != null && p.customer.otherMetadata != null
       ? p.customer.otherMetadata
@@ -51,5 +55,6 @@ Future<PapercupsCustomer> getCustomerDetails(
     name: data["name"],
     phone: data["phone"],
   );
+  client.close();
   return c;
 }
