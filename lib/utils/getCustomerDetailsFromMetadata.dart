@@ -12,7 +12,7 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   if (client == null) {
     client = Client();
   }
-  var res = await get(
+  var res = await client.get(
     Uri.https(
       p.baseUrl,
       "/api/customers/identify",

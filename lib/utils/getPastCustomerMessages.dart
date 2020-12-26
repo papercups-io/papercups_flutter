@@ -13,7 +13,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
   }
   List<PapercupsMessage> rMsgs = [];
 
-  var res = await get(
+  var res = await client.get(
     Uri.https(p.baseUrl, "/api/conversations/customer", {
       "customer_id": c.id,
       "account_id": p.accountId,

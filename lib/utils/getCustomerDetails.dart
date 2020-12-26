@@ -29,7 +29,7 @@ Future<PapercupsCustomer> getCustomerDetails(
       }
     },
   );
-  var res = await post(
+  var res = await client.post(
     "https://" + p.baseUrl + "/api/customers",
     headers: {
       "content-type": "application/json",

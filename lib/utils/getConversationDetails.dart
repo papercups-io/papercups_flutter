@@ -13,7 +13,7 @@ Future<Conversation> getConversationDetails(
   if (client == null) {
     client = Client();
   }
-  var res = await post(
+  var res = await client.post(
     "https://" + p.baseUrl + "/api/conversations",
     headers: {
       "content-type": "application/json",
