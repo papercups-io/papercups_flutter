@@ -7,8 +7,12 @@ Future<Conversation> getConversationDetails(
   Props p,
   Conversation conv,
   PapercupsCustomer customer,
-  Function sc,
-) async {
+  Function sc, {
+  Client client,
+}) async {
+  if (client == null) {
+    client = Client();
+  }
   var res = await post(
     "https://" + p.baseUrl + "/api/conversations",
     headers: {
@@ -34,8 +38,9 @@ Future<Conversation> getConversationDetails(
       read: data["read"],
     );
     sc(conv);
-    return conv;
   } catch (e) {
-    return null;
+    conv = null;
   }
+  client.close();
+  return conv;
 }
