@@ -5,8 +5,12 @@ import '../models/models.dart';
 
 Future<Map<String, dynamic>> getPastCustomerMessages(
   Props p,
-  PapercupsCustomer c,
-) async {
+  PapercupsCustomer c, {
+  Client client,
+}) async {
+  if (client == null) {
+    client = Client();
+  }
   List<PapercupsMessage> rMsgs = [];
 
   var res = await get(
@@ -58,15 +62,12 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
       name: customerData["name"],
       phone: customerData["phone"],
     );
-
-    return {
-      "msgs": rMsgs,
-      "cust": c,
-    };
   } catch (e) {
-    return {
-      "msgs": rMsgs,
-      "cust": c,
-    };
+    print("An error ocurred while getting past customer data.");
   }
+  client.close();
+  return {
+    "msgs": rMsgs,
+    "cust": c,
+  };
 }
