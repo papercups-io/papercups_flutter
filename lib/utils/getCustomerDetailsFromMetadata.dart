@@ -6,8 +6,12 @@ import '../models/models.dart';
 Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   Props p,
   PapercupsCustomer c,
-  Function sc,
-) async {
+  Function sc, {
+  Client client,
+}) async {
+  if (client == null) {
+    client = Client();
+  }
   var res = await get(
     Uri.https(
       p.baseUrl,
@@ -31,5 +35,6 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
     updatedAt: c == null ? null : c.updatedAt,
   );
   sc(c);
+  client.close();
   return c;
 }
