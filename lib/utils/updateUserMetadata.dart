@@ -7,12 +7,16 @@ import '../models/models.dart';
 
 Future<PapercupsCustomer> updateUserMetadata(
   Props p,
-  String cId,
-) async {
+  String cId, {
+  Client client,
+}) async {
+  if (client == null) {
+    client = Client();
+  }
   PapercupsCustomer c;
   var json = p.customer.toJsonString();
   try {
-    var res = await put(
+    var res = await client.put(
       Uri.https(p.baseUrl, "/api/customers/$cId/metadata"),
       headers: {
         "Accept": "*/*",
@@ -44,5 +48,6 @@ Future<PapercupsCustomer> updateUserMetadata(
     c = null;
   }
 
+  client.close();
   return c;
 }
