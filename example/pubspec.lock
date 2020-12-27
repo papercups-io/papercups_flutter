@@ -314,7 +314,7 @@ packages:
       name: phoenix_socket
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.8"
+    version: "0.4.11"
   platform:
     dependency: transitive
     description:
