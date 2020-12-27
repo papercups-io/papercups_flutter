@@ -32,12 +32,16 @@ class PaperCupsWidget extends StatefulWidget {
   /// Text to show when the messgae is sent. Default is `"Sent"` time will be added after.
   final String sentText;
 
+  /// If not null, close button will be shown.
+  final Function closeAction;
+
   PaperCupsWidget({
     @required this.props,
     this.dateLocale = "en-US",
     this.timeagoLocale,
     this.sendingText = "Sending...",
     this.sentText = "Sent",
+    this.closeAction,
   });
 
   @override
@@ -84,8 +88,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   void dispose() {
     if (_channel != null) _channel.close();
     if (_conversationChannel != null) _conversationChannel.close();
-    if(_socket != null) _socket.dispose();
-    if(_controller != null) _controller.dispose();
+    if (_socket != null) _socket.dispose();
+    if (_controller != null) _controller.dispose();
     super.dispose();
   }
 
@@ -251,7 +255,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Header(props: widget.props),
+                Header(
+                  props: widget.props,
+                  closeAction: widget.closeAction,
+                ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),
                 Expanded(

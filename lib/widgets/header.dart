@@ -6,9 +6,11 @@ class Header extends StatelessWidget {
   const Header({
     Key key,
     @required this.props,
+    this.closeAction,
   }) : super(key: key);
 
   final Props props;
+  final Function closeAction;
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +31,25 @@ class Header extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Flexible(
-            child: Text(
-              props.title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 21,
-                fontWeight: FontWeight.w600,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  props.title,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
-            ),
+              if (closeAction != null)
+                IconButton(
+                  icon: Icon(Icons.close_rounded),
+                  onPressed: closeAction,
+                )
+            ],
           ),
           const SizedBox(
             height: 3,
