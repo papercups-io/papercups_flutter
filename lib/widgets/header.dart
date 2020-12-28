@@ -46,9 +46,12 @@ class Header extends StatelessWidget {
               ),
               if (closeAction != null)
                 IconButton(
+                  constraints: BoxConstraints(maxHeight: 21),
                   icon: Icon(Icons.close_rounded),
                   onPressed: closeAction,
                   color: Colors.white,
+                  padding: EdgeInsets.zero,
+                  iconSize: 21,
                 )
             ],
           ),
