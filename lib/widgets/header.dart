@@ -48,6 +48,7 @@ class Header extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.close_rounded),
                   onPressed: closeAction,
+                  color: Colors.white,
                 )
             ],
           ),
