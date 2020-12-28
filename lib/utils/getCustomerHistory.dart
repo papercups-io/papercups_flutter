@@ -26,11 +26,12 @@ Future<bool> getCustomerHistory({
       c,
       setCustomer,
     );
+    if (customer != null) failed = false;
     if (customer != null && customer.id != null) {
       var data = await getPastCustomerMessages(widget.props, customer);
+      if (data["msgs"] != null) failed = false;
       if (data["msgs"].isNotEmpty) {
         {
-          failed = false;
           var msgsIn = data["msgs"] as List<PapercupsMessage>;
           msgsIn.sort((a, b) {
             return a.createdAt.compareTo(b.createdAt);
