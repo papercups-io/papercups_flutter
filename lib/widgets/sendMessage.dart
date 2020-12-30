@@ -79,13 +79,17 @@ class _SendMessageState extends State<SendMessage> {
         minHeight: 55,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        border: Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor,
+          color: Theme.of(context).cardColor,
+          border: Border(
+            top: BorderSide(
+              color: Theme.of(context).dividerColor,
+            ),
           ),
-        ),
-      ),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 30,
+                color: Theme.of(context).shadowColor.withOpacity(0.1))
+          ]),
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 0),
         child: Row(

@@ -23,9 +23,14 @@ class Header extends StatelessWidget {
       ),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: props.primaryColor,
-        gradient: props.primaryGradient,
-      ),
+          color: props.primaryColor,
+          gradient: props.primaryGradient,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5,
+              color: Theme.of(context).shadowColor.withOpacity(0.4),
+            )
+          ]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
