@@ -177,15 +177,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     isVisible: isTimeSentVisible,
                   ),
                 Container(
-                  decoration: BoxDecoration(
-                    color: userSent
-                        ? widget.props.primaryColor
-                        : Theme.of(context).brightness == Brightness.light
-                            ? brighten(Theme.of(context).disabledColor, 80)
-                            : Color(0xff282828),
-                    gradient: userSent ? widget.props.primaryGradient : null,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
+                  decoration: MsgDecoration(context),
                   constraints: BoxConstraints(
                     maxWidth: maxWidth,
                   ),
@@ -209,27 +201,7 @@ class _ChatMessageState extends State<ChatMessage> {
               ],
             ),
             if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
-              Padding(
-                  padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
-                  child: (msg.user.fullName == null)
-                      ? Text(
-                          msg.user.email,
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .disabledColor
-                                .withOpacity(0.5),
-                            fontSize: 14,
-                          ),
-                        )
-                      : Text(
-                          msg.user.fullName,
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .disabledColor
-                                .withOpacity(0.5),
-                            fontSize: 14,
-                          ),
-                        )),
+              AgentName(msg: msg),
             if (userSent && isLast)
               Container(
                 width: double.infinity,
@@ -254,6 +226,18 @@ class _ChatMessageState extends State<ChatMessage> {
           ],
         ),
       ),
+    );
+  }
+
+  BoxDecoration MsgDecoration(BuildContext context) {
+    return BoxDecoration(
+      color: userSent
+          ? widget.props.primaryColor
+          : Theme.of(context).brightness == Brightness.light
+              ? brighten(Theme.of(context).disabledColor, 80)
+              : Color(0xff282828),
+      gradient: userSent ? widget.props.primaryGradient : null,
+      borderRadius: BorderRadius.circular(4),
     );
   }
 

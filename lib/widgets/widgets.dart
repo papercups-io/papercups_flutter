@@ -9,3 +9,4 @@ export 'timeWidget.dart';
 export 'dayIndicator.dart';
 export 'mdViewer.dart';
 export 'userAvatar.dart';
+export 'agentName.dart';
