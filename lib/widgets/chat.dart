@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/models.dart';
 
@@ -138,18 +137,7 @@ class _ChatMessageState extends State<ChatMessage> {
           isTimeSentVisible = true;
         });
       },
-      onLongPress: () {
-        HapticFeedback.vibrate();
-        Clipboard.setData(ClipboardData(text: msg.body));
-        Alert.show(
-          "Text copied to clipboard",
-          context,
-          textStyle: Theme.of(context).textTheme.bodyText2,
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          gravity: Alert.bottom,
-          duration: Alert.lengthLong,
-        );
-      },
+      onLongPress: () => copyToClipboard(msg.body, context),
       onTapUp: (_) {
         Timer(
             Duration(
@@ -175,54 +163,12 @@ class _ChatMessageState extends State<ChatMessage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 if (!userSent)
-                  Padding(
-                    padding: EdgeInsets.only(
-                      right: 14,
-                      left: 14,
-                      top: (isFirst) ? 15 : 4,
-                      bottom: 5,
-                    ),
-                    child: (widget.msgs.length == 1 ||
-                            nextMsg.userId != msg.userId ||
-                            isLast)
-                        ? Container(
-                            decoration: BoxDecoration(
-                              color: widget.props.primaryColor,
-                              gradient: widget.props.primaryGradient,
-                              shape: BoxShape.circle,
-                            ),
-                            child: CircleAvatar(
-                              radius: 16,
-                              backgroundColor: Colors.transparent,
-                              backgroundImage:
-                                  (msg.user.profilePhotoUrl != null)
-                                      ? NetworkImage(msg.user.profilePhotoUrl)
-                                      : null,
-                              child: (msg.user.profilePhotoUrl != null)
-                                  ? null
-                                  : (msg.user != null &&
-                                          msg.user.fullName == null)
-                                      ? Text(
-                                          msg.user.email
-                                              .substring(0, 1)
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).cardColor),
-                                        )
-                                      : Text(
-                                          msg.user.fullName
-                                              .substring(0, 1)
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              color:
-                                                  Theme.of(context).cardColor),
-                                        ),
-                            ),
-                          )
-                        : SizedBox(
-                            width: 32,
-                          ),
+                  UserAvatar(
+                    isFirst: isFirst,
+                    widget: widget,
+                    nextMsg: nextMsg,
+                    msg: msg,
+                    isLast: isLast,
                   ),
                 if (userSent)
                   TimeWidget(
@@ -252,26 +198,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     vertical: 8,
                     horizontal: 14,
                   ),
-                  child: MarkdownBody(
-                    data: text,
-                    styleSheet: MarkdownStyleSheet(
-                      p: TextStyle(
-                        color: userSent
-                            ? Colors.white
-                            : Theme.of(context).textTheme.bodyText1.color,
-                      ),
-                      a: TextStyle(
-                        color: userSent
-                            ? Colors.white
-                            : Theme.of(context).textTheme.bodyText1.color,
-                      ),
-                      blockquotePadding: EdgeInsets.only(left: 14),
-                      blockquoteDecoration: BoxDecoration(
-                          border: Border(
-                        left: BorderSide(color: Colors.grey[300], width: 4),
-                      )),
-                    ),
-                  ),
+                  child: MdViewer(text: text, userSent: userSent),
                 ),
                 if (!userSent)
                   TimeWidget(
@@ -323,8 +250,7 @@ class _ChatMessageState extends State<ChatMessage> {
               SizedBox(
                 height: 10,
               ),
-            if (longDay != null)
-              DayIndicator(longDay: longDay),
+            if (longDay != null) DayIndicator(longDay: longDay),
           ],
         ),
       ),
