@@ -324,7 +324,20 @@ class _ChatMessageState extends State<ChatMessage> {
                 height: 10,
               ),
             if (longDay != null)
-              DayIndicator(longDay: longDay),
+              IgnorePointer(
+                ignoring: true,
+                child: Container(
+                  margin: EdgeInsets.all(15),
+                  width: double.infinity,
+                  child: Text(
+                    longDay,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
