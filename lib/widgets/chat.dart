@@ -104,12 +104,6 @@ class _ChatMessageState extends State<ChatMessage> {
   bool isTimeSentVisible = false;
   String longDay;
   Timer timer;
-  String text;
-  PapercupsMessage nextMsg;
-  PapercupsMessage msg;
-  bool isFirst;
-  bool isLast;
-  bool userSent = false;
 
   @override
   void dispose() {
@@ -120,18 +114,51 @@ class _ChatMessageState extends State<ChatMessage> {
   @override
   void initState() {
     maxWidth = widget.maxWidth;
-    setUpMsgs();
     super.initState();
   }
 
   TimeOfDay senderTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
-    checkOpacity();
-    userSentCheck();
-    initLocales();
-    initTimer();
+    if (opacity == 0)
+      Timer(
+          Duration(
+            milliseconds: 0,
+          ), () {
+        if (mounted)
+          setState(() {
+            opacity = 1;
+          });
+      });
+    var msg = widget.msgs[widget.index];
 
+    bool userSent = true;
+    if (msg.userId != null) userSent = false;
+
+    var text = msg.body;
+    var nextMsg = widget.msgs[min(widget.index + 1, widget.msgs.length - 1)];
+    var isLast = widget.index == widget.msgs.length - 1;
+    var isFirst = widget.index == 0;
+
+    if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day) && longDay == null) {
+      try {
+        longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt);
+      } catch (e) {
+        print("ERROR: Error generating localized date!");
+        longDay = "Loading...";
+      }
+    }
+    if (userSent && isLast && widget.timeagoLocale != null) {
+      timeago.setLocaleMessages(widget.locale, widget.timeagoLocale);
+      timeago.setDefaultLocale(widget.locale);
+    }
+    if (isLast && userSent && timer == null)
+      timer = Timer.periodic(Duration(minutes: 1), (timer) {
+        if (mounted && timer.isActive) {
+          setState(() {});
+        }
+      });
+    if (!isLast && timer != null) timer.cancel();
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -343,54 +370,36 @@ class _ChatMessageState extends State<ChatMessage> {
       ),
     );
   }
+}
 
-  void checkOpacity() {
-    if (opacity == 0)
-      Timer(
-          Duration(
-            milliseconds: 0,
-          ), () {
-        if (mounted)
-          setState(() {
-            opacity = 1;
-          });
-      });
-  }
+class TimeWidget extends StatelessWidget {
+  const TimeWidget({
+    Key key,
+    @required this.userSent,
+    @required this.msg,
+    @required this.isVisible,
+  }) : super(key: key);
 
-  void setUpMsgs() {
-    msg = widget.msgs[widget.index];
-    text = msg.body;
-    nextMsg = widget.msgs[min(widget.index + 1, widget.msgs.length - 1)];
-    isLast = widget.index == widget.msgs.length - 1;
-    isFirst = widget.index == 0;
-  }
+  final bool userSent;
+  final PapercupsMessage msg;
+  final bool isVisible;
 
-  void userSentCheck() {
-    if (msg.userId != null) userSent = false;
-  }
-
-  void initLocales() {
-    if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day) && longDay == null) {
-      try {
-        longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt);
-      } catch (e) {
-        print("ERROR: Error generating localized date!");
-        longDay = "Loading...";
-      }
-    }
-    if (userSent && isLast && widget.timeagoLocale != null) {
-      timeago.setLocaleMessages(widget.locale, widget.timeagoLocale);
-      timeago.setDefaultLocale(widget.locale);
-    }
-  }
-
-  void initTimer() {
-    if (isLast && userSent && timer == null)
-      timer = Timer.periodic(Duration(minutes: 1), (timer) {
-        if (mounted && timer.isActive) {
-          setState(() {});
-        }
-      });
-    if (!isLast && timer != null) timer.cancel();
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: isVisible ? 1 : 0,
+      duration: Duration(milliseconds: 100),
+      curve: Curves.easeIn,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
+        child: Text(
+          TimeOfDay.fromDateTime(msg.createdAt).format(context),
+          style: TextStyle(
+            color: Theme.of(context).textTheme.bodyText1.color.withAlpha(100),
+            fontSize: 10,
+          ),
+        ),
+      ),
+    );
   }
 }
