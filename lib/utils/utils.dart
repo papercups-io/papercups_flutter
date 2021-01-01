@@ -6,4 +6,3 @@ export 'getCustomerHistory.dart';
 export 'getPastCustomerMessages.dart';
 export 'intitChannels.dart';
 export 'joinConversation.dart';
-export 'copyToClipboard.dart';
