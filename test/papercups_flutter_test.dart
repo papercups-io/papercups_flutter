@@ -67,24 +67,24 @@ void main() {
       expect(cm.externalId, null);
       expect(cm.name, null);
       expect(cm.otherMetadata, null);
-      expect(cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
+      expect(
+          cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
     });
     test('are loaded correctly', () {
       cm = CustomerMetadata(
-        email: "test@test.com",
-        externalId: "1234",
-        name: "name",
-        otherMetadata: {
-          "Test":"string",
-        }
-      );
+          email: "test@test.com",
+          externalId: "1234",
+          name: "name",
+          otherMetadata: {
+            "Test": "string",
+          });
 
       expect(cm.email, "test@test.com");
       expect(cm.externalId, "1234");
       expect(cm.name, "name");
-      expect(cm.otherMetadata, {"Test":"string"});
-      expect(cm.toJsonString(), '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
+      expect(cm.otherMetadata, {"Test": "string"});
+      expect(cm.toJsonString(),
+          '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
     });
   });
-
 }
