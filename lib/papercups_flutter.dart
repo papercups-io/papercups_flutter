@@ -60,6 +60,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   ScrollController _controller = ScrollController();
   bool _sending = false;
   bool noConnection = false;
+  bool textBlack = false;
 
   @override
   void initState() {
@@ -145,6 +146,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         }
       });
     }
+    if ((widget.props.primaryColor != null &&
+            widget.props.primaryColor.computeLuminance() > 0.5) ||
+        (widget.props.primaryGradient != null &&
+            widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) || (widget.props.primaryColor == null && Theme.of(context).primaryColor.computeLuminance() > 0.5))
+      textBlack = true;
     super.didChangeDependencies();
   }
 
@@ -189,7 +195,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.primaryColor == null &&
         widget.props.primaryGradient == null)
       widget.props.primaryColor = Theme.of(context).primaryColor;
-
     return Container(
       color: Theme.of(context).canvasColor,
       child: noConnection
@@ -258,6 +263,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Header(
                   props: widget.props,
                   closeAction: widget.closeAction,
+                  textBlack: textBlack,
                 ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),
@@ -271,12 +277,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     widget.timeagoLocale,
                     widget.sendingText,
                     widget.sentText,
+                    textBlack,
                   ),
                 ),
                 PoweredBy(),
                 (widget.props.requireEmailUpfront &&
                         (_customer == null || _customer.email == null))
-                    ? RequireEmailUpfront(setCustomer, widget.props)
+                    ? RequireEmailUpfront(setCustomer, widget.props, textBlack)
                     : SendMessage(
                         props: widget.props,
                         customer: _customer,
@@ -289,6 +296,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                         setState: rebuild,
                         messages: _messages,
                         sending: _sending,
+                        textBalck: textBlack,
                       ),
               ],
             ),
