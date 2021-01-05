@@ -1,5 +1,7 @@
+// Imports
 import 'package:flutter/material.dart';
 
+/// These are internal tools to darken the color, used for tuning colors.
 Color darken(Color c, [int percent = 10]) {
   assert(1 <= percent && percent <= 100);
   var f = 1 - percent / 100;
@@ -7,6 +9,7 @@ Color darken(Color c, [int percent = 10]) {
       (c.blue * f).round());
 }
 
+/// These are internal tools to birghten the color, used for tuning colors.
 Color brighten(Color c, [int percent = 10]) {
   assert(1 <= percent && percent <= 100);
   var p = percent / 100;
