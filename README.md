@@ -1,4 +1,4 @@
-![logo](https://i.imgur.com/QHer84L.png)
+![logo](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/logo.svg)
 [![pub package](https://img.shields.io/pub/v/papercups_flutter.svg?label=papercups_flutter&color=blue)](https://pub.dev/packages/papercups_flutter) [![likes](https://badges.bar/papercups_flutter/likes)](https://pub.dev/packages/papercups_flutter/score)  [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
 
 ## Main repository
