@@ -1,3 +1,7 @@
+## [1.0.1] - 05/01/2020.
+
+* 🍱 Update Readme.md with new logo
+
 ## [1.0.0+1] - 1/12/2020.
 
 * 🎉 1.0 Release!
