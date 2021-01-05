@@ -170,7 +170,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     if (mounted) setState(fn);
-    if (animate && mounted && _messages.isNotEmpty) {
+    if (animate && mounted && _messages.isNotEmpty && WidgetsBinding.instance != null && _controller.hasClients) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (_controller.position.maxScrollExtent != null)
           _controller.animateTo(
