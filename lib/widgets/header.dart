@@ -69,7 +69,9 @@ class Header extends StatelessWidget {
             child: Text(
               props.subtitle,
               style: TextStyle(
-                color: textBlack ? Colors.black.withOpacity(0.8) : Colors.white.withOpacity(0.8),
+                color: textBlack
+                    ? Colors.black.withOpacity(0.8)
+                    : Colors.white.withOpacity(0.8),
               ),
             ),
           )

@@ -149,7 +149,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if ((widget.props.primaryColor != null &&
             widget.props.primaryColor.computeLuminance() > 0.5) ||
         (widget.props.primaryGradient != null &&
-            widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) || (widget.props.primaryColor == null && Theme.of(context).primaryColor.computeLuminance() > 0.5))
+            widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) ||
+        (widget.props.primaryColor == null &&
+            Theme.of(context).primaryColor.computeLuminance() > 0.5))
       textBlack = true;
     super.didChangeDependencies();
   }
@@ -170,7 +172,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     if (mounted) setState(fn);
-    if (animate && mounted && _messages.isNotEmpty && WidgetsBinding.instance != null && _controller.hasClients) {
+    if (animate &&
+        mounted &&
+        _messages.isNotEmpty &&
+        WidgetsBinding.instance != null &&
+        _controller.hasClients) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (_controller.position.maxScrollExtent != null)
           _controller.animateTo(

@@ -239,16 +239,18 @@ class _ChatMessageState extends State<ChatMessage> {
                                               .substring(0, 1)
                                               .toUpperCase(),
                                           style: TextStyle(
-                                              color:
-                                                  widget.textBlack ? Colors.black : Colors.white),
+                                              color: widget.textBlack
+                                                  ? Colors.black
+                                                  : Colors.white),
                                         )
                                       : Text(
                                           msg.user.fullName
                                               .substring(0, 1)
                                               .toUpperCase(),
                                           style: TextStyle(
-                                              color:
-                                                  widget.textBlack ? Colors.black : Colors.white),
+                                              color: widget.textBlack
+                                                  ? Colors.black
+                                                  : Colors.white),
                                         ),
                             ),
                           )
@@ -289,7 +291,9 @@ class _ChatMessageState extends State<ChatMessage> {
                     styleSheet: MarkdownStyleSheet(
                       p: TextStyle(
                         color: userSent
-                            ? widget.textBlack ? Colors.black : Colors.white
+                            ? widget.textBlack
+                                ? Colors.black
+                                : Colors.white
                             : Theme.of(context).textTheme.bodyText1.color,
                       ),
                       a: TextStyle(
