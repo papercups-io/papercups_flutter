@@ -1,5 +1,8 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:papercups_flutter/utils/utils.dart';
+
 import '../lib/models/classes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -85,6 +88,37 @@ void main() {
       expect(cm.otherMetadata, {"Test": "string"});
       expect(cm.toJsonString(),
           '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
+    });
+  });
+  group('Theming', () {
+    group("darken", () {
+      test('throws assertion error when percent is not within 1 - 100 ', () {
+        expect(() => darken(Colors.black, 0), throwsAssertionError);
+      });
+
+      test('Darkens the color by 10%', () {
+        final color = Color.fromARGB(100, 100, 100, 100);
+        final darkenedColor = darken(color, 10);
+        expect(darkenedColor.alpha, equals(100));
+        expect(darkenedColor.red, equals(90));
+        expect(darkenedColor.blue, equals(90));
+        expect(darkenedColor.green, equals(90));
+      });
+    });
+
+    group("brighten", () {
+      test('throws assertion error when percent is not within 1 - 100 ', () {
+        expect(() => brighten(Colors.black, 101), throwsAssertionError);
+      });
+
+      test('Brightens the color by 10%', () {
+        final color = Color.fromARGB(155, 155, 155, 155);
+        final brightenedColor = brighten(color, 10);
+        expect(brightenedColor.alpha, equals(155));
+        expect(brightenedColor.red, equals(165));
+        expect(brightenedColor.blue, equals(165));
+        expect(brightenedColor.green, equals(165));
+      });
     });
   });
 }
