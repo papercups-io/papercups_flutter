@@ -301,7 +301,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 10,
-                          color: Colors.grey.withOpacity(0.4),
+                          color: Theme.of(context).brightness == Brightness.light ? Colors.grey.withOpacity(0.4) : Colors.black.withOpacity(0.8),
                         )
                       ]) : BoxDecoration(),
                   clipBehavior: widget.floatingSendMessage ? Clip.antiAlias : Clip.none,
