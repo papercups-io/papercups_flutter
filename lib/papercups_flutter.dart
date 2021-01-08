@@ -45,7 +45,7 @@ class PaperCupsWidget extends StatefulWidget {
     this.sendingText = "Sending...",
     this.sentText = "Sent",
     this.closeAction,
-    this.floatingSendMessage = true,
+    this.floatingSendMessage = false,
   });
 
   @override
@@ -291,54 +291,40 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   ),
                 ),
                 if (!widget.floatingSendMessage) PoweredBy(),
-                (widget.props.requireEmailUpfront &&
-                        (_customer == null || _customer.email == null))
-                    ? RequireEmailUpfront(setCustomer, widget.props, textBlack)
-                    : widget.floatingSendMessage
-                        ? Container(
-                            margin: EdgeInsets.only(
-                              right: 15,
-                              left: 15,
-                            ),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    blurRadius: 10,
-                                    color: Colors.grey.withOpacity(0.4),
-                                  )
-                                ]),
-                            clipBehavior: Clip.antiAlias,
-                            child: SendMessage(
-                              props: widget.props,
-                              customer: _customer,
-                              setCustomer: setCustomer,
-                              setConversation: setConversation,
-                              conversationChannel: _conversationChannel,
-                              setConversationChannel: setConversationChannel,
-                              conversation: _conversation,
-                              socket: _socket,
-                              setState: rebuild,
-                              messages: _messages,
-                              sending: _sending,
-                              textBalck: textBlack,
-                              showDivider: false,
-                            ),
-                          )
-                        : SendMessage(
-                            props: widget.props,
-                            customer: _customer,
-                            setCustomer: setCustomer,
-                            setConversation: setConversation,
-                            conversationChannel: _conversationChannel,
-                            setConversationChannel: setConversationChannel,
-                            conversation: _conversation,
-                            socket: _socket,
-                            setState: rebuild,
-                            messages: _messages,
-                            sending: _sending,
-                            textBalck: textBlack,
-                          ),
+                Container(
+                  margin: widget.floatingSendMessage ? EdgeInsets.only(
+                    right: 15,
+                    left: 15,
+                  ) : null,
+                  decoration: widget.floatingSendMessage ?  BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 10,
+                          color: Colors.grey.withOpacity(0.4),
+                        )
+                      ]) : BoxDecoration(),
+                  clipBehavior: widget.floatingSendMessage ? Clip.antiAlias : Clip.none,
+                  child: (widget.props.requireEmailUpfront &&
+                          (_customer == null || _customer.email == null))
+                      ? RequireEmailUpfront(
+                          setCustomer, widget.props, textBlack, !widget.floatingSendMessage)
+                      : SendMessage(
+                          props: widget.props,
+                          customer: _customer,
+                          setCustomer: setCustomer,
+                          setConversation: setConversation,
+                          conversationChannel: _conversationChannel,
+                          setConversationChannel: setConversationChannel,
+                          conversation: _conversation,
+                          socket: _socket,
+                          setState: rebuild,
+                          messages: _messages,
+                          sending: _sending,
+                          textBalck: textBlack,
+                          showDivider: !widget.floatingSendMessage,
+                        ),
+                ),
                 if (widget.floatingSendMessage)
                   Padding(
                     padding: const EdgeInsets.all(4.0),

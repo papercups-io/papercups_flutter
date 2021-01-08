@@ -24,7 +24,7 @@ class SendMessage extends StatefulWidget {
     this.sending,
     @required this.props,
     @required this.textBalck,
-    this.showDivider,
+    this.showDivider = true,
   }) : super(key: key);
 
   final Props props;
