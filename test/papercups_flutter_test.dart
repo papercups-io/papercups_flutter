@@ -1,12 +1,20 @@
+import 'dart:convert';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
+import 'package:papercups_flutter/models/models.dart';
 import 'package:papercups_flutter/utils/utils.dart';
 
-import '../lib/models/classes.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+class MockClient extends Mock implements http.Client {}
+
 void main() {
+  final props = Props(accountId: 'account_id');
+  final customer = PapercupsCustomer();
   group("Props", () {
     Props props;
     test('default values', () {
@@ -119,6 +127,97 @@ void main() {
         expect(brightenedColor.blue, equals(165));
         expect(brightenedColor.green, equals(165));
       });
+    });
+  });
+
+  group('getConversationDetails', () {
+    final conv = Conversation(
+      accountId: 'account_id',
+      asigneeId: 'asignee_id',
+      createdAt: '2020-09-30',
+      customerId: 'customer_id',
+      id: 'id',
+      priority: 'important',
+      read: true,
+    );
+
+    test('returns Converation object on success', () async {
+      final client = MockClient();
+      final testResponse = jsonEncode({
+        "data": {
+          "id": conv.id,
+          "customer_id": conv.customerId,
+          "account_id": conv.accountId,
+          "asignee_id": conv.asigneeId,
+          "created_at": conv.createdAt,
+          "read": conv.read,
+        }
+      });
+      Conversation newConv;
+      void sc(Conversation conv) {
+        newConv = conv;
+      }
+
+      when(
+        client.post(
+          'https://${props.baseUrl}/api/conversations',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(testResponse, 200));
+
+      final details = await getConversationDetails(
+        props,
+        Conversation(),
+        customer,
+        sc,
+        client: client,
+      );
+
+      verify(
+        client.post(
+          'https://${props.baseUrl}/api/conversations',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+
+      expect(newConv, equals(details),
+          reason:
+              'the conversation object returned should match the arguement passed to sc');
+      expect(details.id, equals(conv.id));
+      expect(details.accountId, equals(conv.accountId));
+    });
+
+    test("returns null when there's an error", () async {
+      final client = MockClient();
+      when(
+        client.post(
+          'https://${props.baseUrl}/api/conversations',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(HttpException('Request failed'));
+
+      final details = await getConversationDetails(
+        props,
+        Conversation(),
+        customer,
+        () => {},
+        client: client,
+      );
+
+      verify(
+        client.post(
+          'https://${props.baseUrl}/api/conversations',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+
+      expect(details, equals(null));
     });
   });
 }
