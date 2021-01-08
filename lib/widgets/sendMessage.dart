@@ -24,6 +24,7 @@ class SendMessage extends StatefulWidget {
     this.sending,
     @required this.props,
     @required this.textBalck,
+    this.showDivider,
   }) : super(key: key);
 
   final Props props;
@@ -38,6 +39,7 @@ class SendMessage extends StatefulWidget {
   final List<PapercupsMessage> messages;
   final bool sending;
   final bool textBalck;
+  final bool showDivider;
 
   @override
   _SendMessageState createState() => _SendMessageState();
@@ -82,11 +84,13 @@ class _SendMessageState extends State<SendMessage> {
       ),
       decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          border: Border(
-            top: BorderSide(
-              color: Theme.of(context).dividerColor,
-            ),
-          ),
+          border: widget.showDivider
+              ? Border(
+                  top: BorderSide(
+                    color: Theme.of(context).dividerColor,
+                  ),
+                )
+              : null,
           boxShadow: [
             BoxShadow(
                 blurRadius: 30,
