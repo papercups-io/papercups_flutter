@@ -21,7 +21,7 @@ class PoweredBy extends StatelessWidget {
           ),
         ),
         Image.memory(
-          base64Decode(longLogo),
+          base64Decode(blueLongLogo),
           height: 15,
         ),
       ],
