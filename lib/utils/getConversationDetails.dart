@@ -16,21 +16,22 @@ Future<Conversation> getConversationDetails(
   if (client == null) {
     client = Client();
   }
-  var res = await client.post(
-    "https://" + p.baseUrl + "/api/conversations",
-    headers: {
-      "content-type": "application/json",
-    },
-    body: jsonEncode(
-      {
-        "conversation": {
-          "account_id": p.accountId,
-          "customer_id": customer.id,
-        },
-      },
-    ),
-  );
+
   try {
+    var res = await client.post(
+      "https://" + p.baseUrl + "/api/conversations",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: jsonEncode(
+        {
+          "conversation": {
+            "account_id": p.accountId,
+            "customer_id": customer.id,
+          },
+        },
+      ),
+    );
     var data = jsonDecode(res.body)["data"];
     conv = Conversation(
       id: data["id"],
