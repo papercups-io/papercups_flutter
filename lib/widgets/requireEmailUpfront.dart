@@ -7,7 +7,8 @@ class RequireEmailUpfront extends StatefulWidget {
   final bool textBlack;
   final bool showDivider;
 
-  RequireEmailUpfront(this.setCustomer, this.props, this.textBlack, this.showDivider);
+  RequireEmailUpfront(
+      this.setCustomer, this.props, this.textBlack, this.showDivider);
   @override
   _RequireEmailUpfrontState createState() => _RequireEmailUpfrontState();
 }
@@ -43,11 +44,13 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
       ),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        border: widget.showDivider ? Border(
-          top: BorderSide(
-            color: Theme.of(context).dividerColor,
-          ),
-        ) : null,
+        border: widget.showDivider
+            ? Border(
+                top: BorderSide(
+                  color: Theme.of(context).dividerColor,
+                ),
+              )
+            : null,
       ),
       child: Padding(
         padding: const EdgeInsets.only(left: 15),
@@ -111,7 +114,11 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                         : null,
                     child: Icon(
                       Icons.navigate_next_rounded,
-                      color: hasMatch ? widget.props.primaryColor == null ? widget.props.primaryGradient.colors.first : widget.props.primaryColor : Theme.of(context).disabledColor,
+                      color: hasMatch
+                          ? widget.props.primaryColor == null
+                              ? widget.props.primaryGradient.colors.first
+                              : widget.props.primaryColor
+                          : Theme.of(context).disabledColor,
                       size: 20,
                     ),
                   ),

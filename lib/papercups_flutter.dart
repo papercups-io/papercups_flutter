@@ -292,23 +292,31 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 ),
                 if (!widget.floatingSendMessage) PoweredBy(),
                 Container(
-                  margin: widget.floatingSendMessage ? EdgeInsets.only(
-                    right: 15,
-                    left: 15,
-                  ) : null,
-                  decoration: widget.floatingSendMessage ?  BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 10,
-                          color: Theme.of(context).brightness == Brightness.light ? Colors.grey.withOpacity(0.4) : Colors.black.withOpacity(0.8),
+                  margin: widget.floatingSendMessage
+                      ? EdgeInsets.only(
+                          right: 15,
+                          left: 15,
                         )
-                      ]) : BoxDecoration(),
-                  clipBehavior: widget.floatingSendMessage ? Clip.antiAlias : Clip.none,
+                      : null,
+                  decoration: widget.floatingSendMessage
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                              BoxShadow(
+                                blurRadius: 10,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.grey.withOpacity(0.4)
+                                    : Colors.black.withOpacity(0.8),
+                              )
+                            ])
+                      : BoxDecoration(),
+                  clipBehavior:
+                      widget.floatingSendMessage ? Clip.antiAlias : Clip.none,
                   child: (widget.props.requireEmailUpfront &&
                           (_customer == null || _customer.email == null))
-                      ? RequireEmailUpfront(
-                          setCustomer, widget.props, textBlack, !widget.floatingSendMessage)
+                      ? RequireEmailUpfront(setCustomer, widget.props,
+                          textBlack, !widget.floatingSendMessage)
                       : SendMessage(
                           props: widget.props,
                           customer: _customer,
