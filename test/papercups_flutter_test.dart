@@ -10,11 +10,39 @@ import 'package:papercups_flutter/utils/utils.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
+// define a call method for Sc so that Sc can be
+// mocked as a function.
+abstract class Sc {
+  void call(Object conv);
+}
+
 class MockClient extends Mock implements http.Client {}
 
+class MockSc extends Mock implements Sc {}
+
 void main() {
-  final props = Props(accountId: 'account_id');
-  final customer = PapercupsCustomer();
+  final props = Props(
+    accountId: 'account_id',
+    customer: CustomerMetadata(externalId: 'external_id'),
+  );
+  final customer = PapercupsCustomer(
+    id: 'id',
+    createdAt: DateTime.tryParse('2020-12-31T22:19:52.644532'),
+    email: 'email@papercups.com',
+    externalId: 'external_id',
+    firstSeen: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    lastSeen: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    updatedAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    name: 'name',
+    phone: 'phone',
+  );
+  final message = PapercupsMessage(
+    accountId: 'account_id',
+    body: 'body',
+    createdAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    sentAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+  );
+
   group("Props", () {
     Props props;
     test('default values', () {
@@ -143,7 +171,8 @@ void main() {
 
     test('returns Converation object on success', () async {
       final client = MockClient();
-      final testResponse = jsonEncode({
+      final sc = MockSc();
+      final res = jsonEncode({
         "data": {
           "id": conv.id,
           "customer_id": conv.customerId,
@@ -153,10 +182,6 @@ void main() {
           "read": conv.read,
         }
       });
-      Conversation newConv;
-      void sc(Conversation conv) {
-        newConv = conv;
-      }
 
       when(
         client.post(
@@ -164,7 +189,7 @@ void main() {
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
-      ).thenAnswer((_) async => http.Response(testResponse, 200));
+      ).thenAnswer((_) async => http.Response(res, 200));
 
       final details = await getConversationDetails(
         props,
@@ -182,10 +207,8 @@ void main() {
         ),
       ).called(1);
       verify(client.close()).called(1);
+      verify(sc(details)).called(1);
 
-      expect(newConv, equals(details),
-          reason:
-              'the conversation object returned should match the arguement passed to sc');
       expect(details.id, equals(conv.id));
       expect(details.accountId, equals(conv.accountId));
     });
@@ -218,6 +241,282 @@ void main() {
       verify(client.close()).called(1);
 
       expect(details, equals(null));
+    });
+  });
+
+  group('getCustomerDetails', () {
+    test('returns a Customer object on success', () async {
+      final client = MockClient();
+      final sc = MockSc();
+      final res = jsonEncode({
+        "data": {
+          "id": customer.id,
+          "email": customer.email,
+          "external_id": customer.externalId,
+          "created_at": customer.createdAt.toIso8601String(),
+          "first_seen": customer.firstSeen.toIso8601String(),
+          "last_seen": customer.lastSeen.toIso8601String(),
+          "updated_at": customer.updatedAt.toIso8601String(),
+          "name": customer.name,
+          "phone": customer.phone,
+        }
+      });
+
+      when(
+        client.post(
+          'https://${props.baseUrl}/api/customers',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(res, 200));
+
+      final PapercupsCustomer c = await getCustomerDetails(
+        props,
+        customer,
+        sc,
+        client: client,
+      );
+
+      verify(
+        client.post(
+          'https://${props.baseUrl}/api/customers',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+
+      expect(c.id, equals(customer.id));
+      expect(c.lastSeen, equals(customer.lastSeen));
+    });
+
+    test("returns null when there's an error", () async {
+      final client = MockClient();
+      when(
+        client.post(
+          'https://${props.baseUrl}/api/customers',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenThrow(HttpException('Request failed'));
+
+      final PapercupsCustomer c = await getCustomerDetails(
+        props,
+        customer,
+        () => {},
+        client: client,
+      );
+
+      verify(
+        client.post(
+          'https://${props.baseUrl}/api/customers',
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+
+      expect(c, equals(null));
+    });
+  });
+
+  group('getCustomerDetailsFromMetadata', () {
+    test('returns a Customer object on success', () async {
+      final client = MockClient();
+      final sc = MockSc();
+      final res = jsonEncode({
+        "data": {
+          "customer_id": customer.id,
+          "email": customer.email,
+          "external_id": customer.externalId,
+          "created_at": customer.createdAt.toIso8601String(),
+          "first_seen": customer.firstSeen.toIso8601String(),
+          "last_seen": customer.lastSeen.toIso8601String(),
+          "updated_at": customer.updatedAt.toIso8601String(),
+          "name": customer.name,
+          "phone": customer.phone,
+        }
+      });
+
+      when(
+        client.get(
+          Uri.https(
+            props.baseUrl,
+            "/api/customers/identify",
+            {
+              "external_id": customer.externalId,
+              "account_id": props.accountId,
+            },
+          ),
+        ),
+      ).thenAnswer((_) async => http.Response(res, 200));
+
+      final PapercupsCustomer c = await getCustomerDetailsFromMetadata(
+        props,
+        customer,
+        sc,
+        client: client,
+      );
+
+      verify(
+        client.get(
+          Uri.https(
+            props.baseUrl,
+            "/api/customers/identify",
+            {
+              "external_id": customer.externalId,
+              "account_id": props.accountId,
+            },
+          ),
+        ),
+      ).called(1);
+      verify(sc(c)).called(1);
+      verify(client.close()).called(1);
+
+      expect(c.id, equals(customer.id));
+      expect(c.lastSeen, equals(customer.lastSeen));
+    });
+
+    test("returns null when there's an error", () async {
+      final client = MockClient();
+      final sc = MockSc();
+      when(
+        client.get(
+          Uri.https(
+            props.baseUrl,
+            "/api/customers/identify",
+            {
+              "external_id": customer.externalId,
+              "account_id": props.accountId,
+            },
+          ),
+        ),
+      ).thenThrow(HttpException('Request failed'));
+
+      final PapercupsCustomer c = await getCustomerDetailsFromMetadata(
+        props,
+        customer,
+        sc,
+        client: client,
+      );
+
+      verify(
+        client.get(
+          Uri.https(
+            props.baseUrl,
+            "/api/customers/identify",
+            {
+              "external_id": customer.externalId,
+              "account_id": props.accountId,
+            },
+          ),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+      verify(sc(c)).called(1);
+
+      expect(c, equals(null));
+    });
+  });
+
+  group('getPastCustomerMessages', () {
+    test('returns a list of Messages and a Customer', () async {
+      List<PapercupsMessage> rMsgs = [];
+      PapercupsCustomer c;
+      final client = MockClient();
+      final res = jsonEncode({
+        "data": [
+          {
+            "messages": [
+              {
+                "account_id": message.accountId,
+                "body": message.body,
+                "created_at": message.createdAt.toIso8601String(),
+                "sent_at": message.sentAt.toIso8601String(),
+              },
+              {
+                "accound_id": message.accountId,
+                "body": message.body,
+                "created_at": message.createdAt.toIso8601String(),
+                "sent_at": message.sentAt.toIso8601String(),
+              }
+            ],
+            "customer": {
+              "created_at": customer.createdAt.toIso8601String(),
+              "email": customer.email,
+              "external_id": customer.externalId,
+              "first_seen": customer.firstSeen.toIso8601String(),
+              "last_seen": customer.lastSeen.toIso8601String(),
+              "updated_at": customer.updatedAt.toIso8601String(),
+              "name": customer.name,
+              "phone": customer.phone
+            }
+          }
+        ]
+      });
+
+      when(
+        client.get(
+          Uri.https(props.baseUrl, "/api/conversations/customer", {
+            "customer_id": customer.id,
+            "account_id": props.accountId,
+          }),
+          headers: anyNamed('headers'),
+        ),
+      ).thenAnswer((_) async => http.Response(res, 200));
+
+      final cm = await getPastCustomerMessages(
+        props,
+        customer,
+        client: client,
+      );
+      rMsgs = cm['msgs'];
+      c = cm['cust'];
+
+      verify(
+        client.get(
+          Uri.https(props.baseUrl, "/api/conversations/customer", {
+            "customer_id": customer.id,
+            "account_id": props.accountId,
+          }),
+          headers: anyNamed('headers'),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+
+      expect(rMsgs.length, equals(2));
+      expect(c, isNot(null));
+    });
+
+    test("prints an error message when there's an error", () async {
+      final client = MockClient();
+      when(
+        client.get(
+          Uri.https(props.baseUrl, "/api/conversations/customer", {
+            "customer_id": customer.id,
+            "account_id": props.accountId,
+          }),
+          headers: anyNamed('headers'),
+        ),
+      ).thenThrow(HttpException('Request failed'));
+
+      await getPastCustomerMessages(
+        props,
+        customer,
+        client: client,
+      );
+
+      verify(
+        client.get(
+          Uri.https(props.baseUrl, "/api/conversations/customer", {
+            "customer_id": customer.id,
+            "account_id": props.accountId,
+          }),
+          headers: anyNamed('headers'),
+        ),
+      ).called(1);
+      verify(client.close()).called(1);
+      prints("An error ocurred while getting past customer data.");
     });
   });
 }
