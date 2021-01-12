@@ -35,6 +35,9 @@ class PaperCupsWidget extends StatefulWidget {
   /// If not null, close button will be shown.
   final Function closeAction;
 
+  /// Set to true in order to make the send message section float
+  final bool floatingSendMessage;
+
   PaperCupsWidget({
     @required this.props,
     this.dateLocale = "en-US",
@@ -42,6 +45,7 @@ class PaperCupsWidget extends StatefulWidget {
     this.sendingText = "Sending...",
     this.sentText = "Sent",
     this.closeAction,
+    this.floatingSendMessage = false,
   });
 
   @override
@@ -286,24 +290,54 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     textBlack,
                   ),
                 ),
-                PoweredBy(),
-                (widget.props.requireEmailUpfront &&
-                        (_customer == null || _customer.email == null))
-                    ? RequireEmailUpfront(setCustomer, widget.props, textBlack)
-                    : SendMessage(
-                        props: widget.props,
-                        customer: _customer,
-                        setCustomer: setCustomer,
-                        setConversation: setConversation,
-                        conversationChannel: _conversationChannel,
-                        setConversationChannel: setConversationChannel,
-                        conversation: _conversation,
-                        socket: _socket,
-                        setState: rebuild,
-                        messages: _messages,
-                        sending: _sending,
-                        textBalck: textBlack,
-                      ),
+                if (!widget.floatingSendMessage) PoweredBy(),
+                Container(
+                  margin: widget.floatingSendMessage
+                      ? EdgeInsets.only(
+                          right: 15,
+                          left: 15,
+                        )
+                      : null,
+                  decoration: widget.floatingSendMessage
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                              BoxShadow(
+                                blurRadius: 10,
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
+                                    ? Colors.grey.withOpacity(0.4)
+                                    : Colors.black.withOpacity(0.8),
+                              )
+                            ])
+                      : BoxDecoration(),
+                  clipBehavior:
+                      widget.floatingSendMessage ? Clip.antiAlias : Clip.none,
+                  child: (widget.props.requireEmailUpfront &&
+                          (_customer == null || _customer.email == null))
+                      ? RequireEmailUpfront(setCustomer, widget.props,
+                          textBlack, !widget.floatingSendMessage)
+                      : SendMessage(
+                          props: widget.props,
+                          customer: _customer,
+                          setCustomer: setCustomer,
+                          setConversation: setConversation,
+                          conversationChannel: _conversationChannel,
+                          setConversationChannel: setConversationChannel,
+                          conversation: _conversation,
+                          socket: _socket,
+                          setState: rebuild,
+                          messages: _messages,
+                          sending: _sending,
+                          textBalck: textBlack,
+                          showDivider: !widget.floatingSendMessage,
+                        ),
+                ),
+                if (widget.floatingSendMessage)
+                  Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: PoweredBy(),
+                  ),
               ],
             ),
     );
