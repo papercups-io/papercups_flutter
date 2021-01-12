@@ -13,14 +13,15 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
   }
   List<PapercupsMessage> rMsgs = [];
 
-  var res = await client.get(
-    Uri.https(p.baseUrl, "/api/conversations/customer", {
-      "customer_id": c.id,
-      "account_id": p.accountId,
-    }),
-    headers: {"Accept": "*/*"},
-  );
   try {
+    var res = await client.get(
+      Uri.https(p.baseUrl, "/api/conversations/customer", {
+        "customer_id": c.id,
+        "account_id": p.accountId,
+      }),
+      headers: {"Accept": "*/*"},
+    );
+
     var data = jsonDecode(res.body)["data"][0];
     data["messages"].forEach((val) {
       rMsgs.add(
