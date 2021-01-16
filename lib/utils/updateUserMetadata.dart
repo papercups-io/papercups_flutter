@@ -1,3 +1,4 @@
+// Imports
 import 'dart:convert';
 
 import 'package:http/http.dart';
@@ -5,6 +6,7 @@ import '../papercups_flutter.dart';
 
 import '../models/models.dart';
 
+/// This function is used to update customer details on the Papercups server.
 Future<PapercupsCustomer> updateUserMetadata(
   Props p,
   String cId, {

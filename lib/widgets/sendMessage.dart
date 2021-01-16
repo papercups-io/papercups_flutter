@@ -1,3 +1,4 @@
+//Imports
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../utils/utils.dart';
@@ -9,6 +10,7 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/classes.dart';
 
+/// Send message text box.
 class SendMessage extends StatefulWidget {
   SendMessage({
     Key key,
@@ -140,6 +142,7 @@ class _SendMessageState extends State<SendMessage> {
   }
 }
 
+/// Send message function
 void _sendMessage(
   FocusNode fn,
   TextEditingController tc,

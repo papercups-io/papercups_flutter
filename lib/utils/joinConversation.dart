@@ -4,6 +4,7 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/message.dart';
 
+/// This function will join the channel and listen to new messages.
 PhoenixChannel joinConversationAndListen({
   List<PapercupsMessage> messages,
   @required String convId,
@@ -12,20 +13,28 @@ PhoenixChannel joinConversationAndListen({
   @required Function setState,
   @required Function setChannel,
 }) {
+  // Adding the channel.
   conversation = socket.addChannel(topic: "conversation:" + convId);
+  // Joining channel.
   conversation.join();
+  // Function to set the channel.
   setChannel(conversation);
+  // Add the listener that will check for new messages.
   conversation.messages.listen(
     (event) {
       if (event.payload != null) {
         if (event.payload["status"] == "error") {
+          // If there is an error, shutdown the channels and remove it.
           conversation.close();
           socket.removeChannel(conversation);
-          conversation == null;
+          conversation = null;
         } else {
-          if (event.event.toString().contains("shout")) {
-            setState(() {
-              if (event.payload["customer"] == null) {
+          if (event.event.toString().contains("shout") ||
+              event.event.toString().contains("message:created")) {
+            // https://github.com/papercups-io/papercups/pull/488
+            // "message:created" is still not implemented see the PR above.
+            if (event.payload["customer"] == null)
+              setState(() {
                 messages.add(
                   PapercupsMessage(
                     accountId: event.payload["account_id"],
@@ -120,8 +129,7 @@ PhoenixChannel joinConversationAndListen({
                 //       ),
                 //     );
                 //   }
-              }
-            }, animate: true);
+              }, animate: true);
           }
         }
       }

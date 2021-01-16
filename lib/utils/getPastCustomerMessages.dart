@@ -1,8 +1,10 @@
+//Imports
 import 'dart:convert';
 
 import 'package:http/http.dart';
 import '../models/models.dart';
 
+/// This function is used to get the past messages from the customer.
 Future<Map<String, dynamic>> getPastCustomerMessages(
   Props p,
   PapercupsCustomer c, {
@@ -14,6 +16,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
   List<PapercupsMessage> rMsgs = [];
 
   try {
+    // Get messages.
     var res = await client.get(
       Uri.https(p.baseUrl, "/api/conversations/customer", {
         "customer_id": c.id,
@@ -22,7 +25,10 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
       headers: {"Accept": "*/*"},
     );
 
+    // JSON Decode.
     var data = jsonDecode(res.body)["data"][0];
+
+    // For every message generate a PapercupsMessage object and add it to the list.
     data["messages"].forEach((val) {
       rMsgs.add(
         PapercupsMessage(
@@ -51,6 +57,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
         ),
       );
     });
+    // Get the customer details.
     var customerData = data["customer"];
     c = PapercupsCustomer(
       createdAt: DateTime.tryParse(customerData["created_at"]),
@@ -67,6 +74,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     print("An error ocurred while getting past customer data.");
   }
   client.close();
+  // Return messages and customer details.
   return {
     "msgs": rMsgs,
     "cust": c,

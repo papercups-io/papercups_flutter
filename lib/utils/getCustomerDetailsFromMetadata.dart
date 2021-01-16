@@ -1,8 +1,11 @@
+// Imports
 import 'dart:convert';
 
 import 'package:http/http.dart';
 import '../models/models.dart';
 
+/// This funtction is used to get the customer details from Papercups.
+/// This is the function responsible for finding the Customer's ID.
 Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   Props p,
   PapercupsCustomer c,
@@ -13,6 +16,7 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
     client = Client();
   }
   try {
+    // HTTP client getting info
     var res = await client.get(
       Uri.https(
         p.baseUrl,
@@ -23,7 +27,9 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
         },
       ),
     );
+    //Decoding JSON
     var data = jsonDecode(res.body)["data"];
+    // Generating the Papercups customer data.
     c = PapercupsCustomer(
       id: data["customer_id"],
       externalId: c == null ? null : c.externalId,
@@ -36,9 +42,13 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
       updatedAt: c == null ? null : c.updatedAt,
     );
   } catch (e) {
+    // Customer will be null if there is an error.
     c = null;
   }
+  // Function to set the client.
   sc(c);
+  // Closing HTTP client.
   client.close();
+  // Returns customer.
   return c;
 }

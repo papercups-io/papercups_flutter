@@ -1,6 +1,8 @@
+// Imports
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 
+/// Requires email upfront.
 class RequireEmailUpfront extends StatefulWidget {
   final Function setCustomer;
   final Props props;
@@ -19,9 +21,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
   @override
   void initState() {
     c.addListener(() {
-      setState(() {
-        print("Rebuild");
-      });
+      setState(() {});
     });
     super.initState();
   }
@@ -34,7 +34,8 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
 
   @override
   Widget build(BuildContext context) {
-    var hasMatch = RegExp(
+    // Email Regular Expression check.
+    final hasMatch = RegExp(
             r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,253}[a-zA-Z0-9])?)*$")
         .hasMatch(c.value.text);
     return Container(

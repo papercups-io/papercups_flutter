@@ -1,7 +1,9 @@
+// Imports
 import '../models/models.dart';
 import '../papercups_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
+/// This function creates the necessary channels, sockets and rooms for papercups to communicate.
 initChannels(
   bool _connected,
   PhoenixSocket _socket,
