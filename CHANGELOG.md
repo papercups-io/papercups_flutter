@@ -21,6 +21,11 @@ This release brings major changes to how this package works. Most importantly, i
 ### Contributors
 Thanks to [@Fiyiin](https://github.com/Fiyiin) for helping me out building this version of the library!
 
+## [1.0.1] - 05/01/2020.
+
+* 🍱 Update Readme.md with new logo
+
+
 ## [1.0.0+1] - 1/12/2020.
 
 * 🎉 1.0 Release!
