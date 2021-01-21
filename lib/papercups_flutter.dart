@@ -67,29 +67,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   bool textBlack = false;
 
   @override
-  void initState() {
-    if (widget.props.baseUrl.contains("http"))
-      throw "Do not provide a protocol in baseURL";
-    if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
-    if (widget.props.primaryGradient != null &&
-        widget.props.primaryColor != null)
-      throw "Expected either primaryColor or primaryGradient to be null";
-    if (widget.props.customer != null) {
-      setCustomer(PapercupsCustomer(
-        email: widget.props.customer.email,
-        externalId: widget.props.customer.externalId,
-        name: widget.props.customer.name,
-      ));
-    }
-    if (widget.dateLocale != "en-US") {
-      initializeDateFormatting().then((_) {
-        if (mounted) setState(() {});
-      });
-    }
-    super.initState();
-  }
-
-  @override
   void dispose() {
     if (_channel != null) _channel.close();
     if (_conversationChannel != null) _conversationChannel.close();
@@ -157,6 +134,24 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         (widget.props.primaryColor == null &&
             Theme.of(context).primaryColor.computeLuminance() > 0.5))
       textBlack = true;
+    if (widget.props.baseUrl.contains("http"))
+      throw "Do not provide a protocol in baseURL";
+    if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
+    if (widget.props.primaryGradient != null &&
+        widget.props.primaryColor != null)
+      throw "Expected either primaryColor or primaryGradient to be null";
+    if (widget.props.customer != null) {
+      setCustomer(PapercupsCustomer(
+        email: widget.props.customer.email,
+        externalId: widget.props.customer.externalId,
+        name: widget.props.customer.name,
+      ));
+    }
+    if (widget.dateLocale != "en-US") {
+      initializeDateFormatting().then((_) {
+        if (mounted) setState(() {});
+      });
+    }
     super.didChangeDependencies();
   }
 
