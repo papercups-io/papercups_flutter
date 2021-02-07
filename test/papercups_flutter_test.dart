@@ -10,15 +10,7 @@ import 'package:papercups_flutter/utils/utils.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-// define a call method for Sc so that Sc can be
-// mocked as a function.
-abstract class Sc {
-  void call(Object conv);
-}
-
-class MockClient extends Mock implements http.Client {}
-
-class MockSc extends Mock implements Sc {}
+import 'mocks.dart';
 
 void main() {
   final props = Props(
