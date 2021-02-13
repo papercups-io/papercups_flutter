@@ -33,10 +33,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   var show = true;
 
-  TextEditingController titleController = TextEditingController(text: "Welcome to Papercups!");
-  TextEditingController subtitleController = TextEditingController(text: "Ask us anything using the chat window 💭");
+  TextEditingController titleController =
+      TextEditingController(text: "Welcome to Papercups!");
+  TextEditingController subtitleController =
+      TextEditingController(text: "Ask us anything using the chat window 💭");
   Color color = Color(0xff1890ff);
-
 
   @override
   void dispose() {
@@ -46,10 +47,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    titleController.addListener(() { 
+    titleController.addListener(() {
       setState(() {});
-      });
-    subtitleController.addListener(() { 
+    });
+    subtitleController.addListener(() {
       setState(() {});
     });
     super.initState();
@@ -84,72 +85,80 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Container(
             padding: EdgeInsets.only(left: 50, top: 50, right: 50),
-            constraints: BoxConstraints(
-              maxWidth: 800
-            ),
+            constraints: BoxConstraints(maxWidth: 800),
             child: SingleChildScrollView(
-                          child: Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Demo", style: Theme.of(context).textTheme.headline3,),
-                  SizedBox(height: 20,),
-                  Text("Hello! Try customizing the chat widget's display text and colors."),
-                  SizedBox(height: 40,),
+                  Text(
+                    "Demo",
+                    style: Theme.of(context).textTheme.headline3,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      "Hello! Try customizing the chat widget's display text and colors."),
+                  SizedBox(
+                    height: 40,
+                  ),
                   Text("Update the title:"),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   TextField(
                     controller: titleController,
-                      decoration: InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Enter a title',
                       contentPadding: EdgeInsets.all(20.0),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.zero
-                      ),
+                          borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xff1890ff)
-                        ),
-                        borderRadius: BorderRadius.zero
-                      ),
+                          borderSide: BorderSide(color: Color(0xff1890ff)),
+                          borderRadius: BorderRadius.zero),
                     ),
                   ),
-                  SizedBox(height: 40,),
+                  SizedBox(
+                    height: 40,
+                  ),
                   Text("Update the subtitle:"),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   TextField(
                     controller: subtitleController,
-                      decoration: InputDecoration(
+                    decoration: InputDecoration(
                       hintText: 'Enter a subtitle',
                       contentPadding: EdgeInsets.all(20.0),
                       border: const OutlineInputBorder(
-                        borderRadius: BorderRadius.zero
-                      ),
+                          borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Color(0xff1890ff)
-                        ),
-                        borderRadius: BorderRadius.zero
-                      ),
+                          borderSide: BorderSide(color: Color(0xff1890ff)),
+                          borderRadius: BorderRadius.zero),
                     ),
                   ),
-                  SizedBox(height: 40,),
-                  Text("Try changing the color (you can enter any hex value you want!)"),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text(
+                      "Try changing the color (you can enter any hex value you want!)"),
+                  SizedBox(
+                    height: 15,
+                  ),
                   ColorPicker(
-                    color: color,
-                    showColorCode: true,
-
-                    pickersEnabled: {
-                      ColorPickerType.accent: false,
-                      ColorPickerType.primary: false,
-                      ColorPickerType.wheel: true,
-                    },
-                    onColorChanged: (c){
-                    setState(() {
-                      color = c;
-                    });
-                  }),
+                      color: color,
+                      showColorCode: true,
+                      pickersEnabled: {
+                        ColorPickerType.accent: false,
+                        ColorPickerType.primary: false,
+                        ColorPickerType.wheel: true,
+                      },
+                      onColorChanged: (c) {
+                        setState(() {
+                          color = c;
+                        });
+                      }),
                 ],
               ),
             ),
@@ -191,7 +200,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       primaryColor: color,
                       greeting: "Welcome to the test app!",
                       subtitle: subtitleController.text,
-                      customer:  null,
+                      customer: null,
                     ),
                   ),
                 ),

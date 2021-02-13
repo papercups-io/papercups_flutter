@@ -164,16 +164,20 @@ void _sendMessage(
   tc.clear();
   var timeNow = DateTime.now().toUtc();
 
-  setState(() {
-    messages.add(
-      PapercupsMessage(
-        body: text,
-        createdAt: timeNow.toLocal(),
-        sentAt: timeNow.toLocal(),
-        customer: PapercupsCustomer(),
-      ),
-    );
-  }, stateMsg: true, animate: true,);
+  setState(
+    () {
+      messages.add(
+        PapercupsMessage(
+          body: text,
+          createdAt: timeNow.toLocal(),
+          sentAt: timeNow.toLocal(),
+          customer: PapercupsCustomer(),
+        ),
+      );
+    },
+    stateMsg: true,
+    animate: true,
+  );
 
   if (conversationChannel == null) {
     getCustomerDetails(p, cu, setCust).then(
