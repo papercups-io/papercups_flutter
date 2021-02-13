@@ -19,20 +19,20 @@ void main() {
   );
   final customer = PapercupsCustomer(
     id: 'id',
-    createdAt: DateTime.tryParse('2020-12-31T22:19:52.644532'),
+    createdAt: parseDateFromUTC('2020-12-31T22:19:52.644532'),
     email: 'email@papercups.com',
     externalId: 'external_id',
-    firstSeen: DateTime.tryParse('2021-01-08T22:19:52.644532'),
-    lastSeen: DateTime.tryParse('2021-01-08T22:19:52.644532'),
-    updatedAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    firstSeen: parseDateFromUTC('2021-01-08T22:19:52.644532'),
+    lastSeen: parseDateFromUTC('2021-01-08T22:19:52.644532'),
+    updatedAt: parseDateFromUTC('2021-01-08T22:19:52.644532'),
     name: 'name',
     phone: 'phone',
   );
   final message = PapercupsMessage(
     accountId: 'account_id',
     body: 'body',
-    createdAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
-    sentAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    createdAt: parseDateFromUTC('2021-01-08T22:19:52.644532'),
+    sentAt: parseDateFromUTC('2021-01-08T22:19:52.644532'),
   );
 
   group("Props", () {

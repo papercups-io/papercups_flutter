@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:papercups_flutter/widgets/alert.dart';
 import '../models/models.dart';
+import 'utils.dart';
 
 Future<PapercupsCustomer> getCustomerDetails(
   Props p,
@@ -40,19 +42,19 @@ Future<PapercupsCustomer> getCustomerDetails(
     var data = jsonDecode(res.body)["data"];
     c = PapercupsCustomer(
       createdAt: data["created_at"] != null
-          ? DateTime.tryParse(data["created_at"])
+          ? parseDateFromUTC(data["created_at"])
           : null,
       email: data["email"],
       externalId: data["external_id"],
       firstSeen: data["first_seen"] != null
-          ? DateTime.tryParse(data["first_seen"])
+          ? parseDateFromUTC(data["first_seen"])
           : null,
       id: data["id"],
       lastSeen: data["last_seen"] != null
-          ? DateTime.tryParse(data["last_seen"])
+          ? parseDateFromUTC(data["last_seen"])
           : null,
       updatedAt: data["updated_at"] != null
-          ? DateTime.tryParse(data["updated_at"])
+          ? parseDateFromUTC(data["updated_at"])
           : null,
       name: data["name"],
       phone: data["phone"],

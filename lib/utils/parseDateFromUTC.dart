@@ -3,11 +3,13 @@ DateTime parseDateFromUTC(String time){
 
   if (DateTime.tryParse(time) != null){
     if(time.endsWith("Z")){
-      processed = DateTime.parse(time).toLocal();
+      processed = DateTime.tryParse(time);
     }else{
-      DateTime.parse(time + "Z").toLocal();
+      processed = DateTime.tryParse(time + "Z");
     }
   }
+
+  if(processed != null) processed = processed.toLocal();
 
   return processed;
 }

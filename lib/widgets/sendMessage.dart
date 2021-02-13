@@ -168,12 +168,12 @@ void _sendMessage(
     messages.add(
       PapercupsMessage(
         body: text,
-        createdAt: timeNow,
+        createdAt: timeNow.toLocal(),
         sentAt: timeNow.toLocal(),
         customer: PapercupsCustomer(),
       ),
     );
-  }, stateMsg: true);
+  }, stateMsg: true, animate: true,);
 
   if (conversationChannel == null) {
     getCustomerDetails(p, cu, setCust).then(
