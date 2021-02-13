@@ -1,10 +1,9 @@
-![logo](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/logo.svg)
+![logo](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/logo.svg)
 [![pub package](https://img.shields.io/pub/v/papercups_flutter.svg?label=papercups_flutter&color=blue)](https://pub.dev/packages/papercups_flutter) [![likes](https://badges.bar/papercups_flutter/likes)](https://pub.dev/packages/papercups_flutter/score)  [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
 
-# ⚠️⚠️⚠️ This branch is under active development. Do not use in production, to view the stable branch take a look at [main](https://github.com/papercups-io/papercups_flutter/tree/main/)⚠️⚠️⚠️
+![Demo Chat](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/chatImages.png)
 
-## [Demo](https://papercups-demo.eduardom.dev/#/)
-
+[![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)
 
 ## Main repository
 https://github.com/papercups-io/papercups
