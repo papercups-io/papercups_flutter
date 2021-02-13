@@ -162,18 +162,22 @@ void _sendMessage(
   fn.requestFocus();
   if (text.trim().isEmpty || text == null) return null;
   tc.clear();
-  var timeNow = DateTime.now();
+  var timeNow = DateTime.now().toUtc();
 
-  setState(() {
-    messages.add(
-      PapercupsMessage(
-        body: text,
-        createdAt: timeNow,
-        sentAt: timeNow,
-        customer: PapercupsCustomer(),
-      ),
-    );
-  }, stateMsg: true);
+  setState(
+    () {
+      messages.add(
+        PapercupsMessage(
+          body: text,
+          createdAt: timeNow.toLocal(),
+          sentAt: timeNow.toLocal(),
+          customer: PapercupsCustomer(),
+        ),
+      );
+    },
+    stateMsg: true,
+    animate: true,
+  );
 
   if (conversationChannel == null) {
     getCustomerDetails(p, cu, setCust).then(
@@ -212,4 +216,5 @@ void _sendMessage(
       },
     );
   }
+  setState(() {});
 }

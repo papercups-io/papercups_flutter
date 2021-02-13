@@ -155,6 +155,24 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     super.didChangeDependencies();
   }
 
+  @override
+  void didUpdateWidget(PaperCupsWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.props.primaryColor != widget.props.primaryColor) {
+      if ((widget.props.primaryColor != null &&
+              widget.props.primaryColor.computeLuminance() > 0.5) ||
+          (widget.props.primaryGradient != null &&
+              widget.props.primaryGradient.colors[0].computeLuminance() >
+                  0.5) ||
+          (widget.props.primaryColor == null &&
+              Theme.of(context).primaryColor.computeLuminance() > 0.5))
+        textBlack = true;
+      else {
+        textBlack = false;
+      }
+    }
+  }
+
   void setCustomer(PapercupsCustomer c, {rebuild = false}) {
     _customer = c;
     if (rebuild) setState(() {});
@@ -218,7 +236,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           color: Colors.grey,
                         ),
                   ),
-                  FlatButton.icon(
+                  TextButton.icon(
                     onPressed: () {
                       if (!_socket.isConnected) {
                         _socket.dispose();
@@ -253,10 +271,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     },
                     icon: Icon(Icons.refresh_rounded),
                     label: Text("Retry"),
-                    textColor: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
                   )
                 ],
               ),

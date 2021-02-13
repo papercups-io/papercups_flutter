@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import '../models/models.dart';
+import 'utils.dart';
 
 /// This function is used to get the past messages from the customer.
 Future<Map<String, dynamic>> getPastCustomerMessages(
@@ -34,8 +35,8 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
         PapercupsMessage(
           accountId: val["account_id"],
           body: val["body"],
-          createdAt: DateTime.tryParse(val["created_at"]),
-          sentAt: DateTime.tryParse(val["sent_at"]),
+          createdAt: parseDateFromUTC(val["created_at"]),
+          sentAt: parseDateFromUTC(val["sent_at"]),
           conversationId: val["conversation_id"],
           customerId: val["customer_id"],
           customer: c,
@@ -60,13 +61,13 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     // Get the customer details.
     var customerData = data["customer"];
     c = PapercupsCustomer(
-      createdAt: DateTime.tryParse(customerData["created_at"]),
+      createdAt: parseDateFromUTC(customerData["created_at"]),
       email: customerData["email"],
       externalId: customerData["external_id"],
-      firstSeen: DateTime.tryParse(customerData["first_seen"]),
+      firstSeen: parseDateFromUTC(customerData["first_seen"]),
       id: customerData["id"],
-      lastSeen: DateTime.tryParse(customerData["last_seen"]),
-      updatedAt: DateTime.tryParse(customerData["updated_at"]),
+      lastSeen: parseDateFromUTC(customerData["last_seen"]),
+      updatedAt: parseDateFromUTC(customerData["updated_at"]),
       name: customerData["name"],
       phone: customerData["phone"],
     );
