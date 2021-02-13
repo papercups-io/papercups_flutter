@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import '../models/models.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
+import 'utils.dart';
 
 import '../models/message.dart';
 
@@ -66,69 +67,16 @@ PhoenixChannel joinConversationAndListen({
                         : null,
                     userId: event.payload["user_id"],
                     createdAt: event.payload["created_at"] != null
-                        ? DateTime.tryParse(event.payload["created_at"])
+                        ? parseDateFromUTC(event.payload["created_at"])
                         : null,
                     seenAt: event.payload["seen_at"] != null
-                        ? DateTime.tryParse(event.payload["seen_at"])
+                        ? parseDateFromUTC(event.payload["seen_at"])
                         : null,
                     sentAt: event.payload["sent_at"] != null
-                        ? DateTime.tryParse(event.payload["sent_at"])
+                        ? parseDateFromUTC(event.payload["sent_at"])
                         : null,
                   ),
                 );
-                // } else {
-                //   var idxToUpdate = messages.indexWhere((element) {
-                //     var sentTime = element.sentAt;
-                //     sentTime = DateTime(sentTime.year, sentTime.month, sentTime.day, sentTime.hour, sentTime.second).toUtc();
-                //     print(sentTime);
-                //     return  sentTime ==
-                //         DateTime.tryParse(event.payload["sent_at"]);
-                //   });
-                //   if (idxToUpdate != -1) {
-                //     messages.removeAt(idxToUpdate);
-                //     messages.insert(
-                //       idxToUpdate,
-                //       PapercupsMessage(
-                //         accountId: event.payload["account_id"],
-                //         body: event.payload["body"].toString().trim(),
-                //         conversationId: event.payload["conversation_id"],
-                //         customerId: event.payload["customer_id"],
-                //         id: event.payload["id"],
-                //         user: (event.payload["user"] != null)
-                //             ? User(
-                //                 email: event.payload["user"]["email"],
-                //                 id: event.payload["user"]["id"],
-                //                 role: event.payload["user"]["role"],
-                //                 fullName:
-                //                     (event.payload["user"]["full_name"] != null)
-                //                         ? event.payload["user"]["full_name"]
-                //                         : null,
-                //                 profilePhotoUrl: (event.payload["user"]
-                //                             ["profile_photo_url"] !=
-                //                         null)
-                //                     ? event.payload["user"]["profile_photo_url"]
-                //                     : null,
-                //               )
-                //             : null,
-                //         customer: (event.payload["customer"] != null)
-                //             ? PapercupsCustomer(
-                //                 email: event.payload["customer"]["email"],
-                //                 id: event.payload["customer"]["id"],
-                //               )
-                //             : null,
-                //         userId: event.payload["user_id"],
-                //         createdAt: event.payload["created_at"] != null
-                //             ? DateTime.tryParse(event.payload["created_at"])
-                //             : null,
-                //         seenAt: event.payload["seen_at"] != null
-                //             ? DateTime.tryParse(event.payload["seen_at"])
-                //             : null,
-                //         sentAt: event.payload["sent_at"] != null
-                //             ? DateTime.tryParse(event.payload["sent_at"])
-                //             : null,
-                //       ),
-                //     );
-                //   }
               }, animate: true);
           }
         }

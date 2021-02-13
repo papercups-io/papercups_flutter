@@ -162,14 +162,14 @@ void _sendMessage(
   fn.requestFocus();
   if (text.trim().isEmpty || text == null) return null;
   tc.clear();
-  var timeNow = DateTime.now();
+  var timeNow = DateTime.now().toUtc();
 
   setState(() {
     messages.add(
       PapercupsMessage(
         body: text,
         createdAt: timeNow,
-        sentAt: timeNow,
+        sentAt: timeNow.toLocal(),
         customer: PapercupsCustomer(),
       ),
     );
@@ -212,4 +212,5 @@ void _sendMessage(
       },
     );
   }
+  setState(() {});
 }

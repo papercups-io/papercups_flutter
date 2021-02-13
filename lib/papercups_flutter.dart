@@ -81,8 +81,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _messages = [
         PapercupsMessage(
           body: widget.props.greeting,
-          sentAt: DateTime.now(),
-          createdAt: DateTime.now(),
+          sentAt: DateTime.now().toUtc(),
+          createdAt: DateTime.now().toUtc(),
           accountId: widget.props.accountId,
           user: User(
             fullName: widget.props.companyName,
@@ -218,7 +218,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           color: Colors.grey,
                         ),
                   ),
-                  FlatButton.icon(
+                  TextButton.icon(
                     onPressed: () {
                       if (!_socket.isConnected) {
                         _socket.dispose();
@@ -253,10 +253,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     },
                     icon: Icon(Icons.refresh_rounded),
                     label: Text("Retry"),
-                    textColor: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(90),
-                    ),
                   )
                 ],
               ),

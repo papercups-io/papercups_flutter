@@ -13,7 +13,7 @@ Future<PapercupsCustomer> getCustomerDetails(
     client = Client();
   }
   try {
-    var timeNow = DateTime.now().toIso8601String();
+    var timeNow = DateTime.now().toUtc().toIso8601String();
     var metadata = p.customer != null && p.customer.otherMetadata != null
         ? p.customer.otherMetadata
         : {};
