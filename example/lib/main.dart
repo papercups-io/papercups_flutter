@@ -1,6 +1,8 @@
+import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/papercups_flutter.dart';
+import 'package:thememode_selector/thememode_selector.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,17 +12,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Papercups Demo',
-      darkTheme: ThemeData.dark().copyWith(
-        primaryColor: Colors.cyan,
-      ),
-      theme: ThemeData(
-        primarySwatch: Colors.cyan,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      themeMode: ThemeMode.system,
-      home: MyHomePage(),
+    return AdaptiveTheme(
+      light: ThemeData(
+            primarySwatch: Colors.cyan,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          dark: ThemeData.dark().copyWith(
+            primaryColor: Colors.cyan,
+          ),
+          initial: AdaptiveThemeMode.light,
+      builder: (light, dark) {
+        return MaterialApp(
+          title: 'Papercups Demo',
+          theme: light,
+          darkTheme: dark,
+          home: MyHomePage(),
+        );
+      }
     );
   }
 }
@@ -36,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController titleController =
       TextEditingController(text: "Welcome to Papercups!");
   TextEditingController subtitleController =
-      TextEditingController(text: "Ask us anything using the chat window 💭");
+      TextEditingController(text: "Ask us anything using the chat window!");
   Color color = Color(0xff1890ff);
 
   @override
@@ -84,13 +92,16 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: Alignment.topLeft,
         children: [
           Container(
-            padding: EdgeInsets.only(left: 50, top: 50, right: 50),
+            padding: EdgeInsets.only(left: 50, right: 50),
             constraints: BoxConstraints(maxWidth: 800),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 50,
+                  ),
                   Text(
                     "Demo",
                     style: Theme.of(context).textTheme.headline3,
@@ -103,6 +114,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   SizedBox(
                     height: 40,
                   ),
+                  Text("Change the theme:"),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  ThemeModeSelector(
+                    height: 25,
+                    onChanged: (mode) {
+                      AdaptiveTheme.of(context).toggleThemeMode();
+                    }
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                   Text("Update the title:"),
                   SizedBox(
                     height: 15,
@@ -111,7 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     controller: titleController,
                     decoration: InputDecoration(
                       hintText: 'Enter a title',
-                      contentPadding: EdgeInsets.all(20.0),
+                      contentPadding: EdgeInsets.all(10),
+                      isCollapsed: true,
                       border: const OutlineInputBorder(
                           borderRadius: BorderRadius.zero),
                       focusedBorder: OutlineInputBorder(
@@ -130,19 +155,21 @@ class _MyHomePageState extends State<MyHomePage> {
                     controller: subtitleController,
                     decoration: InputDecoration(
                       hintText: 'Enter a subtitle',
-                      contentPadding: EdgeInsets.all(20.0),
+                      contentPadding: EdgeInsets.all(10),
                       border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.zero),
+                          borderRadius: BorderRadius.zero,
+                          ),
+                          isCollapsed: true,
                       focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xff1890ff)),
-                          borderRadius: BorderRadius.zero),
+                          borderRadius: BorderRadius.zero,),
                     ),
                   ),
                   SizedBox(
                     height: 40,
                   ),
                   Text(
-                      "Try changing the color (you can enter any hex value you want!)"),
+                      "Try changing the color (you can enter any value you want!)"),
                   SizedBox(
                     height: 15,
                   ),
@@ -198,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
                       title: titleController.text,
                       primaryColor: color,
-                      greeting: "Welcome to the test app!",
+                      greeting: "Hello, have any questions or feedback? Let me know below!",
                       subtitle: subtitleController.text,
                       customer: null,
                     ),

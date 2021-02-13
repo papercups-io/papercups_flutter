@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:papercups_flutter/widgets/alert.dart';
 import '../models/models.dart';
 import 'utils.dart';
 
