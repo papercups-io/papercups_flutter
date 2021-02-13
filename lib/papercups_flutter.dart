@@ -81,8 +81,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _messages = [
         PapercupsMessage(
           body: widget.props.greeting,
-          sentAt: DateTime.now().toUtc(),
-          createdAt: DateTime.now().toUtc(),
+          sentAt: DateTime.now(),
+          createdAt: DateTime.now(),
           accountId: widget.props.accountId,
           user: User(
             fullName: widget.props.companyName,
