@@ -1,27 +1,8 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/papercups_flutter.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, kDebugMode;
 
 void main() {
-  runApp(
-    DevicePreview(
-      enabled: kIsWeb && !kDebugMode,
-      builder: (ctx) => MyApp(),
-      availableLocales: [Locale("en", "US")],
-      devices: [
-        Devices.android.samsungNote10Plus,
-        Devices.android.samsungS8,
-        Devices.ios.iPhone11ProMax,
-        Devices.ios.iPadPro129,
-        Devices.ios.iPhone11ProMax,
-        Devices.macos.iMacPro,
-        Devices.windows.screen,
-        Devices.linux.screen,
-      ],
-      defaultDevice: Devices.android.samsungNote10Plus,
-    ),
-  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -37,11 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.cyan,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      themeMode: MediaQuery.maybeOf(context) == null
-          ? ThemeMode.system
-          : MediaQuery.of(context).platformBrightness == Brightness.dark
-              ? ThemeMode.dark
-              : ThemeMode.light,
+      themeMode: getTheme(context),
       home: MyHomePage(),
     );
   }
@@ -53,7 +30,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var show = kDebugMode ? true : false;
+  var show = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,16 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                       greeting: "Welcome to the test app!",
                       subtitle: "How can we help you?",
-                      customer: kDebugMode
-                          ? CustomerMetadata(
-                              email: "flutter-plugin@test.com",
-                              externalId: "123456789876543",
-                              name: "Test App",
-                              otherMetadata: {
-                                "app": "example",
-                              },
-                            )
-                          : null,
+                      customer:  null,
                     ),
                   ),
                 ),
