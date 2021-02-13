@@ -156,18 +156,20 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   @override
-  void didUpdateWidget (PaperCupsWidget oldWidget) {
+  void didUpdateWidget(PaperCupsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-      if(oldWidget.props.primaryColor != widget.props.primaryColor){
-        if ((widget.props.primaryColor != null &&
+    if (oldWidget.props.primaryColor != widget.props.primaryColor) {
+      if ((widget.props.primaryColor != null &&
               widget.props.primaryColor.computeLuminance() > 0.5) ||
           (widget.props.primaryGradient != null &&
-              widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) ||
+              widget.props.primaryGradient.colors[0].computeLuminance() >
+                  0.5) ||
           (widget.props.primaryColor == null &&
               Theme.of(context).primaryColor.computeLuminance() > 0.5))
         textBlack = true;
-    }else{
-      textBlack = false;
+      else {
+        textBlack = false;
+      }
     }
   }
 
