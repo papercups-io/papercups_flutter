@@ -339,7 +339,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           setState: rebuild,
                           messages: _messages,
                           sending: _sending,
-                          textBalck: textBlack,
+                          textColor: textColor,
                           showDivider: !widget.floatingSendMessage,
                         ),
                 ),
