@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/papercups_flutter.dart';
 import 'package:thememode_selector/thememode_selector.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,11 +20,12 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'Papercups Demo',
             theme: ThemeData(
-              primarySwatch: Colors.cyan,
+              primarySwatch: Colors.blue,
+              primaryColor: Color(0xff1890ff),
               visualDensity: VisualDensity.adaptivePlatformDensity,
             ),
             darkTheme: ThemeData.dark().copyWith(
-              primaryColor: Colors.cyan,
+              primaryColor: Colors.blue,
             ),
             themeMode: themeMode,
             home: MyHomePage(),
@@ -103,16 +107,53 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 50,
                     ),
                     Text(
-                      "Demo",
+                      "Papercups Flutter Demo",
                       style: Theme.of(context).textTheme.headline3,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Wrap(
+                      children: [
+                        ElevatedButton.icon(
+                          icon: Icon(Icons.code_rounded),
+                          onPressed: () {
+                            launch("https://pub.dev/packages/papercups_flutter");
+                          },
+                          label: Text("View the code"),
+                        ),
+                        SizedBox(width: 20),
+                        ElevatedButton.icon(
+                          icon: Icon(
+                            Icons.open_in_browser_rounded,
+                            color: Color(0xff1890ff),
+                          ),
+                          onPressed: () {
+                            launch("https://github.com/papercups-io/papercups_flutter");
+                          },
+                          label: Text(
+                            "View the Package",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                return Colors
+                                    .white; // Use the component's default.
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     Text(
                         "Hello! Try customizing the chat widget's display text and colors."),
-                    SizedBox(
-                      height: 40,
+                    Divider(
+                      height: 20,
                     ),
                     Text("Change the theme:"),
                     SizedBox(
@@ -124,7 +165,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ThemeModeManager.of(context).themeMode = mode;
                         }),
                     SizedBox(
-                      height: 40,
+                      height: 30,
                     ),
                     Text("Update the title:"),
                     SizedBox(
@@ -147,7 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     SizedBox(
-                      height: 40,
+                      height: 30,
                     ),
                     Text("Update the subtitle:"),
                     SizedBox(
@@ -238,7 +279,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       greeting:
                           "Hello, have any questions or feedback? Let me know below!",
                       subtitle: subtitleController.text,
-                      customer: null,
                     ),
                   ),
                 ),
