@@ -1,5 +1,9 @@
 ![logo](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/logo.svg)
-[![pub package](https://img.shields.io/pub/v/papercups_flutter.svg?label=papercups_flutter&color=blue)](https://pub.dev/packages/papercups_flutter) [![likes](https://badges.bar/papercups_flutter/likes)](https://pub.dev/packages/papercups_flutter/score)  [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart)
+
+[![pub package](https://img.shields.io/pub/v/papercups_flutter.svg?label=papercups_flutter&color=blue)](https://pub.dev/packages/papercups_flutter) [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://pub.dev/packages/effective_dart) ![License](https://img.shields.io/github/license/papercups-io/papercups_flutter?color=black) ![GitHub issues](https://img.shields.io/github/issues/papercups-io/papercups_flutter?color=green&label=Issues)
+
+
+[![likes](https://badges.bar/papercups_flutter/likes)](https://pub.dev/packages/papercups_flutter/score) [![popularity](https://badges.bar/papercups_flutter/popularity)](https://pub.dev/packages/papercups_flutter) [![pub points](https://badges.bar/papercups_flutter/pub%20points)](https://pub.dev/packages/papercups_flutter/score) 
 
 ![Demo Chat](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/chatImages.png)
 
@@ -35,6 +39,7 @@ That should get you up and running in just a few seconds ⚡️.
 | **`timeagoLocale`** | `dynamic` | Check https://github.com/andresaraujo/timeago.dart/tree/master/timeago/lib/src/messages for the available classes.| N/A |
 | **`sendingText`** | `String` | Text to show while message is sending.| `Sending...` |
 | **`sentText`** | `String` | Text to show when the messgae is sent.| `Sent` |
+| **`floatingSendMessage`** | `bool` | Wether to have the message box floating.| `false` |
 
 
 ### Available Props paramaters
