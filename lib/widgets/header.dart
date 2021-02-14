@@ -61,6 +61,7 @@ class Header extends StatelessWidget {
                   color: textBlack ? Colors.black : Colors.white,
                   padding: EdgeInsets.zero,
                   iconSize: 21,
+                  splashRadius: 20,
                 )
             ],
           ),
