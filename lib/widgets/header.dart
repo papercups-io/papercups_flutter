@@ -9,12 +9,12 @@ class Header extends StatelessWidget {
     Key key,
     @required this.props,
     this.closeAction,
-    @required this.textBlack,
+    @required this.textColor,
   }) : super(key: key);
 
   final Props props;
   final Function closeAction;
-  final bool textBlack;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class Header extends StatelessWidget {
                 child: Text(
                   props.title,
                   style: TextStyle(
-                    color: textBlack ? Colors.black : Colors.white,
+                    color: textColor,
                     fontSize: 21,
                     fontWeight: FontWeight.w600,
                   ),
@@ -58,7 +58,7 @@ class Header extends StatelessWidget {
                   constraints: BoxConstraints(maxHeight: 21),
                   icon: Icon(Icons.close_rounded),
                   onPressed: closeAction,
-                  color: textBlack ? Colors.black : Colors.white,
+                  color: textColor,
                   padding: EdgeInsets.zero,
                   iconSize: 21,
                   splashRadius: 20,
@@ -72,9 +72,7 @@ class Header extends StatelessWidget {
             child: Text(
               props.subtitle,
               style: TextStyle(
-                color: textBlack
-                    ? Colors.black.withOpacity(0.8)
-                    : Colors.white.withOpacity(0.8),
+                color: textColor.withOpacity(0.8),
               ),
             ),
           )

@@ -65,6 +65,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   bool _sending = false;
   bool noConnection = false;
   bool textBlack = false;
+  Color textColor = Colors.white;
 
   @override
   void dispose() {
@@ -133,7 +134,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) ||
         (widget.props.primaryColor == null &&
             Theme.of(context).primaryColor.computeLuminance() > 0.5))
-      textBlack = true;
+      textColor = Colors.black;
     if (widget.props.baseUrl.contains("http"))
       throw "Do not provide a protocol in baseURL";
     if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
@@ -166,9 +167,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   0.5) ||
           (widget.props.primaryColor == null &&
               Theme.of(context).primaryColor.computeLuminance() > 0.5))
-        textBlack = true;
+        textColor = Colors.black;
       else {
-        textBlack = false;
+        textColor = Colors.white;
       }
     }
   }
@@ -282,7 +283,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Header(
                   props: widget.props,
                   closeAction: widget.closeAction,
-                  textBlack: textBlack,
+                  textColor: textColor,
                 ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),
