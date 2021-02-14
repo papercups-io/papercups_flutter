@@ -3,7 +3,7 @@
 
 ![Demo Chat](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/chatImages.png)
 
-[![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)      [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/getPapercups.svg)](https://papercups.io/)
+[![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)      [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/getPapercups.svg)](https://papercups.io/)
 
 
 ## Installing
