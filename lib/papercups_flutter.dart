@@ -326,7 +326,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   child: (widget.props.requireEmailUpfront &&
                           (_customer == null || _customer.email == null))
                       ? RequireEmailUpfront(setCustomer, widget.props,
-                          textBlack, !widget.floatingSendMessage)
+                          textColor, !widget.floatingSendMessage)
                       : SendMessage(
                           props: widget.props,
                           customer: _customer,
