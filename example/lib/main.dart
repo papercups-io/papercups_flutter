@@ -118,7 +118,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         ElevatedButton.icon(
                           icon: Icon(Icons.code_rounded),
                           onPressed: () {
-                            launch("https://pub.dev/packages/papercups_flutter");
+                            launch(
+                                "https://pub.dev/packages/papercups_flutter");
                           },
                           label: Text("View the code"),
                         ),
@@ -129,7 +130,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Color(0xff1890ff),
                           ),
                           onPressed: () {
-                            launch("https://github.com/papercups-io/papercups_flutter");
+                            launch(
+                                "https://github.com/papercups-io/papercups_flutter");
                           },
                           label: Text(
                             "View the Package",
