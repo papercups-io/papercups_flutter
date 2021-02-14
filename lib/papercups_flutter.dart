@@ -297,7 +297,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     widget.timeagoLocale,
                     widget.sendingText,
                     widget.sentText,
-                    textBlack,
+                    textColor,
                   ),
                 ),
                 if (!widget.floatingSendMessage) PoweredBy(),
