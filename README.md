@@ -3,10 +3,8 @@
 
 ![Demo Chat](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/chatImages.png)
 
-[![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)
+[![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)      [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/getPapercups.svg)](https://papercups.io/)
 
-## Main repository
-https://github.com/papercups-io/papercups
 
 ## Installing
 To get started simply add `papercups_flutter:` and the latest version to your pubspec.yaml.
