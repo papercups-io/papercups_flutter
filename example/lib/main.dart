@@ -1,4 +1,3 @@
-import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:papercups_flutter/papercups_flutter.dart';
@@ -12,24 +11,22 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return AdaptiveTheme(
-      light: ThemeData(
-            primarySwatch: Colors.cyan,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          dark: ThemeData.dark().copyWith(
-            primaryColor: Colors.cyan,
-          ),
-          initial: AdaptiveThemeMode.light,
-      builder: (light, dark) {
-        return MaterialApp(
-          title: 'Papercups Demo',
-          theme: light,
-          darkTheme: dark,
-          home: MyHomePage(),
-        );
-      }
-    );
+    return ThemeModeManager(
+        defaultThemeMode: ThemeMode.light,
+        builder: (themeMode) {
+          return MaterialApp(
+            title: 'Papercups Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.cyan,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            darkTheme: ThemeData.dark().copyWith(
+              primaryColor: Colors.cyan,
+            ),
+            themeMode: themeMode,
+            home: MyHomePage(),
+          );
+        });
   }
 }
 
@@ -50,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     titleController.dispose();
+    subtitleController.dispose();
     super.dispose();
   }
 
@@ -92,101 +90,113 @@ class _MyHomePageState extends State<MyHomePage> {
         alignment: Alignment.topLeft,
         children: [
           Container(
-            padding: EdgeInsets.only(left: 50, right: 50),
-            constraints: BoxConstraints(maxWidth: 800),
+            width: double.infinity,
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    "Demo",
-                    style: Theme.of(context).textTheme.headline3,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                      "Hello! Try customizing the chat widget's display text and colors."),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Text("Change the theme:"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ThemeModeSelector(
-                    height: 25,
-                    onChanged: (mode) {
-                      AdaptiveTheme.of(context).toggleThemeMode();
-                    }
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text("Update the title:"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: titleController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter a title',
-                      contentPadding: EdgeInsets.all(10),
-                      isCollapsed: true,
-                      border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.zero),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xff1890ff)),
-                          borderRadius: BorderRadius.zero),
+              child: Container(
+                padding: EdgeInsets.only(left: 50, right: 50),
+                constraints: BoxConstraints(maxWidth: 800),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 50,
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Text("Update the subtitle:"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  TextField(
-                    controller: subtitleController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter a subtitle',
-                      contentPadding: EdgeInsets.all(10),
-                      border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.zero,
+                    Text(
+                      "Demo",
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                        "Hello! Try customizing the chat widget's display text and colors."),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text("Change the theme:"),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ThemeModeSelector(
+                        height: 25,
+                        onChanged: (mode) {
+                          ThemeModeManager.of(context).themeMode = mode;
+                        }),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text("Update the title:"),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 800),
+                      child: TextField(
+                        controller: titleController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter a title',
+                          contentPadding: EdgeInsets.all(10),
+                          isCollapsed: true,
+                          border: const OutlineInputBorder(
+                              borderRadius: BorderRadius.zero),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xff1890ff)),
+                              borderRadius: BorderRadius.zero),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text("Update the subtitle:"),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: 800),
+                      child: TextField(
+                        controller: subtitleController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter a subtitle',
+                          contentPadding: EdgeInsets.all(10),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.zero,
                           ),
                           isCollapsed: true,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xff1890ff)),
-                          borderRadius: BorderRadius.zero,),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff1890ff)),
+                            borderRadius: BorderRadius.zero,
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Text(
-                      "Try changing the color (you can enter any value you want!)"),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  ColorPicker(
-                      color: color,
-                      showColorCode: true,
-                      pickersEnabled: {
-                        ColorPickerType.accent: false,
-                        ColorPickerType.primary: false,
-                        ColorPickerType.wheel: true,
-                      },
-                      onColorChanged: (c) {
-                        setState(() {
-                          color = c;
-                        });
-                      }),
-                ],
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Text(
+                        "Try changing the color (you can enter any value you want!)"),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ColorPicker(
+                        color: color,
+                        showColorCode: true,
+                        enableShadesSelection: false,
+                        pickersEnabled: {
+                          ColorPickerType.primary: false,
+                          ColorPickerType.accent: false,
+                          ColorPickerType.wheel: true,
+                          ColorPickerType.both: false,
+                          ColorPickerType.bw: false,
+                        },
+                        onColorChanged: (c) {
+                          setState(() {
+                            color = c;
+                          });
+                        }),
+                  ],
+                ),
               ),
             ),
           ),
@@ -225,7 +235,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
                       title: titleController.text,
                       primaryColor: color,
-                      greeting: "Hello, have any questions or feedback? Let me know below!",
+                      greeting:
+                          "Hello, have any questions or feedback? Let me know below!",
                       subtitle: subtitleController.text,
                       customer: null,
                     ),
@@ -237,5 +248,42 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
     );
+  }
+}
+
+// Credits to https://github.com/BlueCowGroup/thememode_selector for this section
+// Copyright (c) 2021 Blue Cow Group, LLC
+class ThemeModeManager extends StatefulWidget {
+  final Widget Function(ThemeMode themeMode) builder;
+  final ThemeMode defaultThemeMode;
+
+  const ThemeModeManager({Key key, this.builder, this.defaultThemeMode})
+      : super(key: key);
+
+  @override
+  _ThemeModeManagerState createState() =>
+      _ThemeModeManagerState(themeMode: defaultThemeMode);
+
+  static _ThemeModeManagerState of(BuildContext context) {
+    return context.findAncestorStateOfType<_ThemeModeManagerState>();
+  }
+}
+
+class _ThemeModeManagerState extends State<ThemeModeManager> {
+  ThemeMode _themeMode;
+
+  _ThemeModeManagerState({ThemeMode themeMode}) : _themeMode = themeMode;
+
+  set themeMode(ThemeMode mode) {
+    if (_themeMode != mode) {
+      setState(() {
+        _themeMode = mode;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(_themeMode);
   }
 }
