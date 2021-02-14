@@ -41,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var show = true;
+  var elevated = false;
 
   TextEditingController titleController =
       TextEditingController(text: "Welcome to Papercups!");
@@ -157,15 +158,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     Divider(
                       height: 20,
                     ),
-                    Text("Change the theme:"),
-                    SizedBox(
-                      height: 15,
+                    Wrap(
+                      spacing: 40,
+                      runSpacing: 20,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Change the theme:"),
+                            SizedBox(
+                              height: 22,
+                            ),
+                            ThemeModeSelector(
+                                height: 25,
+                                onChanged: (mode) {
+                                  ThemeModeManager.of(context).themeMode = mode;
+                                }),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Enable elevation:"),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Switch(value: elevated, onChanged: (val){
+                              setState(() {
+                                elevated = val;
+                              });
+                            },
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                    ThemeModeSelector(
-                        height: 25,
-                        onChanged: (mode) {
-                          ThemeModeManager.of(context).themeMode = mode;
-                        }),
                     SizedBox(
                       height: 30,
                     ),
@@ -269,6 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: PaperCupsWidget(
+                    floatingSendMessage: elevated,
                     closeAction: () {
                       setState(() {
                         show = !show;
