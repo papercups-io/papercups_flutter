@@ -64,7 +64,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   ScrollController _controller = ScrollController();
   bool _sending = false;
   bool noConnection = false;
-  bool textBlack = false;
   Color textColor = Colors.white;
 
   @override
