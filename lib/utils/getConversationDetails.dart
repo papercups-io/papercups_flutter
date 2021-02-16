@@ -19,7 +19,7 @@ Future<Conversation> getConversationDetails(
 
   try {
     var res = await client.post(
-      "https://" + p.baseUrl + "/api/conversations",
+      Uri.parse("https://" + p.baseUrl + "/api/conversations"),
       headers: {
         "content-type": "application/json",
       },

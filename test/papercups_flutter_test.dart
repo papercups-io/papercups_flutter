@@ -177,7 +177,7 @@ void main() {
 
       when(
         client.post(
-          'https://${props.baseUrl}/api/conversations',
+          Uri.parse('https://${props.baseUrl}/api/conversations'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -193,7 +193,7 @@ void main() {
 
       verify(
         client.post(
-          'https://${props.baseUrl}/api/conversations',
+          Uri.parse('https://${props.baseUrl}/api/conversations'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -209,7 +209,7 @@ void main() {
       final client = MockClient();
       when(
         client.post(
-          'https://${props.baseUrl}/api/conversations',
+          Uri.parse('https://${props.baseUrl}/api/conversations'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -225,7 +225,7 @@ void main() {
 
       verify(
         client.post(
-          'https://${props.baseUrl}/api/conversations',
+          Uri.parse('https://${props.baseUrl}/api/conversations'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -256,7 +256,7 @@ void main() {
 
       when(
         client.post(
-          'https://${props.baseUrl}/api/customers',
+          Uri.parse('https://${props.baseUrl}/api/customers'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -271,7 +271,7 @@ void main() {
 
       verify(
         client.post(
-          'https://${props.baseUrl}/api/customers',
+          Uri.parse('https://${props.baseUrl}/api/customers'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -286,7 +286,7 @@ void main() {
       final client = MockClient();
       when(
         client.post(
-          'https://${props.baseUrl}/api/customers',
+          Uri.parse('https://${props.baseUrl}/api/customers'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
@@ -301,7 +301,7 @@ void main() {
 
       verify(
         client.post(
-          'https://${props.baseUrl}/api/customers',
+          Uri.parse('https://${props.baseUrl}/api/customers'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
