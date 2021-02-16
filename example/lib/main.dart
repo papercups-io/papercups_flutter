@@ -120,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           icon: Icon(Icons.code_rounded),
                           onPressed: () {
                             launch(
-                                "https://pub.dev/packages/papercups_flutter");
+                                "https://github.com/papercups-io/papercups_flutter");
                           },
                           label: Text("View the code"),
                         ),
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                           onPressed: () {
                             launch(
-                                "https://github.com/papercups-io/papercups_flutter");
+                                "https://pub.dev/packages/papercups_flutter");
                           },
                           label: Text(
                             "View the Package",
