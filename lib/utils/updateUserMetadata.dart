@@ -25,7 +25,7 @@ Future<PapercupsCustomer> updateUserMetadata(
         "Accept": "*/*",
         "Content-Type": "application/json",
       },
-      body: '{"metadata": ${json}}',
+      body: '{"metadata": $json}',
     );
     var data = jsonDecode(res.body)["data"];
     c = PapercupsCustomer(
