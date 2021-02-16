@@ -32,7 +32,7 @@ Future<PapercupsCustomer> getCustomerDetails(
       },
     );
     var res = await client.post(
-      "https://" + p.baseUrl + "/api/customers",
+      Uri.parse("https://" + p.baseUrl + "/api/customers"),
       headers: {
         "content-type": "application/json",
       },

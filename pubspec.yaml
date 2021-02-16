@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   phoenix_socket: ^0.4.11
-  http: ^0.12.2
+  http: ^0.13.0
   flutter_markdown: ^0.5.2
   timeago: ^2.0.29
   intl: ^0.17.0
