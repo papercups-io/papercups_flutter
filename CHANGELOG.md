@@ -1,4 +1,4 @@
-## [2.0.0] - TBD.
+## [2.0.0] - 16/02/2021.
 
 # 🎉 2.0 has landed!
 This release brings major changes to how this package works. Most importantly, it is now completely native, ensuring speed and performace along with more customisability. This will also enable new features such as chat message notifications, in-app overlays, local message retention and many others, make sure to leave suggestions [here](https://github.com/papercups-io/papercups_flutter) for what to build next.
@@ -7,16 +7,20 @@ This release brings major changes to how this package works. Most importantly, i
 * Native Dart implementation!
 * Full themeing control w/gradients.
 * Full Internationalization control - every part can be set to any language.
+* Dark mode
+* Added elevation option to message box
+* Full Internationalization
 
 ### Enhancements
 * Fixes issue of fuzzy timestamps not updating, see https://github.com/papercups-io/chat-widget/issues/73.
 * Support for Flutter Desktop.
+* Much better loading times
 
 ### Breaking changes
 * Removed support for `onStartLoading`, `onFinishLoading` and `onError`.
 * Removed agent availability configuartion, see https://github.com/papercups-io/papercups_flutter/issues/16.
 * Removed `iframeUrl`.
-* `baseUrl` in props must not contain a prefix.
+* `baseUrl` in props must not contain a prefix (no `http`,`https`,`ws`, etc).
 
 ### Contributors
 Thanks to [@Fiyiin](https://github.com/Fiyiin) for helping me out building this version of the library!
