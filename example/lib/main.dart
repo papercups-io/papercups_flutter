@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
           },
           child: Icon(
             show ? Icons.close : Icons.chat_bubble_rounded,
-            color: Colors.white,
+            color: color.computeLuminance() < 0.5 ? Colors.white : Colors.black,
             size: 25,
           ),
         ),
