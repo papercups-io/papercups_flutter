@@ -64,7 +64,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   ScrollController _controller = ScrollController();
   bool _sending = false;
   bool noConnection = false;
-  bool textBlack = false;
+  Color textColor = Colors.white;
 
   @override
   void dispose() {
@@ -133,7 +133,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
             widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) ||
         (widget.props.primaryColor == null &&
             Theme.of(context).primaryColor.computeLuminance() > 0.5))
-      textBlack = true;
+      textColor = Colors.black;
     if (widget.props.baseUrl.contains("http"))
       throw "Do not provide a protocol in baseURL";
     if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
@@ -166,9 +166,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   0.5) ||
           (widget.props.primaryColor == null &&
               Theme.of(context).primaryColor.computeLuminance() > 0.5))
-        textBlack = true;
+        textColor = Colors.black;
       else {
-        textBlack = false;
+        textColor = Colors.white;
       }
     }
   }
@@ -282,7 +282,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Header(
                   props: widget.props,
                   closeAction: widget.closeAction,
-                  textBlack: textBlack,
+                  textColor: textColor,
                 ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),
@@ -296,7 +296,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     widget.timeagoLocale,
                     widget.sendingText,
                     widget.sentText,
-                    textBlack,
+                    textColor,
                   ),
                 ),
                 if (!widget.floatingSendMessage) PoweredBy(),
@@ -325,7 +325,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   child: (widget.props.requireEmailUpfront &&
                           (_customer == null || _customer.email == null))
                       ? RequireEmailUpfront(setCustomer, widget.props,
-                          textBlack, !widget.floatingSendMessage)
+                          textColor, !widget.floatingSendMessage)
                       : SendMessage(
                           props: widget.props,
                           customer: _customer,
@@ -338,7 +338,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           setState: rebuild,
                           messages: _messages,
                           sending: _sending,
-                          textBalck: textBlack,
+                          textColor: textColor,
                           showDivider: !widget.floatingSendMessage,
                         ),
                 ),

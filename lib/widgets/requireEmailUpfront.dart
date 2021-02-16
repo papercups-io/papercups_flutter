@@ -6,11 +6,11 @@ import '../models/models.dart';
 class RequireEmailUpfront extends StatefulWidget {
   final Function setCustomer;
   final Props props;
-  final bool textBlack;
+  final Color textColor;
   final bool showDivider;
 
   RequireEmailUpfront(
-      this.setCustomer, this.props, this.textBlack, this.showDivider);
+      this.setCustomer, this.props, this.textColor, this.showDivider);
   @override
   _RequireEmailUpfrontState createState() => _RequireEmailUpfrontState();
 }
@@ -153,7 +153,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                     onTap: null,
                     child: Icon(
                       Icons.send_rounded,
-                      color: widget.textBlack ? Colors.black : Colors.white,
+                      color: widget.textColor,
                       size: 16,
                     ),
                   ),

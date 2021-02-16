@@ -25,7 +25,7 @@ class SendMessage extends StatefulWidget {
     this.messages,
     this.sending,
     @required this.props,
-    @required this.textBalck,
+    @required this.textColor,
     this.showDivider = true,
   }) : super(key: key);
 
@@ -40,7 +40,7 @@ class SendMessage extends StatefulWidget {
   final PhoenixSocket socket;
   final List<PapercupsMessage> messages;
   final bool sending;
-  final bool textBalck;
+  final Color textColor;
   final bool showDivider;
 
   @override
@@ -130,7 +130,7 @@ class _SendMessageState extends State<SendMessage> {
                 onTap: triggerSend,
                 child: Icon(
                   Icons.send,
-                  color: widget.textBalck ? Colors.black : Colors.white,
+                  color: widget.textColor,
                   size: 16,
                 ),
               ),

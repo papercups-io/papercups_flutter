@@ -21,7 +21,7 @@ class ChatMessages extends StatelessWidget {
   final timeagoLocale;
   final String sendingText;
   final String sentText;
-  final bool textBlack;
+  final Color textColor;
 
   ChatMessages(
     this.props,
@@ -32,7 +32,7 @@ class ChatMessages extends StatelessWidget {
     this.timeagoLocale,
     this.sendingText,
     this.sentText,
-    this.textBlack, {
+    this.textColor, {
     Key key,
   }) : super(key: key);
   @override
@@ -63,7 +63,7 @@ class ChatMessages extends StatelessWidget {
                 maxWidth: layout.maxWidth * 0.65,
                 sendingText: sendingText,
                 sentText: sentText,
-                textBlack: textBlack,
+                textColor: textColor,
               );
             },
           ),
@@ -85,7 +85,7 @@ class ChatMessage extends StatefulWidget {
     @required this.timeagoLocale,
     @required this.sendingText,
     @required this.sentText,
-    @required this.textBlack,
+    @required this.textColor,
   }) : super(key: key);
 
   final List<PapercupsMessage> msgs;
@@ -97,7 +97,7 @@ class ChatMessage extends StatefulWidget {
   final timeagoLocale;
   final String sendingText;
   final String sentText;
-  final bool textBlack;
+  final Color textColor;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -239,18 +239,14 @@ class _ChatMessageState extends State<ChatMessage> {
                                               .substring(0, 1)
                                               .toUpperCase(),
                                           style: TextStyle(
-                                              color: widget.textBlack
-                                                  ? Colors.black
-                                                  : Colors.white),
+                                              color: widget.textColor),
                                         )
                                       : Text(
                                           msg.user.fullName
                                               .substring(0, 1)
                                               .toUpperCase(),
                                           style: TextStyle(
-                                              color: widget.textBlack
-                                                  ? Colors.black
-                                                  : Colors.white),
+                                              color: widget.textColor),
                                         ),
                             ),
                           )
@@ -291,9 +287,7 @@ class _ChatMessageState extends State<ChatMessage> {
                     styleSheet: MarkdownStyleSheet(
                       p: TextStyle(
                         color: userSent
-                            ? widget.textBlack
-                                ? Colors.black
-                                : Colors.white
+                            ? widget.textColor
                             : Theme.of(context).textTheme.bodyText1.color,
                       ),
                       a: TextStyle(
