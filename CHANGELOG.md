@@ -1,3 +1,12 @@
+## [2.0.1] - 16/02/2021.
+This release is a maintenance release, addressing some issues found on pub.dev to improve its score.
+
+### Fixes
+* Bump `intl` to 0.17.0
+* Bump `http` to 0.13.0
+* Modify description to make it over 60 characters
+* Avoided using braces in interpolation when not needed. 
+
 ## [2.0.0] - 16/02/2021.
 
 # 🎉 2.0 has landed!
@@ -9,7 +18,6 @@ This release brings major changes to how this package works. Most importantly, i
 * Full Internationalization control - every part can be set to any language.
 * Dark mode
 * Added elevation option to message box
-* Full Internationalization
 
 ### Enhancements
 * Fixes issue of fuzzy timestamps not updating, see https://github.com/papercups-io/chat-widget/issues/73.
@@ -25,7 +33,7 @@ This release brings major changes to how this package works. Most importantly, i
 ### Contributors
 Thanks to [@Fiyiin](https://github.com/Fiyiin) for helping me out building this version of the library!
 
-## [1.0.1] - 05/01/2020.
+## [1.0.1] - 05/01/2021.
 
 * 🍱 Update Readme.md with new logo
 
