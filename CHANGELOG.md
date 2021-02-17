@@ -1,5 +1,5 @@
-## [2.0.1] - 16/02/2021.
-This release is a maintenance release, addressing some issues found on pub.dev to improve its score.
+## [2.0.1, 2.0.2, 2.0.3] - 16/02/2021.
+These releases are maintenance related, addressing some issues found on pub.dev to improve its score.
 
 ### Fixes
 * Bump `intl` to 0.17.0
