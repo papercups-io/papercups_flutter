@@ -14,7 +14,7 @@ dependencies:
   http: '>=0.12.2 <0.14.0'
   flutter_markdown: ^0.5.2
   timeago: ^2.0.29
-  intl: '>=0.16.2 <0.18.0'
+  intl: '>=0.16.1 <0.18.0'
 
 dev_dependencies:
   flutter_test:
