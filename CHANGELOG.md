@@ -1,3 +1,6 @@
+## [2.0.4] - 18/02/2021.
+Bumps `flutter_markdown` to 0.6.0
+
 ## [2.0.1, 2.0.2, 2.0.3] - 16/02/2021.
 These releases are maintenance related, addressing some issues found on pub.dev to improve its score.
 
