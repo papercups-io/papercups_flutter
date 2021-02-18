@@ -13,7 +13,7 @@ import 'joinConversation.dart';
 /// This function is used to get the history.
 /// It also initializes the necessary funtions if the customer is known.
 Future<bool> getCustomerHistory({
-  PaperCupsWidget widget,
+  Props props,
   PapercupsCustomer c,
   Function setCustomer,
   List<PapercupsMessage> messages,
@@ -26,14 +26,14 @@ Future<bool> getCustomerHistory({
   try {
     // Get customer details.
     var customer = await getCustomerDetailsFromMetadata(
-      widget.props,
+      props,
       c,
       setCustomer,
     );
     if (customer != null) failed = false;
     if (customer != null && customer.id != null) {
       // If customer is not null and there is an ID get the past messages.
-      var data = await getPastCustomerMessages(widget.props, customer);
+      var data = await getPastCustomerMessages(props, customer);
       if (data["msgs"] != null) failed = false;
       if (data["msgs"].isNotEmpty) {
         {
@@ -59,7 +59,7 @@ Future<bool> getCustomerHistory({
       }
       if (data["cust"] != null && data["cust"] != customer) {
         // Determine if we need to update the customer details.
-        var nCust = await updateUserMetadata(widget.props, data["cust"].id);
+        var nCust = await updateUserMetadata(props, data["cust"].id);
         if (nCust == null) {
           // Will only return null if the update failed.
           failed = true;

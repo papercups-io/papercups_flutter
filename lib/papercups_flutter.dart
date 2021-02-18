@@ -110,7 +110,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         setConversationChannel: setConversationChannel,
         setCustomer: setCustomer,
         socket: _socket,
-        widget: widget,
+        props: widget.props,
       ).then((failed) {
         if (failed) {
           Alert.show(
@@ -258,7 +258,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           setConversationChannel: setConversationChannel,
                           setCustomer: setCustomer,
                           socket: _socket,
-                          widget: widget,
+                          props: widget.props,
                         ).then((failed) {
                           if (!failed) {
                             _socket.connect();
