@@ -57,10 +57,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PhoenixSocket _socket;
   PhoenixChannel _channel;
   PhoenixChannel _conversationChannel;
-  List<PapercupsMessage> _messages = [];
   PapercupsCustomer _customer;
   bool _canJoinConversation = false;
-  Conversation _conversation;
+  Conversation _conversation = Conversation(
+    messages: []
+  );
   ScrollController _controller = ScrollController();
   bool _sending = false;
   bool noConnection = false;
@@ -78,7 +79,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void didChangeDependencies() {
     if (widget.props.greeting != null) {
-      _messages = [
+      _conversation.messages.add(
         PapercupsMessage(
           body: widget.props.greeting,
           sentAt: DateTime.now(),
@@ -90,7 +91,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           userId: 0,
           id: "greeting",
         ),
-      ];
+      );
     }
     if (_socket == null) {
       _socket =
@@ -101,11 +102,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.customer != null &&
         widget.props.customer.externalId != null &&
         (_customer == null || _customer.createdAt == null) &&
-        _conversation == null) {
+        _conversation.id == null) {
       getCustomerHistory(
         conversationChannel: _conversationChannel,
         c: _customer,
-        messages: _messages,
+        messages: _conversation.messages,
         rebuild: rebuild,
         setConversationChannel: setConversationChannel,
         setCustomer: setCustomer,
@@ -191,7 +192,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (mounted) setState(fn);
     if (animate &&
         mounted &&
-        _messages.isNotEmpty &&
+        _conversation.messages.isNotEmpty &&
         WidgetsBinding.instance != null &&
         _controller.hasClients) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -249,11 +250,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                       if (widget.props.customer != null &&
                           widget.props.customer.externalId != null &&
                           (_customer == null || _customer.createdAt == null) &&
-                          _conversation == null)
+                          _conversation.id == null)
                         getCustomerHistory(
                           conversationChannel: _conversationChannel,
                           c: _customer,
-                          messages: _messages,
+                          messages: _conversation.messages,
                           rebuild: rebuild,
                           setConversationChannel: setConversationChannel,
                           setCustomer: setCustomer,
@@ -289,7 +290,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Expanded(
                   child: ChatMessages(
                     widget.props,
-                    _messages,
+                    _conversation.messages,
                     _controller,
                     _sending,
                     widget.dateLocale,
@@ -336,7 +337,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           conversation: _conversation,
                           socket: _socket,
                           setState: rebuild,
-                          messages: _messages,
+                          messages: _conversation.messages,
                           sending: _sending,
                           textColor: textColor,
                           showDivider: !widget.floatingSendMessage,

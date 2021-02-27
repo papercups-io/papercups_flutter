@@ -1,3 +1,5 @@
+import 'message.dart';
+
 /// This is the class which contains the details of the conversation.
 class Conversation {
   /// The account ID used for the conversation.
@@ -25,6 +27,9 @@ class Conversation {
   /// The status of a conversation, can be open or closed.
   String status;
 
+  /// The messages which are part of the conversation
+  List<PapercupsMessage> messages;
+
   Conversation({
     this.accountId,
     this.asigneeId,
@@ -34,5 +39,6 @@ class Conversation {
     this.priority,
     this.read,
     this.status,
+    this.messages,
   });
 }
