@@ -1,3 +1,8 @@
+## [2.0.5] - 27/02/2021.
+⬆️ Allows `timeago` to go up to version 3.x.x
+♻️ Internal improvements to have the message list inside the conversation
+⚡️ Stop passing the whole widget to getCustomerHistory
+
 ## [2.0.4] - 18/02/2021.
 Bumps `flutter_markdown` to 0.6.0
 
