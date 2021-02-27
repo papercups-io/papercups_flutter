@@ -183,11 +183,13 @@ class _MyHomePageState extends State<MyHomePage> {
                             SizedBox(
                               height: 15,
                             ),
-                            Switch(value: elevated, onChanged: (val){
-                              setState(() {
-                                elevated = val;
-                              });
-                            },
+                            Switch(
+                              value: elevated,
+                              onChanged: (val) {
+                                setState(() {
+                                  elevated = val;
+                                });
+                              },
                             )
                           ],
                         )

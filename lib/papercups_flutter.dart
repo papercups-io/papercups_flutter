@@ -59,9 +59,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   PhoenixChannel _conversationChannel;
   PapercupsCustomer _customer;
   bool _canJoinConversation = false;
-  Conversation _conversation = Conversation(
-    messages: []
-  );
+  Conversation _conversation = Conversation(messages: []);
   ScrollController _controller = ScrollController();
   bool _sending = false;
   bool noConnection = false;
