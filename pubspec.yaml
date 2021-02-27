@@ -13,7 +13,7 @@ dependencies:
   phoenix_socket: ^0.4.11
   http: '>=0.12.2 <0.14.0'
   flutter_markdown: '>=0.5.2 <0.7.0'
-  timeago: ^2.0.29
+  timeago: '>=2.0.30 <4.0.0'
   intl: '>=0.16.1 <0.18.0'
 
 dev_dependencies:
