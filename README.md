@@ -5,7 +5,7 @@
 
 [![likes](https://badges.bar/papercups_flutter/likes)](https://pub.dev/packages/papercups_flutter/score) [![popularity](https://badges.bar/papercups_flutter/popularity)](https://pub.dev/packages/papercups_flutter) [![pub points](https://badges.bar/papercups_flutter/pub%20points)](https://pub.dev/packages/papercups_flutter/score) 
 
-![Demo Chat](https://raw.githubusercontent.com/papercups-io/papercups_flutter/next/images/chatImages.png)
+![Demo Chat](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/chatImages.png)
 
 [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)      [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/getPapercups.svg)](https://papercups.io/)
 
