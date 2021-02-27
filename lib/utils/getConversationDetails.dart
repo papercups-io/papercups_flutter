@@ -40,6 +40,7 @@ Future<Conversation> getConversationDetails(
       asigneeId: data["asignee_id"],
       createdAt: data["created_at"],
       read: data["read"],
+      messages: conv.messages,
     );
     sc(conv);
   } catch (e) {

@@ -39,5 +39,6 @@ class Conversation {
     this.priority,
     this.read,
     this.status,
+    this.messages,
   });
 }
