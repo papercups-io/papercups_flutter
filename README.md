@@ -66,15 +66,5 @@ That should get you up and running in just a few seconds ⚡️.
 | **`name`** | `string` | The customer's name | N/A |
 | **`otherMetadata`** | `Map<String, String>` | Extra metadata to pass such as OS info. | N/A |
 
-## Developing
-
-You will need flutter beta and flutter web support enabled.
-
-```
-flutter channel beta
-flutter upgrade
-flutter config --enable-web
-```
-
 ## Supporters
 [![Stargazers repo roster for @papercups-io/papercups_flutter](https://reporoster.com/stars/papercups-io/papercups_flutter)](https://github.com/papercups-io/papercups_flutter/stargazers) [![Forkers repo roster for @papercups-io/papercups_flutter](https://reporoster.com/forks/papercups-io/papercups_flutter)](https://github.com/papercups-io/papercups_flutter/network/members)
