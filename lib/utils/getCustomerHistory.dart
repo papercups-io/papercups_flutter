@@ -13,14 +13,14 @@ import 'joinConversation.dart';
 /// This function is used to get the history.
 /// It also initializes the necessary funtions if the customer is known.
 Future<bool> getCustomerHistory({
-  Props props,
-  PapercupsCustomer c,
-  Function setCustomer,
-  List<PapercupsMessage> messages,
-  PhoenixChannel conversationChannel,
-  Function setConversationChannel,
-  Function rebuild,
-  PhoenixSocket socket,
+  required Props props,
+  PapercupsCustomer? c,
+  required Function setCustomer,
+  List<PapercupsMessage>? messages,
+  PhoenixChannel? conversationChannel,
+  Function? setConversationChannel,
+  Function? rebuild,
+  PhoenixSocket? socket,
 }) async {
   var failed = true;
   try {
@@ -30,8 +30,8 @@ Future<bool> getCustomerHistory({
       c,
       setCustomer,
     );
-    if (customer != null) failed = false;
-    if (customer != null && customer.id != null) {
+    failed = false;
+    if (customer.id != null) {
       // If customer is not null and there is an ID get the past messages.
       var data = await getPastCustomerMessages(props, customer);
       if (data["msgs"] != null) failed = false;
@@ -40,20 +40,20 @@ Future<bool> getCustomerHistory({
           // If there are messages to load sort them by date.
           var msgsIn = data["msgs"] as List<PapercupsMessage>;
           msgsIn.sort((a, b) {
-            return a.createdAt.compareTo(b.createdAt);
+            return a.createdAt!.compareTo(b.createdAt!);
           });
           // Add them to the message list.
-          messages.addAll(msgsIn);
+          messages!.addAll(msgsIn);
         }
         // Get the first message (as we know there is at leat one messgae)
         // We use this to get the details we need to join a conversation.
         var msgToProcess = data["msgs"][0] as PapercupsMessage;
         joinConversationAndListen(
-          convId: msgToProcess.conversationId,
+          convId: msgToProcess.conversationId!,
           conversation: conversationChannel,
-          setChannel: setConversationChannel,
+          setChannel: setConversationChannel!,
           setState: rebuild,
-          socket: socket,
+          socket: socket!,
           messages: messages,
         );
       }
@@ -66,7 +66,7 @@ Future<bool> getCustomerHistory({
         } else if (nCust != customer) {
           // If the new customer is different then we update the details we have.
           setCustomer(nCust);
-          rebuild(() {}, animate: true);
+          rebuild!(() {}, animate: true);
         }
       }
     }

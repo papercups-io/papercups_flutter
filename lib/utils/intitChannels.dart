@@ -7,7 +7,7 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 initChannels(
   bool _connected,
   PhoenixSocket _socket,
-  PhoenixChannel _channel,
+  PhoenixChannel? _channel,
   Props props,
   bool _canJoinConversation,
   Function setState,

@@ -9,7 +9,7 @@ import 'utils.dart';
 Future<Map<String, dynamic>> getPastCustomerMessages(
   Props p,
   PapercupsCustomer c, {
-  Client client,
+  Client? client,
 }) async {
   if (client == null) {
     client = Client();

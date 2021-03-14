@@ -172,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ThemeModeSelector(
                                 height: 25,
                                 onChanged: (mode) {
-                                  ThemeModeManager.of(context).themeMode = mode;
+                                  ThemeModeManager.of(context)!.themeMode = mode;
                                 }),
                           ],
                         ),
@@ -326,25 +326,25 @@ class _MyHomePageState extends State<MyHomePage> {
 // Credits to https://github.com/BlueCowGroup/thememode_selector for this section
 // Copyright (c) 2021 Blue Cow Group, LLC
 class ThemeModeManager extends StatefulWidget {
-  final Widget Function(ThemeMode themeMode) builder;
-  final ThemeMode defaultThemeMode;
+  final Widget Function(ThemeMode? themeMode)? builder;
+  final ThemeMode? defaultThemeMode;
 
-  const ThemeModeManager({Key key, this.builder, this.defaultThemeMode})
+  const ThemeModeManager({Key? key, this.builder, this.defaultThemeMode})
       : super(key: key);
 
   @override
   _ThemeModeManagerState createState() =>
       _ThemeModeManagerState(themeMode: defaultThemeMode);
 
-  static _ThemeModeManagerState of(BuildContext context) {
+  static _ThemeModeManagerState? of(BuildContext context) {
     return context.findAncestorStateOfType<_ThemeModeManagerState>();
   }
 }
 
 class _ThemeModeManagerState extends State<ThemeModeManager> {
-  ThemeMode _themeMode;
+  ThemeMode? _themeMode;
 
-  _ThemeModeManagerState({ThemeMode themeMode}) : _themeMode = themeMode;
+  _ThemeModeManagerState({ThemeMode? themeMode}) : _themeMode = themeMode;
 
   set themeMode(ThemeMode mode) {
     if (_themeMode != mode) {
@@ -356,6 +356,6 @@ class _ThemeModeManagerState extends State<ThemeModeManager> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(_themeMode);
+    return widget.builder!(_themeMode);
   }
 }

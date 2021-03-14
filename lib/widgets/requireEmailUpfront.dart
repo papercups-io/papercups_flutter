@@ -117,7 +117,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                       Icons.navigate_next_rounded,
                       color: hasMatch
                           ? widget.props.primaryColor == null
-                              ? widget.props.primaryGradient.colors.first
+                              ? widget.props.primaryGradient!.colors.first
                               : widget.props.primaryColor
                           : Theme.of(context).disabledColor,
                       size: 20,

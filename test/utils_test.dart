@@ -35,10 +35,10 @@ void main() {
           "customer_id": customer.id,
           "email": customer.email,
           "external_id": customer.externalId,
-          "created_at": customer.createdAt.toUtc().toIso8601String(),
-          "first_seen": customer.firstSeen.toUtc().toIso8601String(),
-          "last_seen": customer.lastSeen.toUtc().toIso8601String(),
-          "updated_at": customer.updatedAt.toUtc().toIso8601String(),
+          "created_at": customer.createdAt!.toUtc().toIso8601String(),
+          "first_seen": customer.firstSeen!.toUtc().toIso8601String(),
+          "last_seen": customer.lastSeen!.toUtc().toIso8601String(),
+          "updated_at": customer.updatedAt!.toUtc().toIso8601String(),
           "name": customer.name,
           "phone": customer.phone,
         }
@@ -53,7 +53,8 @@ void main() {
       ).thenAnswer((_) async => http.Response(res, 200));
 
       final PapercupsCustomer c =
-          await updateUserMetadata(props, customer.id, client: client);
+          await (updateUserMetadata(props, customer.id, client: client)
+              as Future<PapercupsCustomer>);
 
       verify(
         client.put(
@@ -78,7 +79,7 @@ void main() {
         ),
       ).thenThrow(HttpException('Request failed'));
 
-      final PapercupsCustomer c =
+      final PapercupsCustomer? c =
           await updateUserMetadata(props, customer.id, client: client);
 
       verify(

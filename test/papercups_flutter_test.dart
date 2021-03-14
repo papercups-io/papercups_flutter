@@ -80,7 +80,7 @@ void main() {
       expect(props.primaryColor, Color(0xffffff));
       expect(props.requireEmailUpfront, true);
       expect(props.scrollEnabled, true);
-      expect(props.customer.toJsonString(),
+      expect(props.customer!.toJsonString(),
           '{"name":null,"email":null,"external_id":null}');
       expect(props.primaryGradient, null);
       expect(props.subtitle, "How can we help you?");
@@ -187,7 +187,7 @@ void main() {
         props,
         Conversation(),
         customer,
-        sc,
+        sc as Function,
         client: client,
       );
 
@@ -245,10 +245,10 @@ void main() {
           "id": customer.id,
           "email": customer.email,
           "external_id": customer.externalId,
-          "created_at": customer.createdAt.toUtc().toIso8601String(),
-          "first_seen": customer.firstSeen.toUtc().toIso8601String(),
-          "last_seen": customer.lastSeen.toUtc().toIso8601String(),
-          "updated_at": customer.updatedAt.toUtc().toIso8601String(),
+          "created_at": customer.createdAt!.toUtc().toIso8601String(),
+          "first_seen": customer.firstSeen!.toUtc().toIso8601String(),
+          "last_seen": customer.lastSeen!.toUtc().toIso8601String(),
+          "updated_at": customer.updatedAt!.toUtc().toIso8601String(),
           "name": customer.name,
           "phone": customer.phone,
         }
@@ -265,7 +265,7 @@ void main() {
       final PapercupsCustomer c = await getCustomerDetails(
         props,
         customer,
-        sc,
+        sc as Function?,
         client: client,
       );
 
@@ -321,10 +321,10 @@ void main() {
           "customer_id": customer.id,
           "email": customer.email,
           "external_id": customer.externalId,
-          "created_at": customer.createdAt.toIso8601String(),
-          "first_seen": customer.firstSeen.toIso8601String(),
-          "last_seen": customer.lastSeen.toIso8601String(),
-          "updated_at": customer.updatedAt.toIso8601String(),
+          "created_at": customer.createdAt!.toIso8601String(),
+          "first_seen": customer.firstSeen!.toIso8601String(),
+          "last_seen": customer.lastSeen!.toIso8601String(),
+          "updated_at": customer.updatedAt!.toIso8601String(),
           "name": customer.name,
           "phone": customer.phone,
         }
@@ -346,7 +346,7 @@ void main() {
       final PapercupsCustomer c = await getCustomerDetailsFromMetadata(
         props,
         customer,
-        sc,
+        sc as Function,
         client: client,
       );
 
@@ -388,7 +388,7 @@ void main() {
       final PapercupsCustomer c = await getCustomerDetailsFromMetadata(
         props,
         customer,
-        sc,
+        sc as Function,
         client: client,
       );
 
@@ -413,8 +413,8 @@ void main() {
 
   group('getPastCustomerMessages', () {
     test('returns a list of Messages and a Customer', () async {
-      List<PapercupsMessage> rMsgs = [];
-      PapercupsCustomer c;
+      List<PapercupsMessage>? rMsgs = [];
+      PapercupsCustomer? c;
       final client = MockClient();
       final res = jsonEncode({
         "data": [
@@ -423,23 +423,23 @@ void main() {
               {
                 "account_id": message.accountId,
                 "body": message.body,
-                "created_at": message.createdAt.toIso8601String(),
-                "sent_at": message.sentAt.toIso8601String(),
+                "created_at": message.createdAt!.toIso8601String(),
+                "sent_at": message.sentAt!.toIso8601String(),
               },
               {
                 "accound_id": message.accountId,
                 "body": message.body,
-                "created_at": message.createdAt.toIso8601String(),
-                "sent_at": message.sentAt.toIso8601String(),
+                "created_at": message.createdAt!.toIso8601String(),
+                "sent_at": message.sentAt!.toIso8601String(),
               }
             ],
             "customer": {
-              "created_at": customer.createdAt.toIso8601String(),
+              "created_at": customer.createdAt!.toIso8601String(),
               "email": customer.email,
               "external_id": customer.externalId,
-              "first_seen": customer.firstSeen.toIso8601String(),
-              "last_seen": customer.lastSeen.toIso8601String(),
-              "updated_at": customer.updatedAt.toIso8601String(),
+              "first_seen": customer.firstSeen!.toIso8601String(),
+              "last_seen": customer.lastSeen!.toIso8601String(),
+              "updated_at": customer.updatedAt!.toIso8601String(),
               "name": customer.name,
               "phone": customer.phone
             }
@@ -476,7 +476,7 @@ void main() {
       ).called(1);
       verify(client.close()).called(1);
 
-      expect(rMsgs.length, equals(2));
+      expect(rMsgs!.length, equals(2));
       expect(c, isNot(null));
     });
 

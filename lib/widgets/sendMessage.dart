@@ -13,7 +13,7 @@ import '../models/classes.dart';
 /// Send message text box.
 class SendMessage extends StatefulWidget {
   SendMessage({
-    Key key,
+    Key? key,
     this.customer,
     this.setCustomer,
     this.setConversation,
@@ -24,22 +24,22 @@ class SendMessage extends StatefulWidget {
     this.setState,
     this.messages,
     this.sending,
-    @required this.props,
-    @required this.textColor,
+    required this.props,
+    required this.textColor,
     this.showDivider = true,
   }) : super(key: key);
 
   final Props props;
-  final PapercupsCustomer customer;
-  final Function setCustomer;
-  final Function setState;
-  final Function setConversation;
-  final Function setConversationChannel;
-  final PhoenixChannel conversationChannel;
-  final Conversation conversation;
-  final PhoenixSocket socket;
-  final List<PapercupsMessage> messages;
-  final bool sending;
+  final PapercupsCustomer? customer;
+  final Function? setCustomer;
+  final Function? setState;
+  final Function? setConversation;
+  final Function? setConversationChannel;
+  final PhoenixChannel? conversationChannel;
+  final Conversation? conversation;
+  final PhoenixSocket? socket;
+  final List<PapercupsMessage>? messages;
+  final bool? sending;
   final Color textColor;
   final bool showDivider;
 
@@ -146,27 +146,27 @@ class _SendMessageState extends State<SendMessage> {
 void _sendMessage(
   FocusNode fn,
   TextEditingController tc,
-  PapercupsCustomer cu,
+  PapercupsCustomer? cu,
   Props p,
-  Function setCust,
-  Conversation conv,
-  Function setConv,
-  Function setConvChannel,
-  PhoenixChannel conversationChannel,
-  PhoenixSocket socket,
-  Function setState,
-  List<PapercupsMessage> messages,
-  bool sending,
+  Function? setCust,
+  Conversation? conv,
+  Function? setConv,
+  Function? setConvChannel,
+  PhoenixChannel? conversationChannel,
+  PhoenixSocket? socket,
+  Function? setState,
+  List<PapercupsMessage>? messages,
+  bool? sending,
 ) {
   final text = tc.text;
   fn.requestFocus();
-  if (text.trim().isEmpty || text == null) return null;
+  if (text.trim().isEmpty) return null;
   tc.clear();
   var timeNow = DateTime.now().toUtc();
 
-  setState(
+  setState!(
     () {
-      messages.add(
+      messages!.add(
         PapercupsMessage(
           body: text,
           createdAt: timeNow.toLocal(),
@@ -179,20 +179,21 @@ void _sendMessage(
     animate: true,
   );
 
-  if (conversationChannel == null) {
+  if (conversationChannel == null ||
+      conversationChannel.state == PhoenixChannelState.closed) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
-        setCust(customerDetails);
-        getConversationDetails(p, conv, customerDetails, setConv).then(
+        setCust!(customerDetails);
+        getConversationDetails(p, conv!, customerDetails, setConv!).then(
           (conversationDetails) {
             var conv = joinConversationAndListen(
               messages: messages,
-              convId: conversationDetails.id,
+              convId: conversationDetails.id!,
               conversation: conversationChannel,
-              socket: socket,
+              socket: socket!,
               setState: setState,
-              setChannel: setConvChannel,
-            );
+              setChannel: setConvChannel!,
+            )!;
             conv.push(
               "shout",
               {
@@ -211,7 +212,7 @@ void _sendMessage(
       "shout",
       {
         "body": text,
-        "customer_id": cu.id,
+        "customer_id": cu!.id,
         "sent_at": timeNow.toIso8601String(),
       },
     );

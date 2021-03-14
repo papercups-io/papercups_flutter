@@ -8,16 +8,16 @@ import '../models/models.dart';
 import 'utils.dart';
 
 /// This function is used to update customer details on the Papercups server.
-Future<PapercupsCustomer> updateUserMetadata(
+Future<PapercupsCustomer?> updateUserMetadata(
   Props p,
-  String cId, {
-  Client client,
+  String? cId, {
+  Client? client,
 }) async {
   if (client == null) {
     client = Client();
   }
-  PapercupsCustomer c;
-  var json = p.customer.toJsonString();
+  PapercupsCustomer? c;
+  var json = p.customer!.toJsonString();
   try {
     var res = await client.put(
       Uri.https(p.baseUrl, "/api/customers/$cId/metadata"),

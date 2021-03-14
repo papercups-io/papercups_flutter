@@ -6,17 +6,17 @@ import 'utils.dart';
 
 Future<PapercupsCustomer> getCustomerDetails(
   Props p,
-  PapercupsCustomer c,
-  Function sc, {
-  Client client,
+  PapercupsCustomer? c,
+  Function? sc, {
+  Client? client,
 }) async {
   if (client == null) {
     client = Client();
   }
   try {
     var timeNow = DateTime.now().toUtc().toIso8601String();
-    var metadata = p.customer != null && p.customer.otherMetadata != null
-        ? p.customer.otherMetadata
+    var metadata = p.customer != null && p.customer!.otherMetadata != null
+        ? p.customer!.otherMetadata!
         : {};
     var jsonString = jsonEncode(
       {
@@ -62,5 +62,5 @@ Future<PapercupsCustomer> getCustomerDetails(
     c = null;
   }
   client.close();
-  return c;
+  return c!;
 }
