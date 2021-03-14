@@ -179,7 +179,8 @@ void _sendMessage(
     animate: true,
   );
 
-  if (conversationChannel == null) {
+  if (conversationChannel == null ||
+      conversationChannel.state == PhoenixChannelState.closed) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
         setCust!(customerDetails);
