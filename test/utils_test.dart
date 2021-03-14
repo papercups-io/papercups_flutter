@@ -53,7 +53,8 @@ void main() {
       ).thenAnswer((_) async => http.Response(res, 200));
 
       final PapercupsCustomer c =
-          await (updateUserMetadata(props, customer.id, client: client) as FutureOr<PapercupsCustomer>);
+          await (updateUserMetadata(props, customer.id, client: client)
+              as Future<PapercupsCustomer>);
 
       verify(
         client.put(
