@@ -76,7 +76,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   void didChangeDependencies() {
-    if (widget.props.greeting != null) {
+    if (widget.props.greeting != null &&
+        _conversation.messages
+                .indexWhere((element) => element.id == "greeting") ==
+            -1) {
       _conversation.messages.add(
         PapercupsMessage(
           body: widget.props.greeting,
