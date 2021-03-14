@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import '../models/models.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'utils.dart';

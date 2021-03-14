@@ -70,14 +70,14 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (_channel != null) _channel!.close();
     if (_conversationChannel != null) _conversationChannel!.close();
     if (_socket != null) _socket!.dispose();
-    if (_controller != null) _controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   void didChangeDependencies() {
     if (widget.props.greeting != null) {
-      _conversation.messages!.add(
+      _conversation.messages.add(
         PapercupsMessage(
           body: widget.props.greeting,
           sentAt: DateTime.now(),
@@ -190,16 +190,15 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (mounted) setState(fn);
     if (animate &&
         mounted &&
-        _conversation.messages!.isNotEmpty &&
+        _conversation.messages.isNotEmpty &&
         WidgetsBinding.instance != null &&
         _controller.hasClients) {
       WidgetsBinding.instance!.addPostFrameCallback((_) {
-        if (_controller.position.maxScrollExtent != null)
-          _controller.animateTo(
-            _controller.position.maxScrollExtent,
-            curve: Curves.easeIn,
-            duration: Duration(milliseconds: 300),
-          );
+        _controller.animateTo(
+          _controller.position.maxScrollExtent,
+          curve: Curves.easeIn,
+          duration: Duration(milliseconds: 300),
+        );
       });
     }
   }

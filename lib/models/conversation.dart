@@ -28,7 +28,7 @@ class Conversation {
   String? status;
 
   /// The messages which are part of the conversation
-  List<PapercupsMessage>? messages;
+  List<PapercupsMessage> messages;
 
   Conversation({
     this.accountId,
@@ -39,6 +39,6 @@ class Conversation {
     this.priority,
     this.read,
     this.status,
-    this.messages,
+    this.messages = const [],
   });
 }

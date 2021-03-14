@@ -63,7 +63,7 @@ class ToastView {
   static void createView(
       String msg,
       BuildContext context,
-      int duration,
+      int? duration,
       int gravity,
       Color background,
       TextStyle? textStyle,

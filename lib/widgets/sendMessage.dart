@@ -160,7 +160,7 @@ void _sendMessage(
 ) {
   final text = tc.text;
   fn.requestFocus();
-  if (text.trim().isEmpty || text == null) return null;
+  if (text.trim().isEmpty) return null;
   tc.clear();
   var timeNow = DateTime.now().toUtc();
 

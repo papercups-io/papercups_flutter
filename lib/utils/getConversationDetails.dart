@@ -8,7 +8,7 @@ import '../models/models.dart';
 /// The most important detail is the ID, and this will return a **new** conversation.
 Future<Conversation> getConversationDetails(
   Props p,
-  Conversation conv,
+  Conversation conversation,
   PapercupsCustomer customer,
   Function sc, {
   Client? client,
@@ -16,6 +16,7 @@ Future<Conversation> getConversationDetails(
   if (client == null) {
     client = Client();
   }
+  Conversation conv;
 
   try {
     var res = await client.post(
@@ -40,11 +41,11 @@ Future<Conversation> getConversationDetails(
       asigneeId: data["asignee_id"],
       createdAt: data["created_at"],
       read: data["read"],
-      messages: conv.messages,
+      messages: conversation.messages,
     );
     sc(conv);
   } catch (e) {
-    conv = null;
+    conv = conversation;
   }
   client.close();
   return conv;

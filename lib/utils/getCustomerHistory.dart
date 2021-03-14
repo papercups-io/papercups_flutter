@@ -30,8 +30,8 @@ Future<bool> getCustomerHistory({
       c,
       setCustomer,
     );
-    if (customer != null) failed = false;
-    if (customer != null && customer.id != null) {
+    failed = false;
+    if (customer.id != null) {
       // If customer is not null and there is an ID get the past messages.
       var data = await getPastCustomerMessages(props, customer);
       if (data["msgs"] != null) failed = false;
