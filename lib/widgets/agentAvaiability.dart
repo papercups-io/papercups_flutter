@@ -15,12 +15,12 @@ class AgentAvailability extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         color: brighten(
-          props.primaryColor,
+          props.primaryColor!,
           30,
         ),
         border: Border(
           top: BorderSide(
-            color: brighten(props.primaryColor, 50),
+            color: brighten(props.primaryColor!, 50),
           ),
         ),
         boxShadow: [

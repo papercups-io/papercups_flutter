@@ -6,14 +6,14 @@ import '../models/classes.dart';
 /// This header is shown at the top of the widget and can be customised.
 class Header extends StatelessWidget {
   const Header({
-    Key key,
-    @required this.props,
+    Key? key,
+    required this.props,
     this.closeAction,
-    @required this.textColor,
+    required this.textColor,
   }) : super(key: key);
 
   final Props props;
-  final Function closeAction;
+  final Function? closeAction;
   final Color textColor;
 
   @override
@@ -57,7 +57,7 @@ class Header extends StatelessWidget {
                 IconButton(
                   constraints: BoxConstraints(maxHeight: 21),
                   icon: Icon(Icons.close_rounded),
-                  onPressed: closeAction,
+                  onPressed: closeAction as void Function()?,
                   color: textColor,
                   padding: EdgeInsets.zero,
                   iconSize: 21,

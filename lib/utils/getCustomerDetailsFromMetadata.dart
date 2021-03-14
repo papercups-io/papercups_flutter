@@ -8,9 +8,9 @@ import '../models/models.dart';
 /// This is the function responsible for finding the Customer's ID.
 Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   Props p,
-  PapercupsCustomer c,
+  PapercupsCustomer? c,
   Function sc, {
-  Client client,
+  Client? client,
 }) async {
   if (client == null) {
     client = Client();
@@ -22,7 +22,7 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
         p.baseUrl,
         "/api/customers/identify",
         {
-          "external_id": p.customer.externalId,
+          "external_id": p.customer!.externalId,
           "account_id": p.accountId,
         },
       ),
@@ -50,5 +50,5 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   // Closing HTTP client.
   client.close();
   // Returns customer.
-  return c;
+  return c!;
 }

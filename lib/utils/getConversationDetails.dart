@@ -11,7 +11,7 @@ Future<Conversation> getConversationDetails(
   Conversation conv,
   PapercupsCustomer customer,
   Function sc, {
-  Client client,
+  Client? client,
 }) async {
   if (client == null) {
     client = Client();

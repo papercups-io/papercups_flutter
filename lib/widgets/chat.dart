@@ -14,7 +14,7 @@ import 'widgets.dart';
 
 class ChatMessages extends StatelessWidget {
   final Props props;
-  final List<PapercupsMessage> messages;
+  final List<PapercupsMessage>? messages;
   final bool sending;
   final ScrollController _controller;
   final String locale;
@@ -33,7 +33,7 @@ class ChatMessages extends StatelessWidget {
     this.sendingText,
     this.sentText,
     this.textColor, {
-    Key key,
+    Key? key,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ChatMessages extends StatelessWidget {
                 ? ClampingScrollPhysics()
                 : NeverScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
-            itemCount: messages.length,
+            itemCount: messages!.length,
             itemBuilder: (context, index) {
               return ChatMessage(
                 msgs: messages,
@@ -75,20 +75,20 @@ class ChatMessages extends StatelessWidget {
 
 class ChatMessage extends StatefulWidget {
   const ChatMessage({
-    Key key,
-    @required this.msgs,
-    @required this.index,
-    @required this.props,
-    @required this.sending,
-    @required this.maxWidth,
-    @required this.locale,
-    @required this.timeagoLocale,
-    @required this.sendingText,
-    @required this.sentText,
-    @required this.textColor,
+    Key? key,
+    required this.msgs,
+    required this.index,
+    required this.props,
+    required this.sending,
+    required this.maxWidth,
+    required this.locale,
+    required this.timeagoLocale,
+    required this.sendingText,
+    required this.sentText,
+    required this.textColor,
   }) : super(key: key);
 
-  final List<PapercupsMessage> msgs;
+  final List<PapercupsMessage>? msgs;
   final int index;
   final Props props;
   final bool sending;
@@ -107,12 +107,12 @@ class _ChatMessageState extends State<ChatMessage> {
   double opacity = 0;
   double maxWidth = 0;
   bool isTimeSentVisible = false;
-  String longDay;
-  Timer timer;
+  String? longDay;
+  Timer? timer;
 
   @override
   void dispose() {
-    if (timer != null) timer.cancel();
+    if (timer != null) timer!.cancel();
     super.dispose();
   }
 
@@ -135,19 +135,19 @@ class _ChatMessageState extends State<ChatMessage> {
             opacity = 1;
           });
       });
-    var msg = widget.msgs[widget.index];
+    var msg = widget.msgs![widget.index];
 
     bool userSent = true;
     if (msg.userId != null) userSent = false;
 
-    var text = msg.body;
-    var nextMsg = widget.msgs[min(widget.index + 1, widget.msgs.length - 1)];
-    var isLast = widget.index == widget.msgs.length - 1;
+    var text = msg.body!;
+    var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
+    var isLast = widget.index == widget.msgs!.length - 1;
     var isFirst = widget.index == 0;
 
-    if (!isLast && (nextMsg.sentAt.day != msg.sentAt.day) && longDay == null) {
+    if (!isLast && (nextMsg.sentAt!.day != msg.sentAt!.day) && longDay == null) {
       try {
-        longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt);
+        longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt!);
       } catch (e) {
         print("ERROR: Error generating localized date!");
         longDay = "Loading...";
@@ -163,7 +163,7 @@ class _ChatMessageState extends State<ChatMessage> {
           setState(() {});
         }
       });
-    if (!isLast && timer != null) timer.cancel();
+    if (!isLast && timer != null) timer!.cancel();
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -214,7 +214,7 @@ class _ChatMessageState extends State<ChatMessage> {
                       top: (isFirst) ? 15 : 4,
                       bottom: 5,
                     ),
-                    child: (widget.msgs.length == 1 ||
+                    child: (widget.msgs!.length == 1 ||
                             nextMsg.userId != msg.userId ||
                             isLast)
                         ? Container(
@@ -227,22 +227,22 @@ class _ChatMessageState extends State<ChatMessage> {
                               radius: 16,
                               backgroundColor: Colors.transparent,
                               backgroundImage:
-                                  (msg.user.profilePhotoUrl != null)
-                                      ? NetworkImage(msg.user.profilePhotoUrl)
+                                  (msg.user!.profilePhotoUrl != null)
+                                      ? NetworkImage(msg.user!.profilePhotoUrl!)
                                       : null,
-                              child: (msg.user.profilePhotoUrl != null)
+                              child: (msg.user!.profilePhotoUrl != null)
                                   ? null
                                   : (msg.user != null &&
-                                          msg.user.fullName == null)
+                                          msg.user!.fullName == null)
                                       ? Text(
-                                          msg.user.email
+                                          msg.user!.email!
                                               .substring(0, 1)
                                               .toUpperCase(),
                                           style: TextStyle(
                                               color: widget.textColor),
                                         )
                                       : Text(
-                                          msg.user.fullName
+                                          msg.user!.fullName!
                                               .substring(0, 1)
                                               .toUpperCase(),
                                           style: TextStyle(
@@ -288,17 +288,17 @@ class _ChatMessageState extends State<ChatMessage> {
                       p: TextStyle(
                         color: userSent
                             ? widget.textColor
-                            : Theme.of(context).textTheme.bodyText1.color,
+                            : Theme.of(context).textTheme.bodyText1!.color,
                       ),
                       a: TextStyle(
                         color: userSent
                             ? Colors.white
-                            : Theme.of(context).textTheme.bodyText1.color,
+                            : Theme.of(context).textTheme.bodyText1!.color,
                       ),
                       blockquotePadding: EdgeInsets.only(left: 14),
                       blockquoteDecoration: BoxDecoration(
                           border: Border(
-                        left: BorderSide(color: Colors.grey[300], width: 4),
+                        left: BorderSide(color: Colors.grey[300]!, width: 4),
                       )),
                     ),
                   ),
@@ -314,9 +314,9 @@ class _ChatMessageState extends State<ChatMessage> {
             if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
               Padding(
                   padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
-                  child: (msg.user.fullName == null)
+                  child: (msg.user!.fullName == null)
                       ? Text(
-                          msg.user.email,
+                          msg.user!.email!,
                           style: TextStyle(
                             color: Theme.of(context)
                                 .disabledColor
@@ -325,7 +325,7 @@ class _ChatMessageState extends State<ChatMessage> {
                           ),
                         )
                       : Text(
-                          msg.user.fullName,
+                          msg.user!.fullName!,
                           style: TextStyle(
                             color: Theme.of(context)
                                 .disabledColor
@@ -344,7 +344,7 @@ class _ChatMessageState extends State<ChatMessage> {
                 child: Text(
                   widget.sending
                       ? widget.sendingText
-                      : "${widget.sentText} ${timeago.format(msg.createdAt)}",
+                      : "${widget.sentText} ${timeago.format(msg.createdAt!)}",
                   textAlign: TextAlign.end,
                   style: TextStyle(color: Colors.grey),
                 ),
@@ -360,7 +360,7 @@ class _ChatMessageState extends State<ChatMessage> {
                   margin: EdgeInsets.all(15),
                   width: double.infinity,
                   child: Text(
-                    longDay,
+                    longDay!,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Colors.grey,
@@ -377,10 +377,10 @@ class _ChatMessageState extends State<ChatMessage> {
 
 class TimeWidget extends StatelessWidget {
   const TimeWidget({
-    Key key,
-    @required this.userSent,
-    @required this.msg,
-    @required this.isVisible,
+    Key? key,
+    required this.userSent,
+    required this.msg,
+    required this.isVisible,
   }) : super(key: key);
 
   final bool userSent;
@@ -396,9 +396,9 @@ class TimeWidget extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
         child: Text(
-          TimeOfDay.fromDateTime(msg.createdAt).format(context),
+          TimeOfDay.fromDateTime(msg.createdAt!).format(context),
           style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1.color.withAlpha(100),
+            color: Theme.of(context).textTheme.bodyText1!.color!.withAlpha(100),
             fontSize: 10,
           ),
         ),

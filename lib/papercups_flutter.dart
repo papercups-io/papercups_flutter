@@ -33,13 +33,13 @@ class PaperCupsWidget extends StatefulWidget {
   final String sentText;
 
   /// If not null, close button will be shown.
-  final Function closeAction;
+  final Function? closeAction;
 
   /// Set to true in order to make the send message section float
   final bool floatingSendMessage;
 
   PaperCupsWidget({
-    @required this.props,
+    required this.props,
     this.dateLocale = "en-US",
     this.timeagoLocale,
     this.sendingText = "Sending...",
@@ -54,10 +54,10 @@ class PaperCupsWidget extends StatefulWidget {
 
 class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   bool _connected = false;
-  PhoenixSocket _socket;
-  PhoenixChannel _channel;
-  PhoenixChannel _conversationChannel;
-  PapercupsCustomer _customer;
+  PhoenixSocket? _socket;
+  PhoenixChannel? _channel;
+  PhoenixChannel? _conversationChannel;
+  PapercupsCustomer? _customer;
   bool _canJoinConversation = false;
   Conversation _conversation = Conversation(messages: []);
   ScrollController _controller = ScrollController();
@@ -67,9 +67,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   void dispose() {
-    if (_channel != null) _channel.close();
-    if (_conversationChannel != null) _conversationChannel.close();
-    if (_socket != null) _socket.dispose();
+    if (_channel != null) _channel!.close();
+    if (_conversationChannel != null) _conversationChannel!.close();
+    if (_socket != null) _socket!.dispose();
     if (_controller != null) _controller.dispose();
     super.dispose();
   }
@@ -77,7 +77,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   @override
   void didChangeDependencies() {
     if (widget.props.greeting != null) {
-      _conversation.messages.add(
+      _conversation.messages!.add(
         PapercupsMessage(
           body: widget.props.greeting,
           sentAt: DateTime.now(),
@@ -98,8 +98,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       _subscribeToSocket();
     }
     if (widget.props.customer != null &&
-        widget.props.customer.externalId != null &&
-        (_customer == null || _customer.createdAt == null) &&
+        widget.props.customer!.externalId != null &&
+        (_customer == null || _customer!.createdAt == null) &&
         _conversation.id == null) {
       getCustomerHistory(
         conversationChannel: _conversationChannel,
@@ -127,9 +127,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       });
     }
     if ((widget.props.primaryColor != null &&
-            widget.props.primaryColor.computeLuminance() > 0.5) ||
+            widget.props.primaryColor!.computeLuminance() > 0.5) ||
         (widget.props.primaryGradient != null &&
-            widget.props.primaryGradient.colors[0].computeLuminance() > 0.5) ||
+            widget.props.primaryGradient!.colors[0].computeLuminance() > 0.5) ||
         (widget.props.primaryColor == null &&
             Theme.of(context).primaryColor.computeLuminance() > 0.5))
       textColor = Colors.black;
@@ -141,9 +141,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       throw "Expected either primaryColor or primaryGradient to be null";
     if (widget.props.customer != null) {
       setCustomer(PapercupsCustomer(
-        email: widget.props.customer.email,
-        externalId: widget.props.customer.externalId,
-        name: widget.props.customer.name,
+        email: widget.props.customer!.email,
+        externalId: widget.props.customer!.externalId,
+        name: widget.props.customer!.name,
       ));
     }
     if (widget.dateLocale != "en-US") {
@@ -159,9 +159,9 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.props.primaryColor != widget.props.primaryColor) {
       if ((widget.props.primaryColor != null &&
-              widget.props.primaryColor.computeLuminance() > 0.5) ||
+              widget.props.primaryColor!.computeLuminance() > 0.5) ||
           (widget.props.primaryGradient != null &&
-              widget.props.primaryGradient.colors[0].computeLuminance() >
+              widget.props.primaryGradient!.colors[0].computeLuminance() >
                   0.5) ||
           (widget.props.primaryColor == null &&
               Theme.of(context).primaryColor.computeLuminance() > 0.5))
@@ -190,10 +190,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (mounted) setState(fn);
     if (animate &&
         mounted &&
-        _conversation.messages.isNotEmpty &&
+        _conversation.messages!.isNotEmpty &&
         WidgetsBinding.instance != null &&
         _controller.hasClients) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+      WidgetsBinding.instance!.addPostFrameCallback((_) {
         if (_controller.position.maxScrollExtent != null)
           _controller.animateTo(
             _controller.position.maxScrollExtent,
@@ -208,7 +208,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   Widget build(BuildContext context) {
     initChannels(
       _connected,
-      _socket,
+      _socket!,
       _channel,
       widget.props,
       _canJoinConversation,
@@ -231,14 +231,14 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   ),
                   Text(
                     "No Connection",
-                    style: Theme.of(context).textTheme.headline5.copyWith(
+                    style: Theme.of(context).textTheme.headline5!.copyWith(
                           color: Colors.grey,
                         ),
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      if (!_socket.isConnected) {
-                        _socket.dispose();
+                      if (!_socket!.isConnected) {
+                        _socket!.dispose();
                         _socket = PhoenixSocket("wss://" +
                             widget.props.baseUrl +
                             '/socket/websocket')
@@ -246,8 +246,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                         _subscribeToSocket();
                       }
                       if (widget.props.customer != null &&
-                          widget.props.customer.externalId != null &&
-                          (_customer == null || _customer.createdAt == null) &&
+                          widget.props.customer!.externalId != null &&
+                          (_customer == null || _customer!.createdAt == null) &&
                           _conversation.id == null)
                         getCustomerHistory(
                           conversationChannel: _conversationChannel,
@@ -260,7 +260,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                           props: widget.props,
                         ).then((failed) {
                           if (!failed) {
-                            _socket.connect();
+                            _socket!.connect();
                             if (mounted)
                               setState(() {
                                 noConnection = false;
@@ -322,7 +322,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                   clipBehavior:
                       widget.floatingSendMessage ? Clip.antiAlias : Clip.none,
                   child: (widget.props.requireEmailUpfront &&
-                          (_customer == null || _customer.email == null))
+                          (_customer == null || _customer!.email == null))
                       ? RequireEmailUpfront(setCustomer, widget.props,
                           textColor, !widget.floatingSendMessage)
                       : SendMessage(
@@ -352,7 +352,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void _subscribeToSocket() {
-    _socket.closeStream.listen((event) {
+    _socket!.closeStream.listen((event) {
       if (mounted)
         setState(() {
           _connected = false;
@@ -360,14 +360,13 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         });
     });
 
-    _socket.openStream.listen(
+    _socket!.openStream.listen(
       (event) {
         if (noConnection && mounted) {
           rebuild(() {
             noConnection = false;
           }, animate: true);
         }
-        return _connected = true;
       },
     );
   }

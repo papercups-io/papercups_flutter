@@ -7,16 +7,16 @@ class CustomerMetadata {
   //Decalration of variables.
 
   /// This is the name of your user.
-  String name;
+  String? name;
 
   /// This is the email of the user.
-  String email;
+  String? email;
 
   /// This is an external ID of the user.
-  String externalId;
+  String? externalId;
 
   /// Any extra data you want to pass can be passed as a key-value pair.
-  Map<String, String> otherMetadata;
+  Map<String, String>? otherMetadata;
 
   //Class definition.
   CustomerMetadata({
@@ -27,7 +27,7 @@ class CustomerMetadata {
   });
 
   String toJsonString() {
-    var metadata = this.otherMetadata != null ? this.otherMetadata : {};
+    var metadata = this.otherMetadata != null ? this.otherMetadata! : {};
     return json.encode(
       {
         "name": this.name,
@@ -51,10 +51,10 @@ class Props {
   String subtitle;
 
   /// Color in which the header is going to be in, if not defined will be primary color used in app.
-  Color primaryColor;
+  Color? primaryColor;
 
   /// Gradient to specify, should be used instead of primaryColor, DO NOT USE BOTH.
-  Gradient primaryGradient;
+  Gradient? primaryGradient;
 
   /// Required to create the wig¡dget, identifies the account.
   String accountId;
@@ -63,10 +63,10 @@ class Props {
   String baseUrl;
 
   /// This is the first message sent by you during the conversation.
-  String greeting;
+  String? greeting;
 
   /// This is the data that you will see on your dashboard such as the email or the name of the person.
-  CustomerMetadata customer;
+  CustomerMetadata? customer;
 
   /// This is the placeholder text in the input section.
   String newMessagePlaceholder;
@@ -94,7 +94,7 @@ class Props {
 
   //Class definition.
   Props({
-    @required this.accountId,
+    required this.accountId,
     //this.agentAvailableText,
     //this.agentUnavailableText,
     this.baseUrl = "app.papercups.io",

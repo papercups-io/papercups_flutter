@@ -39,8 +39,8 @@ class Alert {
       Color backgroundColor = const Color(0xAA000000),
       textStyle = const TextStyle(fontSize: 15, color: Colors.white),
       double backgroundRadius = 20,
-      bool rootNavigator,
-      Border border}) {
+      bool? rootNavigator,
+      Border? border}) {
     ToastView.dismiss();
     ToastView.createView(msg, context, duration, gravity, backgroundColor,
         textStyle, backgroundRadius, border, rootNavigator);
@@ -56,8 +56,8 @@ class ToastView {
 
   ToastView._internal();
 
-  static OverlayState overlayState;
-  static OverlayEntry _overlayEntry;
+  static OverlayState? overlayState;
+  static OverlayEntry? _overlayEntry;
   static bool _isVisible = false;
 
   static void createView(
@@ -66,10 +66,10 @@ class ToastView {
       int duration,
       int gravity,
       Color background,
-      TextStyle textStyle,
+      TextStyle? textStyle,
       double backgroundRadius,
-      Border border,
-      bool rootNavigator) async {
+      Border? border,
+      bool? rootNavigator) async {
     overlayState = Overlay.of(context, rootOverlay: rootNavigator ?? false);
 
     _overlayEntry = new OverlayEntry(
@@ -95,7 +95,7 @@ class ToastView {
           gravity: gravity),
     );
     _isVisible = true;
-    overlayState.insert(_overlayEntry);
+    overlayState!.insert(_overlayEntry!);
     await new Future.delayed(
         Duration(seconds: duration == null ? Alert.lengthShort : duration));
     dismiss();
@@ -112,10 +112,10 @@ class ToastView {
 
 class ToastWidget extends StatefulWidget {
   ToastWidget({
-    Key key,
-    @required this.widget,
-    @required this.gravity,
-    @required this.duration,
+    Key? key,
+    required this.widget,
+    required this.gravity,
+    required this.duration,
   }) : super(key: key);
 
   final Widget widget;
