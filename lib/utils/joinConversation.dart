@@ -16,7 +16,7 @@ PhoenixChannel? joinConversationAndListen({
   // Adding the channel.
   conversation = socket.addChannel(topic: "conversation:" + convId);
   // Joining channel.
-  conversation.join();
+  if (conversation.state == PhoenixChannelState.closed) conversation.join();
   // Function to set the channel.
   setChannel(conversation);
   // Add the listener that will check for new messages.
