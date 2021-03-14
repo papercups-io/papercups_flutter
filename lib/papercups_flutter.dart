@@ -103,7 +103,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     if (widget.props.customer != null &&
         widget.props.customer!.externalId != null &&
         (_customer == null || _customer!.createdAt == null) &&
-        _conversation.id == null) {
+        _conversation.id == null &&
+        _conversation.messages.length <= 1) {
       getCustomerHistory(
         conversationChannel: _conversationChannel,
         c: _customer,
