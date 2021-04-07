@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:papercups_flutter/utils/updateUserMetadata.dart';
 
-import 'mocks.dart';
+import 'mocks.mocks.dart';
 
 void main() {
   final customer = PapercupsCustomer(
@@ -51,10 +51,10 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer((_) async => http.Response(res, 200));
+      when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer c =
-          await (updateUserMetadata(props, customer.id, client: client)
-              as Future<PapercupsCustomer>);
+      final PapercupsCustomer? c =
+          await (updateUserMetadata(props, customer.id, client: client));
 
       verify(
         client.put(
@@ -66,7 +66,7 @@ void main() {
       verify(client.close()).called(1);
 
       expect(c, isNot(null));
-      expect(c.id, equals(customer.id));
+      expect(c?.id, equals(customer.id));
     });
 
     test("returns null when there's an error", () async {
@@ -78,6 +78,7 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenThrow(HttpException('Request failed'));
+      when(client.close()).thenReturn(null);
 
       final PapercupsCustomer? c =
           await updateUserMetadata(props, customer.id, client: client);

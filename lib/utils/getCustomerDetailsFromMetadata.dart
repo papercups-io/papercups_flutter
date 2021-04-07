@@ -42,13 +42,12 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
       updatedAt: c == null ? null : c.updatedAt,
     );
   } catch (e) {
-    // Customer will be null if there is an error.
-    c = null;
+    throw (e);
   }
   // Function to set the client.
   sc(c);
   // Closing HTTP client.
   client.close();
   // Returns customer.
-  return c!;
+  return c;
 }

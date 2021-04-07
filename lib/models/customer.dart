@@ -1,4 +1,4 @@
-/// This is teh class which contains all customer info.
+/// This is the class which contains all customer info.
 class PapercupsCustomer {
   /// Date of Customer creation.
   DateTime? createdAt;

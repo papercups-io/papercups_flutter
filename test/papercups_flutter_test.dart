@@ -10,7 +10,7 @@ import 'package:papercups_flutter/utils/utils.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'mocks.dart';
+import 'mocks.mocks.dart';
 
 void main() {
   final props = Props(
@@ -182,12 +182,13 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer((_) async => http.Response(res, 200));
+      when(client.close()).thenReturn(null);
 
       final details = await getConversationDetails(
         props,
         Conversation(),
         customer,
-        sc as Function,
+        sc,
         client: client,
       );
 
@@ -205,34 +206,22 @@ void main() {
       expect(details.accountId, equals(conv.accountId));
     });
 
-    test("returns null when there's an error", () async {
+    test("throws an exception when there's an error", () async {
       final client = MockClient();
+
       when(
         client.post(
           Uri.parse('https://${props.baseUrl}/api/conversations'),
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
-      ).thenThrow(HttpException('Request failed'));
+      ).thenAnswer((_) => throw (HttpException('Request failed')));
 
-      final details = await getConversationDetails(
-        props,
-        Conversation(),
-        customer,
-        () => {},
-        client: client,
+      expect(
+        getConversationDetails(props, Conversation(), customer, () => {},
+            client: client),
+        throwsException,
       );
-
-      verify(
-        client.post(
-          Uri.parse('https://${props.baseUrl}/api/conversations'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).called(1);
-      verify(client.close()).called(1);
-
-      expect(details, equals(null));
     });
   });
 
@@ -261,11 +250,12 @@ void main() {
           body: anyNamed('body'),
         ),
       ).thenAnswer((_) async => http.Response(res, 200));
+      when(client.close()).thenReturn(null);
 
       final PapercupsCustomer c = await getCustomerDetails(
         props,
         customer,
-        sc as Function?,
+        sc,
         client: client,
       );
 
@@ -282,8 +272,9 @@ void main() {
       expect(c.lastSeen, equals(customer.lastSeen));
     });
 
-    test("returns null when there's an error", () async {
+    test("throws an exception when there's an error", () async {
       final client = MockClient();
+
       when(
         client.post(
           Uri.parse('https://${props.baseUrl}/api/customers'),
@@ -292,23 +283,10 @@ void main() {
         ),
       ).thenThrow(HttpException('Request failed'));
 
-      final PapercupsCustomer c = await getCustomerDetails(
-        props,
-        customer,
-        () => {},
-        client: client,
+      expect(
+        getCustomerDetails(props, customer, () => {}, client: client),
+        throwsException,
       );
-
-      verify(
-        client.post(
-          Uri.parse('https://${props.baseUrl}/api/customers'),
-          headers: anyNamed('headers'),
-          body: anyNamed('body'),
-        ),
-      ).called(1);
-      verify(client.close()).called(1);
-
-      expect(c, equals(null));
     });
   });
 
@@ -342,11 +320,12 @@ void main() {
           ),
         ),
       ).thenAnswer((_) async => http.Response(res, 200));
+      when(client.close()).thenReturn(null);
 
       final PapercupsCustomer c = await getCustomerDetailsFromMetadata(
         props,
         customer,
-        sc as Function,
+        sc,
         client: client,
       );
 
@@ -369,9 +348,10 @@ void main() {
       expect(c.lastSeen, equals(customer.lastSeen));
     });
 
-    test("returns null when there's an error", () async {
+    test("throws an exception when there's an error", () async {
       final client = MockClient();
       final sc = MockSc();
+
       when(
         client.get(
           Uri.https(
@@ -385,29 +365,9 @@ void main() {
         ),
       ).thenThrow(HttpException('Request failed'));
 
-      final PapercupsCustomer c = await getCustomerDetailsFromMetadata(
-        props,
-        customer,
-        sc as Function,
-        client: client,
-      );
-
-      verify(
-        client.get(
-          Uri.https(
-            props.baseUrl,
-            "/api/customers/identify",
-            {
-              "external_id": customer.externalId,
-              "account_id": props.accountId,
-            },
-          ),
-        ),
-      ).called(1);
-      verify(client.close()).called(1);
-      verify(sc(c)).called(1);
-
-      expect(c, equals(null));
+      expect(
+          getCustomerDetailsFromMetadata(props, customer, sc, client: client),
+          throwsException);
     });
   });
 
@@ -456,6 +416,7 @@ void main() {
           headers: anyNamed('headers'),
         ),
       ).thenAnswer((_) async => http.Response(res, 200));
+      when(client.close()).thenReturn(null);
 
       final cm = await getPastCustomerMessages(
         props,
@@ -491,6 +452,7 @@ void main() {
           headers: anyNamed('headers'),
         ),
       ).thenThrow(HttpException('Request failed'));
+      when(client.close()).thenReturn(null);
 
       await getPastCustomerMessages(
         props,
