@@ -45,7 +45,7 @@ Future<Conversation> getConversationDetails(
     );
     sc(conv);
   } catch (e) {
-    conv = conversation;
+    throw (e);
   }
   client.close();
   return conv;

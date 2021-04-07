@@ -59,8 +59,8 @@ Future<PapercupsCustomer> getCustomerDetails(
       phone: data["phone"],
     );
   } catch (e) {
-    c = null;
+    throw (e);
   }
   client.close();
-  return c!;
+  return c;
 }
