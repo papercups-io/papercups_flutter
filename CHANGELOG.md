@@ -1,3 +1,5 @@
+## [2.1.0] - 07/04/2021.
+✨ Support null-safety
 ## [2.0.5] - 27/02/2021.
 ⬆️ Allows `timeago` to go up to version 3.x.x
 ♻️ Internal improvements to have the message list inside the conversation
