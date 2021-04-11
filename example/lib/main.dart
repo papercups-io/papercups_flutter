@@ -172,7 +172,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             ThemeModeSelector(
                                 height: 25,
                                 onChanged: (mode) {
-                                  ThemeModeManager.of(context)!.themeMode = mode;
+                                  ThemeModeManager.of(context)!.themeMode =
+                                      mode;
                                 }),
                           ],
                         ),

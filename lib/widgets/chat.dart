@@ -145,7 +145,9 @@ class _ChatMessageState extends State<ChatMessage> {
     var isLast = widget.index == widget.msgs!.length - 1;
     var isFirst = widget.index == 0;
 
-    if (!isLast && (nextMsg.sentAt!.day != msg.sentAt!.day) && longDay == null) {
+    if (!isLast &&
+        (nextMsg.sentAt!.day != msg.sentAt!.day) &&
+        longDay == null) {
       try {
         longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt!);
       } catch (e) {
