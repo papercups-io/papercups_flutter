@@ -141,6 +141,9 @@ class _ChatMessageState extends State<ChatMessage> {
     if (msg.userId != null) userSent = false;
 
     var text = msg.body!;
+    if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
+      text = msg.attachments!.first.fileName!;
+    }
     var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
     var isLast = widget.index == widget.msgs!.length - 1;
     var isFirst = widget.index == 0;

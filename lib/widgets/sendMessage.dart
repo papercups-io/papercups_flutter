@@ -1,5 +1,11 @@
 //Imports
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:papercups_flutter/utils/uploadFile.dart';
 import '../models/models.dart';
 import '../utils/utils.dart';
 import '../models/conversation.dart';
@@ -77,6 +83,100 @@ class _SendMessageState extends State<SendMessage> {
     );
   }
 
+  Widget _getFilePicker() {
+    if (kIsWeb) {
+      return IconButton(
+        icon: Icon(Icons.attach_file),
+        onPressed: () async {
+          try {
+            var picked = await FilePicker.platform.pickFiles();
+
+            if (picked != null && picked.files.first.path != null) {
+              uploadFile(widget.props, picked.files.first.path ?? '');
+            }
+          } on Exception catch (e) {
+            print('sendMessage: error in file picker web: $e');
+          }
+        },
+      );
+    } else if (Platform.isAndroid || Platform.isIOS) {
+      return PopupMenuButton<FileType>(
+        icon: Icon(Icons.attach_file),
+        onSelected: (type) async {
+          try {
+            final _paths = (await FilePicker.platform.pickFiles(
+              type: type,
+            ))
+                ?.files;
+            if (_paths != null && _paths.first.path != null) {
+              List<PapercupsAttachment> attachments =
+                  await uploadFile(widget.props, _paths.first.path ?? "");
+
+              List<String> fileIds =
+                  attachments.map((e) => e.id ?? "").toList();
+
+              if (attachments.isNotEmpty) {
+                _sendMessage(
+                  _msgFocusNode,
+                  _msgController,
+                  widget.customer,
+                  widget.props,
+                  widget.setCustomer,
+                  widget.conversation,
+                  widget.setConversation,
+                  widget.setConversationChannel,
+                  widget.conversationChannel,
+                  widget.socket,
+                  widget.setState,
+                  widget.messages,
+                  widget.sending,
+                  attachments,
+                  fileIds,
+                  true,
+                );
+              }
+            }
+          } on PlatformException catch (e) {
+            print('sendMessage: Error in file picker: $e');
+          } catch (ex) {
+            print(ex);
+          }
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<FileType>>[
+          PopupMenuItem<FileType>(
+            value: FileType.any,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: widget.props.primaryColor,
+                foregroundColor: widget.textColor,
+                child: Icon(Icons.insert_drive_file_outlined),
+              ),
+              title: Text('File'),
+              contentPadding: EdgeInsets.all(0),
+            ),
+          ),
+          PopupMenuItem<FileType>(
+            value: FileType.image,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: widget.props.primaryColor,
+                foregroundColor: widget.textColor,
+                child: Icon(Icons.image_outlined),
+              ),
+              title: Text('Image'),
+              contentPadding: EdgeInsets.all(0),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return IconButton(
+        icon: Icon(Icons.attachment_outlined),
+        onPressed: () {},
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,6 +216,7 @@ class _SendMessageState extends State<SendMessage> {
                 focusNode: _msgFocusNode,
               ),
             ),
+            _getFilePicker(),
             Container(
               height: 36,
               width: 36,
@@ -156,11 +257,14 @@ void _sendMessage(
   PhoenixSocket? socket,
   Function? setState,
   List<PapercupsMessage>? messages,
-  bool? sending,
-) {
+  bool? sending, [
+  List<PapercupsAttachment>? attachments,
+  List<String>? fileIds,
+  bool mediaMessage = false,
+]) {
   final text = tc.text;
   fn.requestFocus();
-  if (text.trim().isEmpty) return null;
+  if (text.trim().isEmpty && fileIds == null) return null;
   tc.clear();
   var timeNow = DateTime.now().toUtc();
 
@@ -172,6 +276,8 @@ void _sendMessage(
           createdAt: timeNow.toLocal(),
           sentAt: timeNow.toLocal(),
           customer: PapercupsCustomer(),
+          fileIds: fileIds,
+          attachments: attachments,
         ),
       );
     },
@@ -200,6 +306,7 @@ void _sendMessage(
                 "body": text,
                 "customer_id": customerDetails.id,
                 "sent_at": timeNow.toIso8601String(),
+                if (mediaMessage) "file_ids": fileIds,
               },
             );
             setState(() {});
@@ -214,6 +321,7 @@ void _sendMessage(
         "body": text,
         "customer_id": cu!.id,
         "sent_at": timeNow.toIso8601String(),
+        if (mediaMessage) "file_ids": fileIds,
       },
     );
   }
