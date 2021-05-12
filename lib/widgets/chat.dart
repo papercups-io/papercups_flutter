@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:papercups_flutter/utils/downloadFile.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/models.dart';
 
@@ -122,6 +127,52 @@ class _ChatMessageState extends State<ChatMessage> {
     super.initState();
   }
 
+  void _handleDownloadStream(Stream<StreamedResponse> resp,
+      {String? filename}) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    List<List<int>> chunks = [];
+    int downloaded = 0;
+
+    resp.listen((StreamedResponse r) {
+      r.stream.listen((List<int> chunk) {
+        Alert.show(
+          "downloadPercentage: ${downloaded / (r.contentLength ?? 1) * 100}",
+          context,
+          textStyle: Theme.of(context).textTheme.bodyText2,
+          backgroundColor: Theme.of(context).bottomAppBarColor,
+          gravity: Alert.bottom,
+          duration: Alert.lengthLong,
+        );
+
+        chunks.add(chunk);
+        downloaded += chunk.length;
+      }, onDone: () async {
+        Alert.show(
+          "download complete ${downloaded / (r.contentLength ?? 1) * 100}%",
+          context,
+          textStyle: Theme.of(context).textTheme.bodyText2,
+          backgroundColor: Colors.green,
+          gravity: Alert.bottom,
+          duration: Alert.lengthLong,
+        );
+
+        File file = File('$dir/$filename');
+
+        print('location: $dir/$filename');
+
+        final Uint8List bytes = Uint8List(r.contentLength ?? 0);
+        int offset = 0;
+        for (List<int> chunk in chunks) {
+          bytes.setRange(offset, offset + chunk.length, chunk);
+          offset += chunk.length;
+        }
+        await file.writeAsBytes(bytes);
+        return;
+      });
+    });
+  }
+
   TimeOfDay senderTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
@@ -170,10 +221,18 @@ class _ChatMessageState extends State<ChatMessage> {
       });
     if (!isLast && timer != null) timer!.cancel();
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         setState(() {
           isTimeSentVisible = true;
         });
+        if (msg.fileIds?.isNotEmpty ?? false) {
+          Stream<StreamedResponse> resp =
+              await downloadFile(msg.attachments?.first.fileUrl ?? '');
+          _handleDownloadStream(
+            resp,
+            filename: msg.attachments?.first.fileName,
+          );
+        }
       },
       onLongPress: () {
         HapticFeedback.vibrate();
