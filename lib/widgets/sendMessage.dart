@@ -15,6 +15,7 @@ import '../utils/getCustomerDetails.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/classes.dart';
+import 'alert.dart';
 
 /// Send message text box.
 class SendMessage extends StatefulWidget {
@@ -109,8 +110,18 @@ class _SendMessageState extends State<SendMessage> {
             ))
                 ?.files;
             if (_paths != null && _paths.first.path != null) {
-              List<PapercupsAttachment> attachments =
-                  await uploadFile(widget.props, _paths.first.path ?? "");
+              Alert.show(
+                "uploading...",
+                context,
+                textStyle: Theme.of(context).textTheme.bodyText2,
+                backgroundColor: Theme.of(context).bottomAppBarColor,
+                gravity: Alert.bottom,
+                duration: Alert.lengthLong,
+              );
+              List<PapercupsAttachment> attachments = await uploadFile(
+                widget.props,
+                _paths.first.path ?? "",
+              );
 
               List<String> fileIds =
                   attachments.map((e) => e.id ?? "").toList();
@@ -134,12 +145,34 @@ class _SendMessageState extends State<SendMessage> {
                   fileIds,
                   true,
                 );
+                Alert.show(
+                  "attachment uploaded",
+                  context,
+                  textStyle: Theme.of(context).textTheme.bodyText2,
+                  backgroundColor: Colors.green,
+                  gravity: Alert.bottom,
+                  duration: Alert.lengthLong,
+                );
               }
             }
-          } on PlatformException catch (e) {
-            print('sendMessage: Error in file picker: $e');
-          } catch (ex) {
-            print(ex);
+          } on PlatformException catch (_) {
+            Alert.show(
+              "failed to upload attachment",
+              context,
+              textStyle: Theme.of(context).textTheme.bodyText2,
+              backgroundColor: Colors.red,
+              gravity: Alert.bottom,
+              duration: Alert.lengthLong,
+            );
+          } catch (_) {
+            Alert.show(
+              "failed to upload attachment",
+              context,
+              textStyle: Theme.of(context).textTheme.bodyText2,
+              backgroundColor: Colors.red,
+              gravity: Alert.bottom,
+              duration: Alert.lengthLong,
+            );
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<FileType>>[
@@ -171,8 +204,17 @@ class _SendMessageState extends State<SendMessage> {
       );
     } else {
       return IconButton(
-        icon: Icon(Icons.attachment_outlined),
-        onPressed: () {},
+        icon: Icon(Icons.attach_file),
+        onPressed: () {
+          Alert.show(
+            "file upload is not currently supported for this platform",
+            context,
+            textStyle: Theme.of(context).textTheme.bodyText2,
+            backgroundColor: Colors.red,
+            gravity: Alert.bottom,
+            duration: Alert.lengthLong,
+          );
+        },
       );
     }
   }
