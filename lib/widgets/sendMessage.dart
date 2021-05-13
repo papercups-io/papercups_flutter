@@ -121,6 +121,16 @@ class _SendMessageState extends State<SendMessage> {
               List<PapercupsAttachment> attachments = await uploadFile(
                 widget.props,
                 _paths.first.path ?? "",
+                onUploadProgress: (sentBytes, totalBytes) {
+                  Alert.show(
+                    "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% uploaded",
+                    context,
+                    textStyle: Theme.of(context).textTheme.bodyText2,
+                    backgroundColor: Theme.of(context).bottomAppBarColor,
+                    gravity: Alert.bottom,
+                    duration: Alert.lengthLong,
+                  );
+                },
               );
 
               List<String> fileIds =
