@@ -27,6 +27,7 @@ class ChatMessages extends StatelessWidget {
   final String sendingText;
   final String sentText;
   final Color textColor;
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
 
   ChatMessages(
     this.props,
@@ -37,7 +38,8 @@ class ChatMessages extends StatelessWidget {
     this.timeagoLocale,
     this.sendingText,
     this.sentText,
-    this.textColor, {
+    this.textColor,
+    this.onMessageBubbleTap, {
     Key? key,
   }) : super(key: key);
   @override
@@ -91,6 +93,7 @@ class ChatMessage extends StatefulWidget {
     required this.sendingText,
     required this.sentText,
     required this.textColor,
+    this.onMessageBubbleTap,
   }) : super(key: key);
 
   final List<PapercupsMessage>? msgs;
@@ -103,6 +106,7 @@ class ChatMessage extends StatefulWidget {
   final String sendingText;
   final String sentText;
   final Color textColor;
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -149,7 +153,7 @@ class _ChatMessageState extends State<ChatMessage> {
         downloaded += chunk.length;
       }, onDone: () async {
         Alert.show(
-          "download complete ${downloaded / (r.contentLength ?? 1) * 100}%",
+          "location: ${dir}/$filename",
           context,
           textStyle: Theme.of(context).textTheme.bodyText2,
           backgroundColor: Colors.green,
@@ -225,7 +229,9 @@ class _ChatMessageState extends State<ChatMessage> {
         setState(() {
           isTimeSentVisible = true;
         });
-        if (msg.fileIds?.isNotEmpty ?? false) {
+        if (widget.onMessageBubbleTap != null)
+          widget.onMessageBubbleTap!(msg);
+        else if ((msg.fileIds?.isNotEmpty ?? false)) {
           Stream<StreamedResponse> resp =
               await downloadFile(msg.attachments?.first.fileUrl ?? '');
           _handleDownloadStream(
