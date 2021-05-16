@@ -1,13 +1,14 @@
 import 'dart:async';
-import 'dart:io';
+import 'package:universal_io/io.dart';
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import '../models/models.dart';
 
 typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
-Future<List<PapercupsAttachment>> uploadFile(Props p, String filePath,
+Future<List<PapercupsAttachment>> uploadFile(Props p, Uint8List file,
     {OnUploadProgressCallback? onUploadProgress}) async {
   List<PapercupsAttachment>? pa = [];
   try {
@@ -16,7 +17,7 @@ Future<List<PapercupsAttachment>> uploadFile(Props p, String filePath,
     final request = await httpClient.postUrl(uri);
     var client = MultipartRequest("POST", uri)
       ..fields['account_id'] = p.accountId
-      ..files.add(await MultipartFile.fromPath('file', filePath));
+      ..files.add(await MultipartFile.fromBytes('file', file));
 
     var msStream = client.finalize();
     var totalByteLength = client.contentLength;

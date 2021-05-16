@@ -92,8 +92,8 @@ class _SendMessageState extends State<SendMessage> {
           try {
             var picked = await FilePicker.platform.pickFiles();
 
-            if (picked != null && picked.files.first.path != null) {
-              uploadFile(widget.props, picked.files.first.path ?? '');
+            if (picked != null && picked.files.first.bytes != null) {
+              uploadFile(widget.props, picked.files.first.bytes!);
             }
           } on Exception catch (e) {
             print('sendMessage: error in file picker web: $e');
@@ -109,7 +109,7 @@ class _SendMessageState extends State<SendMessage> {
               type: type,
             ))
                 ?.files;
-            if (_paths != null && _paths.first.path != null) {
+            if (_paths != null && _paths.first.bytes != null) {
               Alert.show(
                 "uploading...",
                 context,
@@ -120,7 +120,7 @@ class _SendMessageState extends State<SendMessage> {
               );
               List<PapercupsAttachment> attachments = await uploadFile(
                 widget.props,
-                _paths.first.path ?? "",
+                _paths.first.bytes!,
                 onUploadProgress: (sentBytes, totalBytes) {
                   Alert.show(
                     "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% uploaded",
