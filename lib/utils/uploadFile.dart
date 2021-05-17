@@ -9,57 +9,81 @@ import '../models/models.dart';
 typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
 Future<List<PapercupsAttachment>> uploadFile(Props p, Uint8List file,
-    {OnUploadProgressCallback? onUploadProgress}) async {
+    {OnUploadProgressCallback? onUploadProgress, String? fileName}) async {
   List<PapercupsAttachment>? pa = [];
   try {
     var uri = Uri.parse("https://" + p.baseUrl + "/api/upload");
     final httpClient = HttpClient();
     final request = await httpClient.postUrl(uri);
     var client = MultipartRequest("POST", uri)
-      ..fields['account_id'] = p.accountId
-      ..files.add(await MultipartFile.fromBytes('file', file));
+      ..fields['account_id'] = p.accountId;
 
-    var msStream = client.finalize();
-    var totalByteLength = client.contentLength;
-    request.contentLength = totalByteLength;
+    if (Platform.isAndroid || Platform.isIOS) {
+      client.files.add(await MultipartFile.fromBytes('file', file));
+      var msStream = client.finalize();
+      var totalByteLength = client.contentLength;
+      request.contentLength = totalByteLength;
 
-    request.headers.set(
-      HttpHeaders.contentTypeHeader,
-      client.headers[HttpHeaders.contentTypeHeader] ?? '',
-    );
-    int byteCount = 0;
+      request.headers.set(
+        HttpHeaders.contentTypeHeader,
+        client.headers[HttpHeaders.contentTypeHeader] ?? '',
+      );
+      int byteCount = 0;
 
-    Stream<List<int>> streamUpload = msStream.transform(
-      StreamTransformer.fromHandlers(
-        handleData: (data, sink) {
-          sink.add(data);
+      Stream<List<int>> streamUpload = msStream.transform(
+        StreamTransformer.fromHandlers(
+          handleData: (data, sink) {
+            sink.add(data);
 
-          byteCount += data.length;
+            byteCount += data.length;
 
-          if (onUploadProgress != null) {
-            onUploadProgress(byteCount, totalByteLength);
-          }
-        },
-        handleError: (error, stack, sink) {
-          throw error;
-        },
-        handleDone: (sink) {
-          sink.close();
-        },
-      ),
-    );
+            if (onUploadProgress != null) {
+              onUploadProgress(byteCount, totalByteLength);
+            }
+          },
+          handleError: (error, stack, sink) {
+            throw error;
+          },
+          handleDone: (sink) {
+            sink.close();
+          },
+        ),
+      );
 
-    await request.addStream(streamUpload);
+      await request.addStream(streamUpload);
 
-    final httpResponse = await request.close();
+      final httpResponse = await request.close();
 
-    var statusCode = httpResponse.statusCode;
+      var statusCode = httpResponse.statusCode;
 
-    if (statusCode ~/ 100 != 2) {
-      throw Exception(
-          'Error uploading file, Status code: ${httpResponse.statusCode}');
+      if (statusCode ~/ 100 != 2) {
+        throw Exception(
+            'Error uploading file, Status code: ${httpResponse.statusCode}');
+      } else {
+        var body = await convertToString(httpResponse);
+        var data = jsonDecode(body)["data"];
+        pa.add(
+          PapercupsAttachment(
+            id: data["id"],
+            fileName: data["filename"],
+            fileUrl: data["file_url"],
+            contentType: data["content_type"],
+          ),
+        );
+      }
     } else {
-      var body = await convertToString(httpResponse);
+      final length = file.length;
+      client.files.add(
+        await MultipartFile(
+          'file',
+          ByteStream.fromBytes(file),
+          length,
+          filename: fileName ?? '',
+        ),
+      );
+      var res = await client.send();
+      var charCodes = await res.stream.last;
+      var body = String.fromCharCodes(charCodes);
       var data = jsonDecode(body)["data"];
       pa.add(
         PapercupsAttachment(

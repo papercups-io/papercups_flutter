@@ -84,6 +84,38 @@ class _SendMessageState extends State<SendMessage> {
     );
   }
 
+  void _onUploadSuccess(List<PapercupsAttachment> attachments) {
+    if (attachments.isNotEmpty) {
+      List<String> fileIds = attachments.map((e) => e.id ?? "").toList();
+      _sendMessage(
+        _msgFocusNode,
+        _msgController,
+        widget.customer,
+        widget.props,
+        widget.setCustomer,
+        widget.conversation,
+        widget.setConversation,
+        widget.setConversationChannel,
+        widget.conversationChannel,
+        widget.socket,
+        widget.setState,
+        widget.messages,
+        widget.sending,
+        attachments,
+        fileIds,
+        true,
+      );
+      Alert.show(
+        "attachment uploaded",
+        context,
+        textStyle: Theme.of(context).textTheme.bodyText2,
+        backgroundColor: Colors.green,
+        gravity: Alert.bottom,
+        duration: Alert.lengthLong,
+      );
+    }
+  }
+
   Widget _getFilePicker() {
     if (kIsWeb) {
       return IconButton(
@@ -93,10 +125,30 @@ class _SendMessageState extends State<SendMessage> {
             var picked = await FilePicker.platform.pickFiles();
 
             if (picked != null && picked.files.first.bytes != null) {
-              uploadFile(widget.props, picked.files.first.bytes!);
+              Alert.show(
+                "uploading...",
+                context,
+                textStyle: Theme.of(context).textTheme.bodyText2,
+                backgroundColor: Theme.of(context).bottomAppBarColor,
+                gravity: Alert.bottom,
+                duration: Alert.lengthLong,
+              );
+              List<PapercupsAttachment> attachments = await uploadFile(
+                widget.props,
+                picked.files.first.bytes!,
+                fileName: picked.files.first.name!,
+              );
+              _onUploadSuccess(attachments);
             }
-          } on Exception catch (e) {
-            print('sendMessage: error in file picker web: $e');
+          } on Exception catch (_) {
+            Alert.show(
+              "failed to upload attachment",
+              context,
+              textStyle: Theme.of(context).textTheme.bodyText2,
+              backgroundColor: Colors.red,
+              gravity: Alert.bottom,
+              duration: Alert.lengthLong,
+            );
           }
         },
       );
@@ -133,37 +185,7 @@ class _SendMessageState extends State<SendMessage> {
                 },
               );
 
-              List<String> fileIds =
-                  attachments.map((e) => e.id ?? "").toList();
-
-              if (attachments.isNotEmpty) {
-                _sendMessage(
-                  _msgFocusNode,
-                  _msgController,
-                  widget.customer,
-                  widget.props,
-                  widget.setCustomer,
-                  widget.conversation,
-                  widget.setConversation,
-                  widget.setConversationChannel,
-                  widget.conversationChannel,
-                  widget.socket,
-                  widget.setState,
-                  widget.messages,
-                  widget.sending,
-                  attachments,
-                  fileIds,
-                  true,
-                );
-                Alert.show(
-                  "attachment uploaded",
-                  context,
-                  textStyle: Theme.of(context).textTheme.bodyText2,
-                  backgroundColor: Colors.green,
-                  gravity: Alert.bottom,
-                  duration: Alert.lengthLong,
-                );
-              }
+              _onUploadSuccess(attachments);
             }
           } on PlatformException catch (_) {
             Alert.show(
