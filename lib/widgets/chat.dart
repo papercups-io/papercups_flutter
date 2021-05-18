@@ -3,11 +3,13 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'dart:html' as html;
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:papercups_flutter/utils/downloadFile.dart';
 import 'package:path_provider/path_provider.dart';
@@ -163,8 +165,6 @@ class _ChatMessageState extends State<ChatMessage> {
 
         File file = File('$dir/$filename');
 
-        print('location: $dir/$filename');
-
         final Uint8List bytes = Uint8List(r.contentLength ?? 0);
         int offset = 0;
         for (List<int> chunk in chunks) {
@@ -232,12 +232,19 @@ class _ChatMessageState extends State<ChatMessage> {
         if (widget.onMessageBubbleTap != null)
           widget.onMessageBubbleTap!(msg);
         else if ((msg.fileIds?.isNotEmpty ?? false)) {
-          Stream<StreamedResponse> resp =
-              await downloadFile(msg.attachments?.first.fileUrl ?? '');
-          _handleDownloadStream(
-            resp,
-            filename: msg.attachments?.first.fileName,
-          );
+          if (kIsWeb) {
+            String url = msg.attachments?.first.fileUrl ?? '';
+            html.AnchorElement anchorElement = html.AnchorElement(href: url);
+            anchorElement.download = url;
+            anchorElement.click();
+          } else if (Platform.isAndroid || Platform.isIOS) {
+            Stream<StreamedResponse> resp =
+                await downloadFile(msg.attachments?.first.fileUrl ?? '');
+            _handleDownloadStream(
+              resp,
+              filename: msg.attachments?.first.fileName,
+            );
+          }
         }
       },
       onLongPress: () {
