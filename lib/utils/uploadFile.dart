@@ -8,8 +8,13 @@ import '../models/models.dart';
 
 typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
-Future<List<PapercupsAttachment>> uploadFile(Props p, Uint8List file,
-    {OnUploadProgressCallback? onUploadProgress, String? fileName}) async {
+Future<List<PapercupsAttachment>> uploadFile(
+  Props p, {
+  OnUploadProgressCallback? onUploadProgress,
+  String? fileName,
+  Uint8List? fileBytes,
+  String? filePath,
+}) async {
   List<PapercupsAttachment>? pa = [];
   try {
     var uri = Uri.parse("https://" + p.baseUrl + "/api/upload");
@@ -19,7 +24,7 @@ Future<List<PapercupsAttachment>> uploadFile(Props p, Uint8List file,
       ..fields['account_id'] = p.accountId;
 
     if (Platform.isAndroid || Platform.isIOS) {
-      client.files.add(await MultipartFile.fromBytes('file', file));
+      client.files.add(await MultipartFile.fromPath('file', filePath ?? ''));
       var msStream = client.finalize();
       var totalByteLength = client.contentLength;
       request.contentLength = totalByteLength;
@@ -72,11 +77,11 @@ Future<List<PapercupsAttachment>> uploadFile(Props p, Uint8List file,
         );
       }
     } else {
-      final length = file.length;
+      final length = fileBytes!.length;
       client.files.add(
         await MultipartFile(
           'file',
-          ByteStream.fromBytes(file),
+          ByteStream.fromBytes(fileBytes),
           length,
           filename: fileName ?? '',
         ),

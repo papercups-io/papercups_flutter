@@ -135,7 +135,7 @@ class _SendMessageState extends State<SendMessage> {
               );
               List<PapercupsAttachment> attachments = await uploadFile(
                 widget.props,
-                picked.files.first.bytes!,
+                fileBytes: picked.files.first.bytes!,
                 fileName: picked.files.first.name!,
               );
               _onUploadSuccess(attachments);
@@ -161,7 +161,7 @@ class _SendMessageState extends State<SendMessage> {
               type: type,
             ))
                 ?.files;
-            if (_paths != null && _paths.first.bytes != null) {
+            if (_paths != null && _paths.first.path != null) {
               Alert.show(
                 "uploading...",
                 context,
@@ -172,7 +172,7 @@ class _SendMessageState extends State<SendMessage> {
               );
               List<PapercupsAttachment> attachments = await uploadFile(
                 widget.props,
-                _paths.first.bytes!,
+                filePath: _paths.first.path,
                 onUploadProgress: (sentBytes, totalBytes) {
                   Alert.show(
                     "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% uploaded",

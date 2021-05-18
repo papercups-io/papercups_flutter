@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'dart:html' as html;
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
@@ -234,9 +233,7 @@ class _ChatMessageState extends State<ChatMessage> {
         else if ((msg.fileIds?.isNotEmpty ?? false)) {
           if (kIsWeb) {
             String url = msg.attachments?.first.fileUrl ?? '';
-            html.AnchorElement anchorElement = html.AnchorElement(href: url);
-            anchorElement.download = url;
-            anchorElement.click();
+            downloadFileWeb(url);
           } else if (Platform.isAndroid || Platform.isIOS) {
             Stream<StreamedResponse> resp =
                 await downloadFile(msg.attachments?.first.fileUrl ?? '');

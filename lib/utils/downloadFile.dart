@@ -1,8 +1,5 @@
-// import 'dart:typed_data';
-// import 'dart:io';
-
 import 'package:http/http.dart';
-// import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future<Stream<StreamedResponse>> downloadFile(String url) async {
   var httpClient = Client();
@@ -10,4 +7,12 @@ Future<Stream<StreamedResponse>> downloadFile(String url) async {
   var response = httpClient.send(request);
 
   return response.asStream();
+}
+
+void downloadFileWeb(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
