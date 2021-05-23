@@ -38,6 +38,9 @@ class PaperCupsWidget extends StatefulWidget {
   /// Set to true in order to make the send message section float
   final bool floatingSendMessage;
 
+  /// Function to handle message bubble tap action
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
+
   PaperCupsWidget({
     required this.props,
     this.dateLocale = "en-US",
@@ -46,6 +49,7 @@ class PaperCupsWidget extends StatefulWidget {
     this.sentText = "Sent",
     this.closeAction,
     this.floatingSendMessage = false,
+    this.onMessageBubbleTap,
   });
 
   @override
@@ -116,6 +120,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         props: widget.props,
       ).then((failed) {
         if (failed) {
+          // TODO: Internationalize this
           Alert.show(
             "There was an issue retrieving your details. Please try again!",
             context,
@@ -299,6 +304,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     widget.sendingText,
                     widget.sentText,
                     textColor,
+                    widget.onMessageBubbleTap,
                   ),
                 ),
                 if (!widget.floatingSendMessage) PoweredBy(),

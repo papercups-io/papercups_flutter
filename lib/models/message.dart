@@ -1,4 +1,6 @@
 // Imports
+import 'package:papercups_flutter/models/models.dart';
+
 import 'user.dart';
 import 'customer.dart';
 export 'user.dart';
@@ -34,6 +36,12 @@ class PapercupsMessage {
   /// The userID of the person sending. Is nullable is the person sending is a customer.
   int? userId;
 
+  /// The file ids of files to be sent, could be null if message does not contain files
+  List<String>? fileIds;
+
+  /// the metadata of files attached
+  List<PapercupsAttachment>? attachments;
+
   PapercupsMessage({
     this.accountId,
     this.body,
@@ -46,5 +54,7 @@ class PapercupsMessage {
     this.user,
     this.userId,
     this.customer,
+    this.fileIds,
+    this.attachments,
   });
 }
