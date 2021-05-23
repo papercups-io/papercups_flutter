@@ -106,27 +106,35 @@ class _SendMessageState extends State<SendMessage> {
         true,
       );
       Alert.show(
-        "attachment uploaded",
+        "Attachment uploaded",
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
-        backgroundColor: Colors.green,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
         gravity: Alert.bottom,
         duration: Alert.lengthLong,
       );
     }
   }
 
+// TODO: Separate this widget
   Widget _getFilePicker() {
     if (kIsWeb) {
       return IconButton(
-        icon: Icon(Icons.attach_file),
+        splashRadius: 20,
+        icon: Transform.rotate(
+          angle: 0.6,
+          child: Icon(
+            Icons.attach_file,
+            size: 18,
+          ),
+        ),
         onPressed: () async {
           try {
             var picked = await FilePicker.platform.pickFiles();
 
             if (picked != null && picked.files.first.bytes != null) {
               Alert.show(
-                "uploading...",
+                "Uploading...",
                 context,
                 textStyle: Theme.of(context).textTheme.bodyText2,
                 backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -142,10 +150,10 @@ class _SendMessageState extends State<SendMessage> {
             }
           } on Exception catch (_) {
             Alert.show(
-              "failed to upload attachment",
+              "Failed to upload attachment",
               context,
               textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).bottomAppBarColor,
               gravity: Alert.bottom,
               duration: Alert.lengthLong,
             );
@@ -154,7 +162,10 @@ class _SendMessageState extends State<SendMessage> {
       );
     } else if (Platform.isAndroid || Platform.isIOS) {
       return PopupMenuButton<FileType>(
-        icon: Icon(Icons.attach_file),
+        icon: Icon(
+          Icons.attach_file,
+          color: Theme.of(context).iconTheme.color,
+        ),
         onSelected: (type) async {
           try {
             final _paths = (await FilePicker.platform.pickFiles(
@@ -163,7 +174,7 @@ class _SendMessageState extends State<SendMessage> {
                 ?.files;
             if (_paths != null && _paths.first.path != null) {
               Alert.show(
-                "uploading...",
+                "Uploading...",
                 context,
                 textStyle: Theme.of(context).textTheme.bodyText2,
                 backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -189,19 +200,19 @@ class _SendMessageState extends State<SendMessage> {
             }
           } on PlatformException catch (_) {
             Alert.show(
-              "failed to upload attachment",
+              "Failed to upload attachment",
               context,
               textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).bottomAppBarColor,
               gravity: Alert.bottom,
               duration: Alert.lengthLong,
             );
           } catch (_) {
             Alert.show(
-              "failed to upload attachment",
+              "Failed to upload attachment",
               context,
               textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).bottomAppBarColor,
               gravity: Alert.bottom,
               duration: Alert.lengthLong,
             );
@@ -235,19 +246,20 @@ class _SendMessageState extends State<SendMessage> {
         ],
       );
     } else {
-      return IconButton(
-        icon: Icon(Icons.attach_file),
-        onPressed: () {
-          Alert.show(
-            "file upload is not currently supported for this platform",
-            context,
-            textStyle: Theme.of(context).textTheme.bodyText2,
-            backgroundColor: Colors.red,
-            gravity: Alert.bottom,
-            duration: Alert.lengthLong,
-          );
-        },
-      );
+      return SizedBox();
+      // return IconButton(
+      //   icon: Icon(Icons.attach_file),
+      //   onPressed: () {
+      //     Alert.show(
+      //       "file upload is not currently supported for this platform",
+      //       context,
+      //       textStyle: Theme.of(context).textTheme.bodyText2,
+      //       backgroundColor: Colors.red,
+      //       gravity: Alert.bottom,
+      //       duration: Alert.lengthLong,
+      //     );
+      //  },
+      //);
     }
   }
 

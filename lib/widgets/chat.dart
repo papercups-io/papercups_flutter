@@ -142,7 +142,7 @@ class _ChatMessageState extends State<ChatMessage> {
     resp.listen((StreamedResponse r) {
       r.stream.listen((List<int> chunk) {
         Alert.show(
-          "downloadPercentage: ${downloaded / (r.contentLength ?? 1) * 100}",
+          "Downlaoding, ${downloaded / (r.contentLength ?? 1) * 100}% done",
           context,
           textStyle: Theme.of(context).textTheme.bodyText2,
           backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -153,14 +153,14 @@ class _ChatMessageState extends State<ChatMessage> {
         chunks.add(chunk);
         downloaded += chunk.length;
       }, onDone: () async {
-        Alert.show(
-          "location: ${dir}/$filename",
-          context,
-          textStyle: Theme.of(context).textTheme.bodyText2,
-          backgroundColor: Colors.green,
-          gravity: Alert.bottom,
-          duration: Alert.lengthLong,
-        );
+        // Alert.show(
+        //   "location: ${dir}/$filename",
+        //   context,
+        //   textStyle: Theme.of(context).textTheme.bodyText2,
+        //   backgroundColor: Theme.of(context).bottomAppBarColor,
+        //   gravity: Alert.bottom,
+        //   duration: Alert.lengthLong,
+        // );
 
         File file = File('$dir/$filename');
 
