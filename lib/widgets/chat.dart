@@ -195,9 +195,14 @@ class _ChatMessageState extends State<ChatMessage> {
     bool userSent = true;
     if (msg.userId != null) userSent = false;
 
-    var text = msg.body;
+    var text = msg.body ?? "";
     if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
-      text = msg.attachments!.first.fileName!;
+      if (text != "") {
+        text += """
+
+""";
+      }
+      text += "> " + msg.attachments!.first.fileName!;
     }
     var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
     var isLast = widget.index == widget.msgs!.length - 1;
@@ -247,7 +252,9 @@ class _ChatMessageState extends State<ChatMessage> {
       },
       onLongPress: () {
         HapticFeedback.vibrate();
-        Clipboard.setData(ClipboardData(text: msg.body));
+        print(text);
+        final data = ClipboardData(text: text);
+        Clipboard.setData(data);
         // TODO: Internationalize this
         Alert.show(
           "Text copied to clipboard",
@@ -361,22 +368,39 @@ class _ChatMessageState extends State<ChatMessage> {
                   child: MarkdownBody(
                     data: text,
                     styleSheet: MarkdownStyleSheet(
-                      p: TextStyle(
-                        color: userSent
-                            ? widget.textColor
-                            : Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                      a: TextStyle(
-                        color: userSent
-                            ? Colors.white
-                            : Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                      blockquotePadding: EdgeInsets.only(left: 14),
-                      blockquoteDecoration: BoxDecoration(
+                        blockquote:
+                            TextStyle(decoration: TextDecoration.underline),
+                        p: TextStyle(
+                          color: userSent
+                              ? widget.textColor
+                              : Theme.of(context).textTheme.bodyText1!.color,
+                        ),
+                        a: TextStyle(
+                          color: userSent
+                              ? Colors.white
+                              : Theme.of(context).textTheme.bodyText1!.color,
+                        ),
+                        blockquotePadding: EdgeInsets.only(bottom: 2),
+                        blockquoteDecoration: BoxDecoration(
                           border: Border(
-                        left: BorderSide(color: Colors.grey[300]!, width: 4),
-                      )),
-                    ),
+                            bottom: BorderSide(
+                              width: 1.5,
+                              color: userSent
+                                  ? widget.textColor
+                                  : Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color ??
+                                      Colors.white,
+                            ),
+                          ),
+                        )
+                        // blockquotePadding: EdgeInsets.only(left: 14),
+                        // blockquoteDecoration: BoxDecoration(
+                        //     border: Border(
+                        //   left: BorderSide(color: Colors.grey[300]!, width: 4),
+                        // )),
+                        ),
                   ),
                 ),
                 if (!userSent)
