@@ -105,6 +105,7 @@ class _SendMessageState extends State<SendMessage> {
         fileIds,
         true,
       );
+      // TODO: Internationalize this.
       Alert.show(
         "Attachment uploaded",
         context,
@@ -117,6 +118,7 @@ class _SendMessageState extends State<SendMessage> {
   }
 
 // TODO: Separate this widget
+// TODO: Internationalize alerts and popups
   Widget _getFilePicker() {
     if (kIsWeb) {
       return IconButton(
@@ -162,9 +164,12 @@ class _SendMessageState extends State<SendMessage> {
       );
     } else if (Platform.isAndroid || Platform.isIOS) {
       return PopupMenuButton<FileType>(
-        icon: Icon(
-          Icons.attach_file,
-          color: Theme.of(context).iconTheme.color,
+        icon: Transform.rotate(
+          angle: 0.6,
+          child: Icon(
+            Icons.attach_file,
+            size: 18,
+          ),
         ),
         onSelected: (type) async {
           try {

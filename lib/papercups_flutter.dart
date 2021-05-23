@@ -120,6 +120,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         props: widget.props,
       ).then((failed) {
         if (failed) {
+          // TODO: Internationalize this
           Alert.show(
             "There was an issue retrieving your details. Please try again!",
             context,

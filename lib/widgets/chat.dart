@@ -141,8 +141,9 @@ class _ChatMessageState extends State<ChatMessage> {
 
     resp.listen((StreamedResponse r) {
       r.stream.listen((List<int> chunk) {
+        // TODO: Internationlaize this
         Alert.show(
-          "Downlaoding, ${downloaded / (r.contentLength ?? 1) * 100}% done",
+          "Downloading, ${downloaded / (r.contentLength ?? 1) * 100}% done",
           context,
           textStyle: Theme.of(context).textTheme.bodyText2,
           backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -157,7 +158,7 @@ class _ChatMessageState extends State<ChatMessage> {
         //   "location: ${dir}/$filename",
         //   context,
         //   textStyle: Theme.of(context).textTheme.bodyText2,
-        //   backgroundColor: Theme.of(context).bottomAppBarColor,
+        //
         //   gravity: Alert.bottom,
         //   duration: Alert.lengthLong,
         // );
@@ -194,7 +195,7 @@ class _ChatMessageState extends State<ChatMessage> {
     bool userSent = true;
     if (msg.userId != null) userSent = false;
 
-    var text = msg.body!;
+    var text = msg.body;
     if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
       text = msg.attachments!.first.fileName!;
     }
@@ -247,6 +248,7 @@ class _ChatMessageState extends State<ChatMessage> {
       onLongPress: () {
         HapticFeedback.vibrate();
         Clipboard.setData(ClipboardData(text: msg.body));
+        // TODO: Internationalize this
         Alert.show(
           "Text copied to clipboard",
           context,
