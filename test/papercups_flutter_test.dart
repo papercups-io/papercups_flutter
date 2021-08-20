@@ -23,7 +23,7 @@ void main() {
     email: 'email@papercups.com',
     externalId: 'external_id',
     firstSeen: parseDateFromUTC('2021-01-08T22:19:52.644532'),
-    lastSeen: parseDateFromUTC('2021-01-08T22:19:52.644532'),
+    lastSeenAt: parseDateFromUTC('2021-01-08T22:19:52.644532'),
     updatedAt: parseDateFromUTC('2021-01-08T22:19:52.644532'),
     name: 'name',
     phone: 'phone',
@@ -80,8 +80,7 @@ void main() {
       expect(props.primaryColor, Color(0xffffff));
       expect(props.requireEmailUpfront, true);
       expect(props.scrollEnabled, true);
-      expect(props.customer!.toJsonString(),
-          '{"name":null,"email":null,"external_id":null}');
+      expect(props.customer!.toJsonString(), '{"name":null,"email":null,"external_id":null}');
       expect(props.primaryGradient, null);
       expect(props.subtitle, "How can we help you?");
       expect(props.title, "Welcome!");
@@ -98,24 +97,18 @@ void main() {
       expect(cm.externalId, null);
       expect(cm.name, null);
       expect(cm.otherMetadata, null);
-      expect(
-          cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
+      expect(cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
     });
     test('are loaded correctly', () {
-      cm = CustomerMetadata(
-          email: "test@test.com",
-          externalId: "1234",
-          name: "name",
-          otherMetadata: {
-            "Test": "string",
-          });
+      cm = CustomerMetadata(email: "test@test.com", externalId: "1234", name: "name", otherMetadata: {
+        "Test": "string",
+      });
 
       expect(cm.email, "test@test.com");
       expect(cm.externalId, "1234");
       expect(cm.name, "name");
       expect(cm.otherMetadata, {"Test": "string"});
-      expect(cm.toJsonString(),
-          '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
+      expect(cm.toJsonString(), '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
     });
   });
   group('Theming', () {
@@ -218,8 +211,7 @@ void main() {
       ).thenAnswer((_) => throw (HttpException('Request failed')));
 
       expect(
-        getConversationDetails(props, Conversation(), customer, () => {},
-            client: client),
+        getConversationDetails(props, Conversation(), customer, () => {}, client: client),
         throwsException,
       );
     });
@@ -236,7 +228,7 @@ void main() {
           "external_id": customer.externalId,
           "created_at": customer.createdAt!.toUtc().toIso8601String(),
           "first_seen": customer.firstSeen!.toUtc().toIso8601String(),
-          "last_seen": customer.lastSeen!.toUtc().toIso8601String(),
+          "last_seen_at": customer.lastSeenAt!.toUtc().toIso8601String(),
           "updated_at": customer.updatedAt!.toUtc().toIso8601String(),
           "name": customer.name,
           "phone": customer.phone,
@@ -269,7 +261,7 @@ void main() {
       verify(client.close()).called(1);
 
       expect(c.id, equals(customer.id));
-      expect(c.lastSeen, equals(customer.lastSeen));
+      expect(c.lastSeenAt, equals(customer.lastSeenAt));
     });
 
     test("throws an exception when there's an error", () async {
@@ -301,7 +293,7 @@ void main() {
           "external_id": customer.externalId,
           "created_at": customer.createdAt!.toIso8601String(),
           "first_seen": customer.firstSeen!.toIso8601String(),
-          "last_seen": customer.lastSeen!.toIso8601String(),
+          "last_seen_at": customer.lastSeenAt!.toIso8601String(),
           "updated_at": customer.updatedAt!.toIso8601String(),
           "name": customer.name,
           "phone": customer.phone,
@@ -345,7 +337,7 @@ void main() {
       verify(client.close()).called(1);
 
       expect(c.id, equals(customer.id));
-      expect(c.lastSeen, equals(customer.lastSeen));
+      expect(c.lastSeenAt, equals(customer.lastSeenAt));
     });
 
     test("throws an exception when there's an error", () async {
@@ -365,9 +357,7 @@ void main() {
         ),
       ).thenThrow(HttpException('Request failed'));
 
-      expect(
-          getCustomerDetailsFromMetadata(props, customer, sc, client: client),
-          throwsException);
+      expect(getCustomerDetailsFromMetadata(props, customer, sc, client: client), throwsException);
     });
   });
 
@@ -393,16 +383,7 @@ void main() {
                 "sent_at": message.sentAt!.toIso8601String(),
               }
             ],
-            "customer": {
-              "created_at": customer.createdAt!.toIso8601String(),
-              "email": customer.email,
-              "external_id": customer.externalId,
-              "first_seen": customer.firstSeen!.toIso8601String(),
-              "last_seen": customer.lastSeen!.toIso8601String(),
-              "updated_at": customer.updatedAt!.toIso8601String(),
-              "name": customer.name,
-              "phone": customer.phone
-            }
+            "customer": {"created_at": customer.createdAt!.toIso8601String(), "email": customer.email, "external_id": customer.externalId, "first_seen": customer.firstSeen!.toIso8601String(), "last_seen_at": customer.lastSeenAt!.toIso8601String(), "updated_at": customer.updatedAt!.toIso8601String(), "name": customer.name, "phone": customer.phone}
           }
         ]
       });
