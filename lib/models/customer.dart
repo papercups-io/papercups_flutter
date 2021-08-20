@@ -22,7 +22,7 @@ class PapercupsCustomer {
   String? id;
 
   /// When the customer was last seen.
-  DateTime? lastSeen;
+  DateTime? lastSeenAt;
 
   /// When the customer details were last updated.
   DateTime? updatedAt;
@@ -33,7 +33,7 @@ class PapercupsCustomer {
     this.externalId,
     this.firstSeen,
     this.id,
-    this.lastSeen,
+    this.lastSeenAt,
     this.updatedAt,
     this.name,
     this.phone,

@@ -145,8 +145,8 @@ class _SendMessageState extends State<SendMessage> {
               );
               List<PapercupsAttachment> attachments = await uploadFile(
                 widget.props,
-                fileBytes: picked.files.first.bytes!,
-                fileName: picked.files.first.name!,
+                fileBytes: picked.files.first.bytes,
+                fileName: picked.files.first.name,
               );
               _onUploadSuccess(attachments);
             }
@@ -284,11 +284,7 @@ class _SendMessageState extends State<SendMessage> {
                   ),
                 )
               : null,
-          boxShadow: [
-            BoxShadow(
-                blurRadius: 30,
-                color: Theme.of(context).shadowColor.withOpacity(0.1))
-          ]),
+          boxShadow: [BoxShadow(blurRadius: 30, color: Theme.of(context).shadowColor.withOpacity(0.1))]),
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 0),
         child: Row(
@@ -376,8 +372,7 @@ void _sendMessage(
     animate: true,
   );
 
-  if (conversationChannel == null ||
-      conversationChannel.state == PhoenixChannelState.closed) {
+  if (conversationChannel == null || conversationChannel.state == PhoenixChannelState.closed) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
         setCust!(customerDetails);
