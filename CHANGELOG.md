@@ -1,3 +1,6 @@
+## [2.1.1] - 21/08/2021.
+🐛 Fixed an issue where chats are not recovered due to an API change.
+
 ## [2.1.0+1] - 18/04/2021.
 🎨 Format code
 

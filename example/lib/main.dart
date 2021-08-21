@@ -312,6 +312,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       greeting:
                           "Hello, have any questions or feedback? Let me know below!",
                       subtitle: subtitleController.text,
+                      customer: CustomerMetadata(
+                        email: "admin@aguilaair.tech",
+                        externalId: "123",
+                      ),
                     ),
                   ),
                 ),
