@@ -36,7 +36,7 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
       email: c == null ? null : c.email,
       createdAt: c == null ? null : c.createdAt,
       firstSeen: c == null ? null : c.firstSeen,
-      lastSeen: c == null ? null : c.lastSeen,
+      lastSeenAt: c == null ? null : c.lastSeenAt,
       name: c == null ? null : c.name,
       phone: c == null ? null : c.phone,
       updatedAt: c == null ? null : c.updatedAt,

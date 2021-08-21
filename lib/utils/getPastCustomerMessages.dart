@@ -47,12 +47,8 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                   email: val["user"]["email"],
                   id: val["user"]["id"],
                   role: val["user"]["role"],
-                  fullName: (val["user"]["full_name"] != null)
-                      ? val["user"]["full_name"]
-                      : null,
-                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null)
-                      ? val["user"]["profile_photo_url"]
-                      : null,
+                  fullName: (val["user"]["full_name"] != null) ? val["user"]["full_name"] : null,
+                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null) ? val["user"]["profile_photo_url"] : null,
                 )
               : null,
         ),
@@ -66,7 +62,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
       externalId: customerData["external_id"],
       firstSeen: parseDateFromUTC(customerData["first_seen"]),
       id: customerData["id"],
-      lastSeen: parseDateFromUTC(customerData["last_seen"]),
+      lastSeenAt: parseDateFromUTC(customerData["last_seen_at"]),
       updatedAt: parseDateFromUTC(customerData["updated_at"]),
       name: customerData["name"],
       phone: customerData["phone"],

@@ -17,7 +17,7 @@ void main() {
     email: 'email@papercups.com',
     externalId: 'external_id',
     firstSeen: DateTime.tryParse('2021-01-08T22:19:52.644532'),
-    lastSeen: DateTime.tryParse('2021-01-08T22:19:52.644532'),
+    lastSeenAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
     updatedAt: DateTime.tryParse('2021-01-08T22:19:52.644532'),
     name: 'name',
     phone: 'phone',
@@ -37,7 +37,7 @@ void main() {
           "external_id": customer.externalId,
           "created_at": customer.createdAt!.toUtc().toIso8601String(),
           "first_seen": customer.firstSeen!.toUtc().toIso8601String(),
-          "last_seen": customer.lastSeen!.toUtc().toIso8601String(),
+          "last_seen_at": customer.lastSeenAt!.toUtc().toIso8601String(),
           "updated_at": customer.updatedAt!.toUtc().toIso8601String(),
           "name": customer.name,
           "phone": customer.phone,
@@ -53,8 +53,7 @@ void main() {
       ).thenAnswer((_) async => http.Response(res, 200));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c =
-          await (updateUserMetadata(props, customer.id, client: client));
+      final PapercupsCustomer? c = await (updateUserMetadata(props, customer.id, client: client));
 
       verify(
         client.put(
@@ -80,8 +79,7 @@ void main() {
       ).thenThrow(HttpException('Request failed'));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c =
-          await updateUserMetadata(props, customer.id, client: client);
+      final PapercupsCustomer? c = await updateUserMetadata(props, customer.id, client: client);
 
       verify(
         client.put(
