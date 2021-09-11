@@ -45,7 +45,9 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
     throw (e);
   }
   // Function to set the client.
-  sc(c);
+  if(c.id != null){
+    sc(c);
+  }
   // Closing HTTP client.
   client.close();
   // Returns customer.
