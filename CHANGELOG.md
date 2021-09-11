@@ -1,3 +1,6 @@
+## [2.1.2] - 11/09/2021.
+🐛 Fixed an issue where chats appeared as Anonymous in specific cases even if externalId was provided.
+
 ## [2.1.1] - 21/08/2021.
 🐛 Fixed an issue where chats are not recovered due to an API change.
 
