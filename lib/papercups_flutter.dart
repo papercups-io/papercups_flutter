@@ -177,8 +177,10 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   void setCustomer(PapercupsCustomer c, {rebuild = false}) {
-    _customer = c;
-    if (rebuild) setState(() {});
+    if (_customer != c) {
+      _customer = c;
+      if (rebuild) setState(() {});
+    }
   }
 
   void setConversation(Conversation c) {
