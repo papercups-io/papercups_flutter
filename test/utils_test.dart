@@ -53,7 +53,8 @@ void main() {
       ).thenAnswer((_) async => http.Response(res, 200));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c = await (updateUserMetadata(props, customer.id, client: client));
+      final PapercupsCustomer? c =
+          await (updateUserMetadata(props, customer.id, client: client));
 
       verify(
         client.put(
@@ -79,7 +80,8 @@ void main() {
       ).thenThrow(HttpException('Request failed'));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c = await updateUserMetadata(props, customer.id, client: client);
+      final PapercupsCustomer? c =
+          await updateUserMetadata(props, customer.id, client: client);
 
       verify(
         client.put(

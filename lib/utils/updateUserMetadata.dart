@@ -29,13 +29,21 @@ Future<PapercupsCustomer?> updateUserMetadata(
     );
     var data = jsonDecode(res.body)["data"];
     c = PapercupsCustomer(
-      createdAt: data["created_at"] != null ? parseDateFromUTC(data["created_at"]) : null,
+      createdAt: data["created_at"] != null
+          ? parseDateFromUTC(data["created_at"])
+          : null,
       email: data["email"],
       externalId: data["external_id"],
-      firstSeen: data["first_seen"] != null ? parseDateFromUTC(data["first_seen"]) : null,
+      firstSeen: data["first_seen"] != null
+          ? parseDateFromUTC(data["first_seen"])
+          : null,
       id: data["id"],
-      lastSeenAt: data["last_seen_at"] != null ? parseDateFromUTC(data["last_seen_at"]) : null,
-      updatedAt: data["updated_at"] != null ? parseDateFromUTC(data["updated_at"]) : null,
+      lastSeenAt: data["last_seen_at"] != null
+          ? parseDateFromUTC(data["last_seen_at"])
+          : null,
+      updatedAt: data["updated_at"] != null
+          ? parseDateFromUTC(data["updated_at"])
+          : null,
       name: data["name"],
       phone: data["phone"],
     );
