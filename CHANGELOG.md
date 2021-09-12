@@ -1,3 +1,6 @@
+## [2.1.4] - 12/09/2021.
+🐛 Fixed an issue where new customer conversations would create a new ID, stopping links between conversations.
+
 ## [2.1.3] - 11/09/2021.
 🐛 Fixed an issue where chats appeared as Anonymous in specific cases even if externalId was provided. (covers more cases)
 
