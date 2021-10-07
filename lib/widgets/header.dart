@@ -46,11 +46,8 @@ class Header extends StatelessWidget {
               Flexible(
                 child: Text(
                   props.title,
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 21,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: props.titleStyle,
+                  textAlign: props.titleAlign
                 ),
               ),
               if (closeAction != null)
