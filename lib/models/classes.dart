@@ -48,7 +48,7 @@ class Props {
   String title;
 
   /// This is the top widget text style
-  TextStyle? titleStyle;
+  TextStyle titleStyle;
 
   /// This is the top widget title alignment
   TextAlign titleAlign;
@@ -113,7 +113,11 @@ class Props {
     //this.showAgentAvailability = false,
     this.subtitle = "How can we help you?",
     this.title = "Welcome!",
-    this.titleStyle,
+    this.titleStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 21,
+      fontWeight: FontWeight.w600,
+    ),
     this.titleAlign = TextAlign.left,
     this.companyName = "Bot",
     this.primaryGradient,

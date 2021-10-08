@@ -175,18 +175,11 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           (widget.props.primaryColor == null &&
               Theme.of(context).primaryColor.computeLuminance() > 0.5)) {
         textColor = Colors.black;
-        widget.props.titleStyle ??= TextStyle(
-          color: Colors.black,
-          fontSize: 21,
-          fontWeight: FontWeight.w600,
-        );
+        if (widget.props.titleStyle == null)
+          widget.props.titleStyle =
+              widget.props.titleStyle.copyWith(color: Colors.black);
       } else {
         textColor = Colors.white;
-        widget.props.titleStyle ??= TextStyle(
-          color: Colors.white,
-          fontSize: 21,
-          fontWeight: FontWeight.w600,
-        );
       }
     }
   }
