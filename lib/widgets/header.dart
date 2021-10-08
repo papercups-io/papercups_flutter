@@ -9,12 +9,10 @@ class Header extends StatelessWidget {
     Key? key,
     required this.props,
     this.closeAction,
-    required this.textColor,
   }) : super(key: key);
 
   final Props props;
   final Function? closeAction;
-  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -44,18 +42,15 @@ class Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text(
-                  props.title,
-                  style: props.titleStyle,
-                  textAlign: props.titleAlign
-                ),
+                child: Text(props.title,
+                    style: props.titleStyle, textAlign: props.titleAlign),
               ),
               if (closeAction != null)
                 IconButton(
                   constraints: BoxConstraints(maxHeight: 21),
                   icon: Icon(Icons.close_rounded),
                   onPressed: closeAction as void Function()?,
-                  color: textColor,
+                  color: props.titleStyle!.color,
                   padding: EdgeInsets.zero,
                   iconSize: 21,
                   splashRadius: 20,
@@ -69,7 +64,7 @@ class Header extends StatelessWidget {
             child: Text(
               props.subtitle,
               style: TextStyle(
-                color: textColor.withOpacity(0.8),
+                color: props.titleStyle!.color?.withOpacity(0.8),
               ),
             ),
           )

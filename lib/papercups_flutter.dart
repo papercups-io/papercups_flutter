@@ -173,10 +173,20 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
               widget.props.primaryGradient!.colors[0].computeLuminance() >
                   0.5) ||
           (widget.props.primaryColor == null &&
-              Theme.of(context).primaryColor.computeLuminance() > 0.5))
+              Theme.of(context).primaryColor.computeLuminance() > 0.5)) {
         textColor = Colors.black;
-      else {
+        widget.props.titleStyle ??= TextStyle(
+          color: Colors.black,
+          fontSize: 21,
+          fontWeight: FontWeight.w600,
+        );
+      } else {
         textColor = Colors.white;
+        widget.props.titleStyle ??= TextStyle(
+          color: Colors.white,
+          fontSize: 21,
+          fontWeight: FontWeight.w600,
+        );
       }
     }
   }
@@ -289,7 +299,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Header(
                   props: widget.props,
                   closeAction: widget.closeAction,
-                  textColor: textColor,
                 ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),
