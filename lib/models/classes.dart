@@ -110,6 +110,9 @@ class Props {
   /// header Height
   double? headerHeight;
 
+  /// message send icon for the chat section.
+  Widget? sendIcon;
+
   //Class definition.
   Props({
     required this.accountId,
@@ -143,5 +146,6 @@ class Props {
     this.companyName = "Bot",
     this.primaryGradient,
     this.enterEmailPlaceholer = "Enter your email",
+    this.sendIcon,
   });
 }

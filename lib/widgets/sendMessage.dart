@@ -284,7 +284,11 @@ class _SendMessageState extends State<SendMessage> {
                   ),
                 )
               : null,
-          boxShadow: [BoxShadow(blurRadius: 30, color: Theme.of(context).shadowColor.withOpacity(0.1))]),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 30,
+                color: Theme.of(context).shadowColor.withOpacity(0.1))
+          ]),
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 0),
         child: Row(
@@ -304,25 +308,25 @@ class _SendMessageState extends State<SendMessage> {
               ),
             ),
             _getFilePicker(),
-            Container(
-              height: 36,
-              width: 36,
-              margin: EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                color: widget.props.primaryColor,
-                gradient: widget.props.primaryGradient,
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
+            InkWell(
                 customBorder: CircleBorder(),
                 onTap: triggerSend,
-                child: Icon(
-                  Icons.send,
-                  color: widget.textColor,
-                  size: 16,
-                ),
-              ),
-            ),
+                child: Container(
+                  height: 36,
+                  width: 36,
+                  margin: EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: widget.props.primaryColor,
+                    gradient: widget.props.primaryGradient,
+                    shape: BoxShape.circle,
+                  ),
+                  child: widget.props.sendIcon ??
+                      Icon(
+                        Icons.send,
+                        color: widget.textColor,
+                        size: 16,
+                      ),
+                )),
           ],
         ),
       ),
@@ -372,7 +376,8 @@ void _sendMessage(
     animate: true,
   );
 
-  if (conversationChannel == null || conversationChannel.state == PhoenixChannelState.closed) {
+  if (conversationChannel == null ||
+      conversationChannel.state == PhoenixChannelState.closed) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
         setCust!(customerDetails);
