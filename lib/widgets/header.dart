@@ -17,13 +17,9 @@ class Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        top: 16,
-        right: 20,
-        left: 20,
-        bottom: 12,
-      ),
+      padding: props.headerPadding,
       width: double.infinity,
+      height: props.headerHeight,
       decoration: BoxDecoration(
           color: props.primaryColor,
           gradient: props.primaryGradient,
@@ -48,7 +44,7 @@ class Header extends StatelessWidget {
               if (closeAction != null)
                 IconButton(
                   constraints: BoxConstraints(maxHeight: 21),
-                  icon: Icon(Icons.close_rounded),
+                  icon: props.closeIcon,
                   onPressed: closeAction as void Function()?,
                   color: props.titleStyle.color,
                   padding: EdgeInsets.zero,
@@ -63,9 +59,10 @@ class Header extends StatelessWidget {
           Flexible(
             child: Text(
               props.subtitle,
-              style: TextStyle(
-                color: props.titleStyle.color?.withOpacity(0.8),
-              ),
+              style: props.subtitleStyle ??
+                  TextStyle(
+                    color: props.titleStyle.color?.withOpacity(0.8),
+                  ),
             ),
           )
         ],
