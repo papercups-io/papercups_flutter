@@ -55,12 +55,8 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                   email: val["user"]["email"],
                   id: val["user"]["id"],
                   role: val["user"]["role"],
-                  fullName: (val["user"]["full_name"] != null)
-                      ? val["user"]["full_name"]
-                      : null,
-                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null)
-                      ? val["user"]["profile_photo_url"]
-                      : null,
+                  fullName: (val["user"]["full_name"] != null) ? val["user"]["full_name"] : null,
+                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null) ? val["user"]["profile_photo_url"] : null,
                 )
               : null,
         ),

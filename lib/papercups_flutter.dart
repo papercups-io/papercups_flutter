@@ -38,6 +38,9 @@ class PaperCupsWidget extends StatefulWidget {
   /// Set to true in order to make the send message section float
   final bool floatingSendMessage;
 
+  /// Function to handle message bubble tap action
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
+
   PaperCupsWidget({
     required this.props,
     this.dateLocale = "en-US",
@@ -46,6 +49,7 @@ class PaperCupsWidget extends StatefulWidget {
     this.sentText = "Sent",
     this.closeAction,
     this.floatingSendMessage = false,
+    this.onMessageBubbleTap,
   });
 
   @override
@@ -116,6 +120,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         props: widget.props,
       ).then((failed) {
         if (failed) {
+          // TODO: Internationalize this
           Alert.show(
             "There was an issue retrieving your details. Please try again!",
             context,
@@ -168,9 +173,12 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
               widget.props.primaryGradient!.colors[0].computeLuminance() >
                   0.5) ||
           (widget.props.primaryColor == null &&
-              Theme.of(context).primaryColor.computeLuminance() > 0.5))
+              Theme.of(context).primaryColor.computeLuminance() > 0.5)) {
         textColor = Colors.black;
-      else {
+        if (widget.props.titleStyle == null)
+          widget.props.titleStyle =
+              widget.props.titleStyle.copyWith(color: Colors.black);
+      } else {
         textColor = Colors.white;
       }
     }
@@ -286,7 +294,6 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                 Header(
                   props: widget.props,
                   closeAction: widget.closeAction,
-                  textColor: textColor,
                 ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),
@@ -301,6 +308,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     widget.sendingText,
                     widget.sentText,
                     textColor,
+                    widget.onMessageBubbleTap,
                   ),
                 ),
                 if (!widget.floatingSendMessage) PoweredBy(),

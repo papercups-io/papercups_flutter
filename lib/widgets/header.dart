@@ -9,23 +9,17 @@ class Header extends StatelessWidget {
     Key? key,
     required this.props,
     this.closeAction,
-    required this.textColor,
   }) : super(key: key);
 
   final Props props;
   final Function? closeAction;
-  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        top: 16,
-        right: 20,
-        left: 20,
-        bottom: 12,
-      ),
+      padding: props.headerPadding,
       width: double.infinity,
+      height: props.headerHeight,
       decoration: BoxDecoration(
           color: props.primaryColor,
           gradient: props.primaryGradient,
@@ -44,21 +38,15 @@ class Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text(
-                  props.title,
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 21,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: Text(props.title,
+                    style: props.titleStyle, textAlign: props.titleAlign),
               ),
               if (closeAction != null)
                 IconButton(
                   constraints: BoxConstraints(maxHeight: 21),
-                  icon: Icon(Icons.close_rounded),
+                  icon: props.closeIcon,
                   onPressed: closeAction as void Function()?,
-                  color: textColor,
+                  color: props.titleStyle.color,
                   padding: EdgeInsets.zero,
                   iconSize: 21,
                   splashRadius: 20,
@@ -71,9 +59,10 @@ class Header extends StatelessWidget {
           Flexible(
             child: Text(
               props.subtitle,
-              style: TextStyle(
-                color: textColor.withOpacity(0.8),
-              ),
+              style: props.subtitleStyle ??
+                  TextStyle(
+                    color: props.titleStyle.color?.withOpacity(0.8),
+                  ),
             ),
           )
         ],

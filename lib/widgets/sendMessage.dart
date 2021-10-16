@@ -1,5 +1,11 @@
 //Imports
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:papercups_flutter/utils/uploadFile.dart';
 import '../models/models.dart';
 import '../utils/utils.dart';
 import '../models/conversation.dart';
@@ -9,6 +15,7 @@ import '../utils/getCustomerDetails.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/classes.dart';
+import 'alert.dart';
 
 /// Send message text box.
 class SendMessage extends StatefulWidget {
@@ -77,6 +84,190 @@ class _SendMessageState extends State<SendMessage> {
     );
   }
 
+  void _onUploadSuccess(List<PapercupsAttachment> attachments) {
+    if (attachments.isNotEmpty) {
+      List<String> fileIds = attachments.map((e) => e.id ?? "").toList();
+      _sendMessage(
+        _msgFocusNode,
+        _msgController,
+        widget.customer,
+        widget.props,
+        widget.setCustomer,
+        widget.conversation,
+        widget.setConversation,
+        widget.setConversationChannel,
+        widget.conversationChannel,
+        widget.socket,
+        widget.setState,
+        widget.messages,
+        widget.sending,
+        attachments,
+        fileIds,
+        true,
+      );
+      // TODO: Internationalize this.
+      Alert.show(
+        "Attachment uploaded",
+        context,
+        textStyle: Theme.of(context).textTheme.bodyText2,
+        backgroundColor: Theme.of(context).bottomAppBarColor,
+        gravity: Alert.bottom,
+        duration: Alert.lengthLong,
+      );
+    }
+  }
+
+// TODO: Separate this widget
+// TODO: Internationalize alerts and popups
+  Widget _getFilePicker() {
+    if (kIsWeb) {
+      return IconButton(
+        splashRadius: 20,
+        icon: Transform.rotate(
+          angle: 0.6,
+          child: Icon(
+            Icons.attach_file,
+            size: 18,
+          ),
+        ),
+        onPressed: () async {
+          try {
+            var picked = await FilePicker.platform.pickFiles();
+
+            if (picked != null && picked.files.first.bytes != null) {
+              Alert.show(
+                "Uploading...",
+                context,
+                textStyle: Theme.of(context).textTheme.bodyText2,
+                backgroundColor: Theme.of(context).bottomAppBarColor,
+                gravity: Alert.bottom,
+                duration: Alert.lengthLong,
+              );
+              List<PapercupsAttachment> attachments = await uploadFile(
+                widget.props,
+                fileBytes: picked.files.first.bytes,
+                fileName: picked.files.first.name,
+              );
+              _onUploadSuccess(attachments);
+            }
+          } on Exception catch (_) {
+            Alert.show(
+              "Failed to upload attachment",
+              context,
+              textStyle: Theme.of(context).textTheme.bodyText2,
+              backgroundColor: Theme.of(context).bottomAppBarColor,
+              gravity: Alert.bottom,
+              duration: Alert.lengthLong,
+            );
+          }
+        },
+      );
+    } else if (Platform.isAndroid || Platform.isIOS) {
+      return PopupMenuButton<FileType>(
+        icon: Transform.rotate(
+          angle: 0.6,
+          child: Icon(
+            Icons.attach_file,
+            size: 18,
+          ),
+        ),
+        onSelected: (type) async {
+          try {
+            final _paths = (await FilePicker.platform.pickFiles(
+              type: type,
+            ))
+                ?.files;
+            if (_paths != null && _paths.first.path != null) {
+              Alert.show(
+                "Uploading...",
+                context,
+                textStyle: Theme.of(context).textTheme.bodyText2,
+                backgroundColor: Theme.of(context).bottomAppBarColor,
+                gravity: Alert.bottom,
+                duration: Alert.lengthLong,
+              );
+              List<PapercupsAttachment> attachments = await uploadFile(
+                widget.props,
+                filePath: _paths.first.path,
+                onUploadProgress: (sentBytes, totalBytes) {
+                  Alert.show(
+                    "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% uploaded",
+                    context,
+                    textStyle: Theme.of(context).textTheme.bodyText2,
+                    backgroundColor: Theme.of(context).bottomAppBarColor,
+                    gravity: Alert.bottom,
+                    duration: Alert.lengthLong,
+                  );
+                },
+              );
+
+              _onUploadSuccess(attachments);
+            }
+          } on PlatformException catch (_) {
+            Alert.show(
+              "Failed to upload attachment",
+              context,
+              textStyle: Theme.of(context).textTheme.bodyText2,
+              backgroundColor: Theme.of(context).bottomAppBarColor,
+              gravity: Alert.bottom,
+              duration: Alert.lengthLong,
+            );
+          } catch (_) {
+            Alert.show(
+              "Failed to upload attachment",
+              context,
+              textStyle: Theme.of(context).textTheme.bodyText2,
+              backgroundColor: Theme.of(context).bottomAppBarColor,
+              gravity: Alert.bottom,
+              duration: Alert.lengthLong,
+            );
+          }
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<FileType>>[
+          PopupMenuItem<FileType>(
+            value: FileType.any,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: widget.props.primaryColor,
+                foregroundColor: widget.textColor,
+                child: Icon(Icons.insert_drive_file_outlined),
+              ),
+              title: Text('File'),
+              contentPadding: EdgeInsets.all(0),
+            ),
+          ),
+          PopupMenuItem<FileType>(
+            value: FileType.image,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundColor: widget.props.primaryColor,
+                foregroundColor: widget.textColor,
+                child: Icon(Icons.image_outlined),
+              ),
+              title: Text('Image'),
+              contentPadding: EdgeInsets.all(0),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return SizedBox();
+      // return IconButton(
+      //   icon: Icon(Icons.attach_file),
+      //   onPressed: () {
+      //     Alert.show(
+      //       "file upload is not currently supported for this platform",
+      //       context,
+      //       textStyle: Theme.of(context).textTheme.bodyText2,
+      //       backgroundColor: Colors.red,
+      //       gravity: Alert.bottom,
+      //       duration: Alert.lengthLong,
+      //     );
+      //  },
+      //);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -116,25 +307,26 @@ class _SendMessageState extends State<SendMessage> {
                 focusNode: _msgFocusNode,
               ),
             ),
-            Container(
-              height: 36,
-              width: 36,
-              margin: EdgeInsets.only(right: 8),
-              decoration: BoxDecoration(
-                color: widget.props.primaryColor,
-                gradient: widget.props.primaryGradient,
-                shape: BoxShape.circle,
-              ),
-              child: InkWell(
+            _getFilePicker(),
+            InkWell(
                 customBorder: CircleBorder(),
                 onTap: triggerSend,
-                child: Icon(
-                  Icons.send,
-                  color: widget.textColor,
-                  size: 16,
-                ),
-              ),
-            ),
+                child: Container(
+                  height: 36,
+                  width: 36,
+                  margin: EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                    color: widget.props.primaryColor,
+                    gradient: widget.props.primaryGradient,
+                    shape: BoxShape.circle,
+                  ),
+                  child: widget.props.sendIcon ??
+                      Icon(
+                        Icons.send,
+                        color: widget.textColor,
+                        size: 16,
+                      ),
+                )),
           ],
         ),
       ),
@@ -156,11 +348,14 @@ void _sendMessage(
   PhoenixSocket? socket,
   Function? setState,
   List<PapercupsMessage>? messages,
-  bool? sending,
-) {
+  bool? sending, [
+  List<PapercupsAttachment>? attachments,
+  List<String>? fileIds,
+  bool mediaMessage = false,
+]) {
   final text = tc.text;
   fn.requestFocus();
-  if (text.trim().isEmpty) return null;
+  if (text.trim().isEmpty && fileIds == null) return null;
   tc.clear();
   var timeNow = DateTime.now().toUtc();
 
@@ -172,6 +367,8 @@ void _sendMessage(
           createdAt: timeNow.toLocal(),
           sentAt: timeNow.toLocal(),
           customer: PapercupsCustomer(),
+          fileIds: fileIds,
+          attachments: attachments,
         ),
       );
     },
@@ -200,6 +397,7 @@ void _sendMessage(
                 "body": text,
                 "customer_id": customerDetails.id,
                 "sent_at": timeNow.toIso8601String(),
+                if (mediaMessage) "file_ids": fileIds,
               },
             );
             setState(() {});
@@ -214,6 +412,7 @@ void _sendMessage(
         "body": text,
         "customer_id": cu!.id,
         "sent_at": timeNow.toIso8601String(),
+        if (mediaMessage) "file_ids": fileIds,
       },
     );
   }

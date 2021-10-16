@@ -1,11 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
+import 'dart:typed_data';
 import 'dart:ui';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:papercups_flutter/utils/downloadFile.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/models.dart';
 
@@ -22,6 +28,7 @@ class ChatMessages extends StatelessWidget {
   final String sendingText;
   final String sentText;
   final Color textColor;
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
 
   ChatMessages(
     this.props,
@@ -32,7 +39,8 @@ class ChatMessages extends StatelessWidget {
     this.timeagoLocale,
     this.sendingText,
     this.sentText,
-    this.textColor, {
+    this.textColor,
+    this.onMessageBubbleTap, {
     Key? key,
   }) : super(key: key);
   @override
@@ -86,6 +94,7 @@ class ChatMessage extends StatefulWidget {
     required this.sendingText,
     required this.sentText,
     required this.textColor,
+    this.onMessageBubbleTap,
   }) : super(key: key);
 
   final List<PapercupsMessage>? msgs;
@@ -98,6 +107,7 @@ class ChatMessage extends StatefulWidget {
   final String sendingText;
   final String sentText;
   final Color textColor;
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
 
   @override
   _ChatMessageState createState() => _ChatMessageState();
@@ -122,6 +132,51 @@ class _ChatMessageState extends State<ChatMessage> {
     super.initState();
   }
 
+  void _handleDownloadStream(Stream<StreamedResponse> resp,
+      {String? filename}) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+
+    List<List<int>> chunks = [];
+    int downloaded = 0;
+
+    resp.listen((StreamedResponse r) {
+      r.stream.listen((List<int> chunk) {
+        // TODO: Internationlaize this
+        Alert.show(
+          "Downloading, ${downloaded / (r.contentLength ?? 1) * 100}% done",
+          context,
+          textStyle: Theme.of(context).textTheme.bodyText2,
+          backgroundColor: Theme.of(context).bottomAppBarColor,
+          gravity: Alert.bottom,
+          duration: Alert.lengthLong,
+        );
+
+        chunks.add(chunk);
+        downloaded += chunk.length;
+      }, onDone: () async {
+        // Alert.show(
+        //   "location: ${dir}/$filename",
+        //   context,
+        //   textStyle: Theme.of(context).textTheme.bodyText2,
+        //
+        //   gravity: Alert.bottom,
+        //   duration: Alert.lengthLong,
+        // );
+
+        File file = File('$dir/$filename');
+
+        final Uint8List bytes = Uint8List(r.contentLength ?? 0);
+        int offset = 0;
+        for (List<int> chunk in chunks) {
+          bytes.setRange(offset, offset + chunk.length, chunk);
+          offset += chunk.length;
+        }
+        await file.writeAsBytes(bytes);
+        return;
+      });
+    });
+  }
+
   TimeOfDay senderTime = TimeOfDay.now();
   @override
   Widget build(BuildContext context) {
@@ -140,7 +195,15 @@ class _ChatMessageState extends State<ChatMessage> {
     bool userSent = true;
     if (msg.userId != null) userSent = false;
 
-    var text = msg.body!;
+    var text = msg.body ?? "";
+    if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
+      if (text != "") {
+        text += """
+
+""";
+      }
+      text += "> " + msg.attachments!.first.fileName!;
+    }
     var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
     var isLast = widget.index == widget.msgs!.length - 1;
     var isFirst = widget.index == 0;
@@ -167,14 +230,32 @@ class _ChatMessageState extends State<ChatMessage> {
       });
     if (!isLast && timer != null) timer!.cancel();
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         setState(() {
           isTimeSentVisible = true;
         });
+        if (widget.onMessageBubbleTap != null)
+          widget.onMessageBubbleTap!(msg);
+        else if ((msg.fileIds?.isNotEmpty ?? false)) {
+          if (kIsWeb) {
+            String url = msg.attachments?.first.fileUrl ?? '';
+            downloadFileWeb(url);
+          } else if (Platform.isAndroid || Platform.isIOS) {
+            Stream<StreamedResponse> resp =
+                await downloadFile(msg.attachments?.first.fileUrl ?? '');
+            _handleDownloadStream(
+              resp,
+              filename: msg.attachments?.first.fileName,
+            );
+          }
+        }
       },
       onLongPress: () {
         HapticFeedback.vibrate();
-        Clipboard.setData(ClipboardData(text: msg.body));
+        print(text);
+        final data = ClipboardData(text: text);
+        Clipboard.setData(data);
+        // TODO: Internationalize this
         Alert.show(
           "Text copied to clipboard",
           context,
@@ -287,22 +368,39 @@ class _ChatMessageState extends State<ChatMessage> {
                   child: MarkdownBody(
                     data: text,
                     styleSheet: MarkdownStyleSheet(
-                      p: TextStyle(
-                        color: userSent
-                            ? widget.textColor
-                            : Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                      a: TextStyle(
-                        color: userSent
-                            ? Colors.white
-                            : Theme.of(context).textTheme.bodyText1!.color,
-                      ),
-                      blockquotePadding: EdgeInsets.only(left: 14),
-                      blockquoteDecoration: BoxDecoration(
+                        blockquote:
+                            TextStyle(decoration: TextDecoration.underline),
+                        p: TextStyle(
+                          color: userSent
+                              ? widget.textColor
+                              : Theme.of(context).textTheme.bodyText1!.color,
+                        ),
+                        a: TextStyle(
+                          color: userSent
+                              ? Colors.white
+                              : Theme.of(context).textTheme.bodyText1!.color,
+                        ),
+                        blockquotePadding: EdgeInsets.only(bottom: 2),
+                        blockquoteDecoration: BoxDecoration(
                           border: Border(
-                        left: BorderSide(color: Colors.grey[300]!, width: 4),
-                      )),
-                    ),
+                            bottom: BorderSide(
+                              width: 1.5,
+                              color: userSent
+                                  ? widget.textColor
+                                  : Theme.of(context)
+                                          .textTheme
+                                          .bodyText1!
+                                          .color ??
+                                      Colors.white,
+                            ),
+                          ),
+                        )
+                        // blockquotePadding: EdgeInsets.only(left: 14),
+                        // blockquoteDecoration: BoxDecoration(
+                        //     border: Border(
+                        //   left: BorderSide(color: Colors.grey[300]!, width: 4),
+                        // )),
+                        ),
                   ),
                 ),
                 if (!userSent)
