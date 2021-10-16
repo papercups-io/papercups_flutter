@@ -1,8 +1,8 @@
 // Imports
 import 'package:papercups_flutter/models/models.dart';
 
-import 'user.dart';
 import 'customer.dart';
+
 export 'user.dart';
 
 /// This class is the class used for each message on the chat.
@@ -57,4 +57,36 @@ class PapercupsMessage {
     this.fileIds,
     this.attachments,
   });
+
+  PapercupsMessage copyWith({
+    String? accountId,
+    String? body,
+    String? conversationId,
+    DateTime? createdAt,
+    String? customerId,
+    String? id,
+    DateTime? seenAt,
+    DateTime? sentAt,
+    User? user,
+    PapercupsCustomer? customer,
+    int? userId,
+    List<String>? fileIds,
+    List<PapercupsAttachment>? attachments,
+  }) {
+    return PapercupsMessage(
+      accountId: accountId ?? this.accountId,
+      body: body ?? this.body,
+      conversationId: conversationId ?? this.conversationId,
+      createdAt: createdAt ?? this.createdAt,
+      customerId: customerId ?? this.customerId,
+      id: id ?? this.id,
+      seenAt: seenAt ?? this.seenAt,
+      sentAt: sentAt ?? this.sentAt,
+      user: user ?? this.user,
+      customer: customer ?? this.customer,
+      userId: userId ?? this.userId,
+      fileIds: fileIds ?? this.fileIds,
+      attachments: attachments ?? this.attachments,
+    );
+  }
 }
