@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:papercups_flutter/utils/downloadFile.dart';
+import 'package:papercups_flutter/utils/fileInteraction/downloadFile.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../models/models.dart';

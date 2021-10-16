@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:papercups_flutter/models/models.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:papercups_flutter/utils/updateUserMetadata.dart';
+import 'package:papercups_flutter/utils/apiInteraction/updateUserMetadata.dart';
 
 import 'mocks.mocks.dart';
 

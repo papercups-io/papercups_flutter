@@ -3,16 +3,15 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:papercups_flutter/utils/mobileFilePicker.dart';
-import 'package:papercups_flutter/utils/uploadFile.dart';
+import 'package:papercups_flutter/utils/fileInteraction/mobileFilePicker.dart';
+import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import '../models/models.dart';
 import '../utils/utils.dart';
 import '../models/conversation.dart';
 import '../models/customer.dart';
-import '../utils/getConversationDetails.dart';
-import '../utils/getCustomerDetails.dart';
+import '../utils/apiInteraction/getConversationDetails.dart';
+import '../utils/apiInteraction/getCustomerDetails.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
 import '../models/classes.dart';

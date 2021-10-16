@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:http/http.dart';
-import '../models/models.dart';
+import '../../models/models.dart';
 
 typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 

@@ -1,8 +1,8 @@
-import '../models/models.dart';
+import '../../models/models.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
-import 'utils.dart';
+import '../utils.dart';
 
-import '../models/message.dart';
+import '../../models/message.dart';
 
 /// This function will join the channel and listen to new messages.
 PhoenixChannel? joinConversationAndListen({

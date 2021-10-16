@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../models/models.dart';
+import '../../models/models.dart';
 
 /// This funtction is used to get the customer details from Papercups.
 /// This is the function responsible for finding the Customer's ID.

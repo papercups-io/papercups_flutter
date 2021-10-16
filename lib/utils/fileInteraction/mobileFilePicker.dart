@@ -2,7 +2,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:papercups_flutter/models/models.dart';
-import 'package:papercups_flutter/utils/uploadFile.dart';
+import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/widgets/alert.dart';
 
 final mobileFilePicker = (
