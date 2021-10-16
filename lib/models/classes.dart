@@ -47,8 +47,17 @@ class Props {
   /// This is the top section of the widget, normally a welcome text.
   String title;
 
+  /// This is the top widget text style
+  TextStyle titleStyle;
+
+  /// This is the top widget title alignment
+  TextAlign titleAlign;
+
   /// This is a smaller piece of text under the title.
   String subtitle;
+
+  /// This is the  subtitle TextStyle
+  TextStyle? subtitleStyle;
 
   /// Color in which the header is going to be in, if not defined will be primary color used in app.
   Color? primaryColor;
@@ -74,6 +83,9 @@ class Props {
   /// This is the placeholder text in the email input section.
   String enterEmailPlaceholer;
 
+  /// This is the close button in the header section.
+  Widget closeIcon;
+
   /// This text will be shown if the showAgentAvailability is true and you are online.
   //String agentAvailableText;
 
@@ -92,6 +104,15 @@ class Props {
   /// Company name to show on greeting
   String companyName;
 
+  /// header Padding
+  EdgeInsetsGeometry headerPadding;
+
+  /// header Height
+  double? headerHeight;
+
+  /// message send icon for the chat section.
+  Widget? sendIcon;
+
   //Class definition.
   Props({
     required this.accountId,
@@ -99,6 +120,7 @@ class Props {
     //this.agentUnavailableText,
     this.baseUrl = "app.papercups.io",
     this.customer,
+    this.closeIcon = const Icon(Icons.close_rounded),
     this.greeting,
     this.newMessagePlaceholder = "Start typing...",
     this.primaryColor,
@@ -107,8 +129,23 @@ class Props {
     //this.showAgentAvailability = false,
     this.subtitle = "How can we help you?",
     this.title = "Welcome!",
+    this.titleStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 21,
+      fontWeight: FontWeight.w600,
+    ),
+    this.subtitleStyle,
+    this.titleAlign = TextAlign.left,
+    this.headerHeight,
+    this.headerPadding = const EdgeInsets.only(
+      top: 16,
+      right: 20,
+      left: 20,
+      bottom: 12,
+    ),
     this.companyName = "Bot",
     this.primaryGradient,
     this.enterEmailPlaceholer = "Enter your email",
+    this.sendIcon,
   });
 }
