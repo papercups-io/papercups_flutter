@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:papercups_flutter/utils/fileInteraction/mobileFilePicker.dart';
+import 'package:papercups_flutter/utils/fileInteraction/nativeFilePicker.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
-import 'package:papercups_flutter/utils/fileInteraction/webDesktopFilePicker.dart';
+import 'package:papercups_flutter/utils/fileInteraction/webFilePicker.dart';
 import '../models/models.dart';
 import '../utils/utils.dart';
 import '../models/conversation.dart';
@@ -121,7 +121,7 @@ class _SendMessageState extends State<SendMessage> {
 // TODO: Separate this widget
 // TODO: Internationalize alerts and popups
   Widget _getFilePicker() {
-    if (kIsWeb || Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
+    if (kIsWeb) {
       return IconButton(
         splashRadius: 20,
         icon: Transform.rotate(
@@ -131,13 +131,17 @@ class _SendMessageState extends State<SendMessage> {
             size: 18,
           ),
         ),
-        onPressed: () => webDesktopFilePicker(
+        onPressed: () => webFilePicker(
           context: context,
           onUploadSuccess: _onUploadSuccess,
           widget: widget,
         ),
       );
-    } else if (Platform.isAndroid || Platform.isIOS) {
+    } else if (Platform.isAndroid ||
+        Platform.isIOS ||
+        Platform.isWindows ||
+        Platform.isLinux ||
+        Platform.isMacOS) {
       return PopupMenuButton<FileType>(
         icon: Transform.rotate(
           angle: 0.6,

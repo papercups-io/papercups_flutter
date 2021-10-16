@@ -5,7 +5,7 @@ import 'package:papercups_flutter/models/attachment.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/widgets/alert.dart';
 
-Future<void> webDesktopFilePicker(
+Future<void> webFilePicker(
     {required BuildContext context,
     required Function onUploadSuccess,
     required widget}) async {
