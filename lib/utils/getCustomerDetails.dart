@@ -10,6 +10,9 @@ Future<PapercupsCustomer> getCustomerDetails(
   Function? sc, {
   Client? client,
 }) async {
+  if (c?.id != null) {
+    return Future.value(c);
+  }
   if (client == null) {
     client = Client();
   }
@@ -43,8 +46,12 @@ Future<PapercupsCustomer> getCustomerDetails(
       externalId: data["external_id"],
       firstSeen: data["first_seen"] != null ? parseDateFromUTC(data["first_seen"]) : null,
       id: data["id"],
-      lastSeenAt: data["last_seen_at"] != null ? parseDateFromUTC(data["last_seen_at"]) : null,
-      updatedAt: data["updated_at"] != null ? parseDateFromUTC(data["updated_at"]) : null,
+      lastSeenAt: data["last_seen_at"] != null
+          ? parseDateFromUTC(data["last_seen_at"])
+          : null,
+      updatedAt: data["updated_at"] != null
+          ? parseDateFromUTC(data["updated_at"])
+          : null,
       name: data["name"],
       phone: data["phone"],
     );

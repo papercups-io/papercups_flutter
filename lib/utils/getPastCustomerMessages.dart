@@ -15,6 +15,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     client = Client();
   }
   List<PapercupsMessage> rMsgs = [];
+  PapercupsCustomer newCust;
 
   try {
     // Get messages.
@@ -27,10 +28,17 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     );
 
     // JSON Decode.
-    var data = jsonDecode(res.body)["data"][0];
+    var data = jsonDecode(res.body)["data"];
+    try {
+      data = data[0];
+    } catch (e) {
+      return {
+        "msgs": rMsgs,
+        "cust": c,
+      };
+    }
 
-    // For every message generate a PapercupsMessage object and add it to the list.
-    data["messages"].forEach((val) {
+    data[0]["messages"].forEach((val) {
       rMsgs.add(
         PapercupsMessage(
           accountId: val["account_id"],
@@ -56,7 +64,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     });
     // Get the customer details.
     var customerData = data["customer"];
-    c = PapercupsCustomer(
+    newCust = PapercupsCustomer(
       createdAt: parseDateFromUTC(customerData["created_at"]),
       email: customerData["email"],
       externalId: customerData["external_id"],
@@ -69,11 +77,15 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
     );
   } catch (e) {
     print("An error ocurred while getting past customer data.");
+    return {
+      "msgs": [],
+      "cust": c,
+    };
   }
   client.close();
   // Return messages and customer details.
   return {
     "msgs": rMsgs,
-    "cust": c,
+    "cust": newCust,
   };
 }
