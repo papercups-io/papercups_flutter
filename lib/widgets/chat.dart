@@ -50,7 +50,7 @@ class ChatMessages extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
-            overscroll.disallowGlow();
+            overscroll.disallowIndicator();
             return false;
           },
           child: ListView.builder(

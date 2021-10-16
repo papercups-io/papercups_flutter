@@ -185,19 +185,6 @@ class _SendMessageState extends State<SendMessage> {
       );
     } else {
       return SizedBox();
-      // return IconButton(
-      //   icon: Icon(Icons.attach_file),
-      //   onPressed: () {
-      //     Alert.show(
-      //       "file upload is not currently supported for this platform",
-      //       context,
-      //       textStyle: Theme.of(context).textTheme.bodyText2,
-      //       backgroundColor: Colors.red,
-      //       gravity: Alert.bottom,
-      //       duration: Alert.lengthLong,
-      //     );
-      //  },
-      //);
     }
   }
 
