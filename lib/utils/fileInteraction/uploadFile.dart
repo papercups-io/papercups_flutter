@@ -23,7 +23,11 @@ Future<List<PapercupsAttachment>> uploadFile(
     var client = MultipartRequest("POST", uri)
       ..fields['account_id'] = p.accountId;
 
-    if (Platform.isAndroid || Platform.isIOS) {
+    if (Platform.isAndroid ||
+        Platform.isIOS ||
+        Platform.isLinux ||
+        Platform.isMacOS ||
+        Platform.isWindows) {
       client.files.add(await MultipartFile.fromPath('file', filePath ?? ''));
       var msStream = client.finalize();
       var totalByteLength = client.contentLength;

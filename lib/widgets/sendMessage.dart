@@ -150,7 +150,7 @@ class _SendMessageState extends State<SendMessage> {
             size: 18,
           ),
         ),
-        onSelected: (type) => mobileFilePicker(
+        onSelected: (type) => nativeFilePicker(
           context: context,
           onUploadSuccess: _onUploadSuccess,
           type: type,

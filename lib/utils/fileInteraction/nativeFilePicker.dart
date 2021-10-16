@@ -5,7 +5,7 @@ import 'package:papercups_flutter/models/models.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/widgets/alert.dart';
 
-final mobileFilePicker = (
+void nativeFilePicker(
     {required FileType type,
     required BuildContext context,
     required widget,
@@ -16,7 +16,6 @@ final mobileFilePicker = (
     ))
         ?.files;
     if (_paths != null && _paths.first.path != null) {
-      var context;
       Alert.show(
         "Uploading...",
         context,
@@ -51,6 +50,7 @@ final mobileFilePicker = (
       gravity: Alert.bottom,
       duration: Alert.lengthLong,
     );
+    throw _;
   } catch (_) {
     Alert.show(
       "Failed to upload attachment",
@@ -60,5 +60,6 @@ final mobileFilePicker = (
       gravity: Alert.bottom,
       duration: Alert.lengthLong,
     );
+    throw _;
   }
-};
+}
