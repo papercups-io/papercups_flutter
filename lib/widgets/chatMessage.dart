@@ -72,10 +72,7 @@ class _ChatMessageState extends State<ChatMessage> {
   }
 
   Future<File?> _handleDownloadStream(Stream<StreamedResponse> resp,
-      {String? filename = "noName"}) async {
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = File('$dir/$filename');
-
+      {required File file}) async {
     List<List<int>> chunks = [];
     int downloaded = 0;
     bool success = false;
@@ -189,15 +186,19 @@ class _ChatMessageState extends State<ChatMessage> {
               Platform.isLinux ||
               Platform.isMacOS ||
               Platform.isWindows) {
+            String dir = (await getApplicationDocumentsDirectory()).path;
+            File? file =
+                File(dir + (msg.attachments?.first.fileName ?? "noName"));
+            if (file.existsSync()) {
+              OpenFile.open(file.absolute.path);
+            }
             Stream<StreamedResponse> resp =
                 await downloadFile(msg.attachments?.first.fileUrl ?? '');
-            final file = await _handleDownloadStream(
+            file = await _handleDownloadStream(
               resp,
-              filename: msg.attachments?.first.fileName,
+              file: file,
             );
-            if(file != null && file.existsSync()){
-              
-            }
+            if (file != null && file.existsSync()) {}
           }
         }
       },
