@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:papercups_flutter/utils/fileInteraction/mobileFilePicker.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
+import 'package:papercups_flutter/utils/fileInteraction/webDesktopFilePicker.dart';
 import '../models/models.dart';
 import '../utils/utils.dart';
 import '../models/conversation.dart';
@@ -120,7 +121,7 @@ class _SendMessageState extends State<SendMessage> {
 // TODO: Separate this widget
 // TODO: Internationalize alerts and popups
   Widget _getFilePicker() {
-    if (kIsWeb) {
+    if (kIsWeb || Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       return IconButton(
         splashRadius: 20,
         icon: Transform.rotate(
@@ -130,37 +131,11 @@ class _SendMessageState extends State<SendMessage> {
             size: 18,
           ),
         ),
-        onPressed: () async {
-          try {
-            var picked = await FilePicker.platform.pickFiles();
-
-            if (picked != null && picked.files.first.bytes != null) {
-              Alert.show(
-                "Uploading...",
-                context,
-                textStyle: Theme.of(context).textTheme.bodyText2,
-                backgroundColor: Theme.of(context).bottomAppBarColor,
-                gravity: Alert.bottom,
-                duration: Alert.lengthLong,
-              );
-              List<PapercupsAttachment> attachments = await uploadFile(
-                widget.props,
-                fileBytes: picked.files.first.bytes,
-                fileName: picked.files.first.name,
-              );
-              _onUploadSuccess(attachments);
-            }
-          } on Exception catch (_) {
-            Alert.show(
-              "Failed to upload attachment",
-              context,
-              textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Theme.of(context).bottomAppBarColor,
-              gravity: Alert.bottom,
-              duration: Alert.lengthLong,
-            );
-          }
-        },
+        onPressed: () => webDesktopFilePicker(
+          context: context,
+          onUploadSuccess: _onUploadSuccess,
+          widget: widget,
+        ),
       );
     } else if (Platform.isAndroid || Platform.isIOS) {
       return PopupMenuButton<FileType>(
