@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-import '../models/models.dart';
+import '../../models/models.dart';
 import 'chatMessage.dart';
 
 class ChatMessages extends StatelessWidget {

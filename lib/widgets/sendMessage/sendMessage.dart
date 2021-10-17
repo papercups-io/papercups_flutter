@@ -7,16 +7,16 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:papercups_flutter/utils/fileInteraction/nativeFilePicker.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/utils/fileInteraction/webFilePicker.dart';
-import '../models/models.dart';
-import '../utils/utils.dart';
-import '../models/conversation.dart';
-import '../models/customer.dart';
-import '../utils/apiInteraction/getConversationDetails.dart';
-import '../utils/apiInteraction/getCustomerDetails.dart';
+import '../../models/models.dart';
+import '../../utils/utils.dart';
+import '../../models/conversation.dart';
+import '../../models/customer.dart';
+import '../../utils/apiInteraction/getConversationDetails.dart';
+import '../../utils/apiInteraction/getCustomerDetails.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
-import '../models/classes.dart';
-import 'alert.dart';
+import '../../models/classes.dart';
+import '../alert.dart';
 
 /// Send message text box.
 class SendMessage extends StatefulWidget {
