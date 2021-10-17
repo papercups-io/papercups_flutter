@@ -38,7 +38,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
       };
     }
 
-    data[0]["messages"].forEach((val) {
+    data["messages"].forEach((val) {
       rMsgs.add(
         PapercupsMessage(
           accountId: val["account_id"],
