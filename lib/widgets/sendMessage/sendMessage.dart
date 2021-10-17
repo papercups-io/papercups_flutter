@@ -143,6 +143,7 @@ class _SendMessageState extends State<SendMessage> {
         Platform.isLinux ||
         Platform.isMacOS) {
       return PopupMenuButton<FileType>(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         icon: Transform.rotate(
           angle: 0.6,
           child: Icon(
