@@ -59,8 +59,7 @@ class _ChatMessageState extends State<ChatMessage> {
 
   // Will only be used if there is a file
   bool containsAttachment = false;
-  int? downloaded = 0;
-  int? contentLength = 1;
+  bool downloaded = false;
   bool downloading = false;
 
   @override
@@ -87,11 +86,8 @@ class _ChatMessageState extends State<ChatMessage> {
         if (r.contentLength == null) {
           print("Error");
         }
-        downloaded = 0;
-        contentLength = r.contentLength;
 
         chunks.add(chunk);
-        downloaded = downloaded! + chunk.length;
       }, onDone: () async {
         final Uint8List bytes = Uint8List(r.contentLength ?? 0);
         int offset = 0;
@@ -102,8 +98,7 @@ class _ChatMessageState extends State<ChatMessage> {
         await file.writeAsBytes(bytes);
         OpenFile.open(file.absolute.path);
         downloading = false;
-        contentLength = 1;
-        downloaded = 1;
+        downloaded = true;
         setState(() {});
       });
     });
@@ -121,8 +116,7 @@ class _ChatMessageState extends State<ChatMessage> {
   Future<void> checkCachedFiles(PapercupsAttachment attachment) async {
     var file = await getAttachment(attachment);
     if (await file.exists()) {
-      downloaded = 1;
-      contentLength = 1;
+      downloaded = true;
     }
   }
 
@@ -194,8 +188,7 @@ class _ChatMessageState extends State<ChatMessage> {
             if (file.existsSync()) {
               print("Cached at " + file.absolute.path);
               OpenFile.open(file.absolute.path);
-              downloaded = 1;
-              contentLength = 1;
+              downloaded = true;
             } else {
               print("Downloading!");
               Stream<StreamedResponse> resp =
@@ -249,7 +242,7 @@ class _ChatMessageState extends State<ChatMessage> {
           text: text,
           longDay: longDay,
           conatinsAttachment: containsAttachment,
-          isDownloaded: downloaded == contentLength,
+          isDownloaded: downloaded,
           downloading: downloading,
         ),
       ),
