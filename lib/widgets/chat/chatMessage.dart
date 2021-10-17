@@ -102,6 +102,8 @@ class _ChatMessageState extends State<ChatMessage> {
         await file.writeAsBytes(bytes);
         OpenFile.open(file.absolute.path);
         downloading = false;
+        contentLength = 1;
+        downloaded = 1;
         setState(() {});
       });
     });

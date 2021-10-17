@@ -59,14 +59,16 @@ class Attachment extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Text(
-            fileName,
-            style: TextStyle(
-              color: userSent
-                  ? textColor
-                  : Theme.of(context).textTheme.bodyText1!.color,
+          Expanded(
+            child: Text(
+              fileName,
+              style: TextStyle(
+                color: userSent
+                    ? textColor
+                    : Theme.of(context).textTheme.bodyText1!.color,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
-            overflow: TextOverflow.ellipsis,
           )
         ],
       ),
