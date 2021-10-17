@@ -42,6 +42,23 @@ PhoenixChannel? joinConversationAndListen({
                     conversationId: event.payload!["conversation_id"],
                     customerId: event.payload!["customer_id"],
                     id: event.payload!["id"],
+                    attachments: (event.payload!["attachments"] != null)
+                        ? (event.payload!["attachments"] as List<dynamic>)
+                            .map((attachment) {
+                            return PapercupsAttachment(
+                              contentType: attachment["content_type"],
+                              fileName: attachment["filename"],
+                              fileUrl: attachment["file_url"],
+                              id: attachment["id"],
+                            );
+                          }).toList()
+                        : null,
+                    fileIds: (event.payload!["attachments"] != null)
+                        ? (event.payload!["attachments"] as List<dynamic>)
+                            .map((attachment) {
+                            return attachment["id"] as String;
+                          }).toList()
+                        : null,
                     user: (event.payload!["user"] != null)
                         ? User(
                             email: event.payload!["user"]["email"],
