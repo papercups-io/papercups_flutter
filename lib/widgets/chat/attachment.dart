@@ -40,7 +40,9 @@ class _AttachmentState extends State<Attachment> {
     checkCachedFiles(widget.attachment).then((value) {
       if (value) {
         downloaded = true;
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
       }
     });
 

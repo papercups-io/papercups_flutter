@@ -63,6 +63,21 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                       : null,
                 )
               : null,
+          attachments: (val["attachments"] != null)
+              ? (val["attachments"] as List<dynamic>).map((attachment) {
+                  return PapercupsAttachment(
+                    contentType: attachment["content_type"],
+                    fileName: attachment["filename"],
+                    fileUrl: attachment["file_url"],
+                    id: attachment["id"],
+                  );
+                }).toList()
+              : null,
+          fileIds: (val["attachments"] != null)
+              ? (val["attachments"] as List<dynamic>).map((attachment) {
+                  return attachment["id"] as String;
+                }).toList()
+              : null,
         ),
       );
     });
