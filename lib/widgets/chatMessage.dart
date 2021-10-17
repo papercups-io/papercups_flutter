@@ -59,6 +59,11 @@ class _ChatMessageState extends State<ChatMessage> {
   String? longDay;
   Timer? timer;
 
+  // Will only be used if there is a file
+  bool containsAttachment = false;
+  int? downloaded;
+  int? contentLength;
+
   @override
   void dispose() {
     if (timer != null) timer!.cancel();
@@ -71,36 +76,21 @@ class _ChatMessageState extends State<ChatMessage> {
     super.initState();
   }
 
-  Future<File?> _handleDownloadStream(Stream<StreamedResponse> resp,
+  Future<void> _handleDownloadStream(Stream<StreamedResponse> resp,
       {required File file}) async {
     List<List<int>> chunks = [];
-    int downloaded = 0;
-    bool success = false;
 
     resp.listen((StreamedResponse r) {
       r.stream.listen((List<int> chunk) {
-        // TODO: Internationlaize this
-        Alert.show(
-          "Downloading, ${downloaded / (r.contentLength ?? 1) * 100}% done",
-          context,
-          textStyle: Theme.of(context).textTheme.bodyText2,
-          backgroundColor: Theme.of(context).bottomAppBarColor,
-          gravity: Alert.bottom,
-          duration: Alert.lengthLong,
-        );
+        if (r.contentLength == null) {
+          print("Error");
+        }
+        downloaded = 0;
+        contentLength = r.contentLength;
 
         chunks.add(chunk);
-        downloaded += chunk.length;
+        downloaded = downloaded! + chunk.length;
       }, onDone: () async {
-        // Alert.show(
-        //   "location: ${dir}/$filename",
-        //   context,
-        //   textStyle: Theme.of(context).textTheme.bodyText2,
-        //
-        //   gravity: Alert.bottom,
-        //   duration: Alert.lengthLong,
-        // );
-
         final Uint8List bytes = Uint8List(r.contentLength ?? 0);
         int offset = 0;
         for (List<int> chunk in chunks) {
@@ -108,13 +98,20 @@ class _ChatMessageState extends State<ChatMessage> {
           offset += chunk.length;
         }
         await file.writeAsBytes(bytes);
-        success = true;
-        return;
+        OpenFile.open(file.absolute.path);
+        setState(() {});
       });
     });
+  }
 
-    if (success) {
-      return file;
+  void checkCachedFiles(PapercupsMessage msg) async {
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File? file = File(dir +
+        Platform.pathSeparator +
+        (msg.attachments?.first.fileName ?? TimeOfDay.now().toString()));
+    if (file.existsSync()) {
+      downloaded = 1;
+      contentLength = 1;
     }
   }
 
@@ -138,12 +135,8 @@ class _ChatMessageState extends State<ChatMessage> {
 
     var text = msg.body ?? "";
     if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
-      if (text != "") {
-        text += """
-
-""";
-      }
-      text += "> " + msg.attachments!.first.fileName!;
+      containsAttachment = true;
+      checkCachedFiles(msg);
     }
     var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
     var isLast = widget.index == widget.msgs!.length - 1;
@@ -187,18 +180,23 @@ class _ChatMessageState extends State<ChatMessage> {
               Platform.isMacOS ||
               Platform.isWindows) {
             String dir = (await getApplicationDocumentsDirectory()).path;
-            File? file =
-                File(dir + (msg.attachments?.first.fileName ?? "noName"));
+            File? file = File(dir +
+                Platform.pathSeparator +
+                (msg.attachments?.first.fileName ?? "noName"));
             if (file.existsSync()) {
+              print("Cached at " + file.absolute.path);
               OpenFile.open(file.absolute.path);
+              downloaded = 1;
+              contentLength = 1;
+            } else {
+              print("Downloading!");
+              Stream<StreamedResponse> resp =
+                  await downloadFile(msg.attachments?.first.fileUrl ?? '');
+              _handleDownloadStream(
+                resp,
+                file: file,
+              );
             }
-            Stream<StreamedResponse> resp =
-                await downloadFile(msg.attachments?.first.fileUrl ?? '');
-            file = await _handleDownloadStream(
-              resp,
-              file: file,
-            );
-            if (file != null && file.existsSync()) {}
           }
         }
       },
