@@ -22,6 +22,7 @@ class ChatBubble extends StatelessWidget {
     required this.text,
     required this.longDay,
     required this.conatinsAttachment,
+    required this.isDownloaded,
   }) : super(key: key);
 
   final bool userSent;
@@ -35,6 +36,7 @@ class ChatBubble extends StatelessWidget {
   final String text;
   final String? longDay;
   final bool conatinsAttachment;
+  final bool isDownloaded;
 
   @override
   Widget build(BuildContext context) {
@@ -120,46 +122,55 @@ class ChatBubble extends StatelessWidget {
                 horizontal: 14,
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (conatinsAttachment)
-                    Attachment(userSent: userSent, props: widget.props),
-                  MarkdownBody(
-                    data: text,
-                    styleSheet: MarkdownStyleSheet(
-                        blockquote:
-                            TextStyle(decoration: TextDecoration.underline),
-                        p: TextStyle(
-                          color: userSent
-                              ? widget.textColor
-                              : Theme.of(context).textTheme.bodyText1!.color,
-                        ),
-                        a: TextStyle(
-                          color: userSent
-                              ? Colors.white
-                              : Theme.of(context).textTheme.bodyText1!.color,
-                        ),
-                        blockquotePadding: EdgeInsets.only(bottom: 2),
-                        blockquoteDecoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              width: 1.5,
-                              color: userSent
-                                  ? widget.textColor
-                                  : Theme.of(context)
-                                          .textTheme
-                                          .bodyText1!
-                                          .color ??
-                                      Colors.white,
-                            ),
+                    Attachment(
+                      userSent: userSent,
+                      props: widget.props,
+                      fileName: msg.attachments!.first.fileName ?? "No Name",
+                      textColor: widget.textColor,
+                      msgHasText: msg.body != null,
+                      isDownloaded: isDownloaded,
+                    ),
+                  if (msg.body != "null")
+                    MarkdownBody(
+                      data: text,
+                      styleSheet: MarkdownStyleSheet(
+                          blockquote:
+                              TextStyle(decoration: TextDecoration.underline),
+                          p: TextStyle(
+                            color: userSent
+                                ? widget.textColor
+                                : Theme.of(context).textTheme.bodyText1!.color,
                           ),
-                        )
-                        // blockquotePadding: EdgeInsets.only(left: 14),
-                        // blockquoteDecoration: BoxDecoration(
-                        //     border: Border(
-                        //   left: BorderSide(color: Colors.grey[300]!, width: 4),
-                        // )),
-                        ),
-                  ),
+                          a: TextStyle(
+                            color: userSent
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyText1!.color,
+                          ),
+                          blockquotePadding: EdgeInsets.only(bottom: 2),
+                          blockquoteDecoration: BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                width: 1.5,
+                                color: userSent
+                                    ? widget.textColor
+                                    : Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color ??
+                                        Colors.white,
+                              ),
+                            ),
+                          )
+                          // blockquotePadding: EdgeInsets.only(left: 14),
+                          // blockquoteDecoration: BoxDecoration(
+                          //     border: Border(
+                          //   left: BorderSide(color: Colors.grey[300]!, width: 4),
+                          // )),
+                          ),
+                    ),
                 ],
               ),
             ),

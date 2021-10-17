@@ -59,8 +59,8 @@ class _ChatMessageState extends State<ChatMessage> {
 
   // Will only be used if there is a file
   bool containsAttachment = false;
-  int? downloaded;
-  int? contentLength;
+  int? downloaded = 0;
+  int? contentLength = 1;
 
   @override
   void dispose() {
@@ -102,12 +102,18 @@ class _ChatMessageState extends State<ChatMessage> {
     });
   }
 
-  void checkCachedFiles(PapercupsMessage msg) async {
+  Future<File> getAttachment(PapercupsAttachment attachment) async {
     String dir = (await getApplicationDocumentsDirectory()).path;
     File? file = File(dir +
         Platform.pathSeparator +
-        (msg.attachments?.first.fileName ?? TimeOfDay.now().toString()));
-    if (file.existsSync()) {
+        (attachment.id ?? "noId") +
+        (attachment.fileName ?? "noName"));
+    return file;
+  }
+
+  Future<void> checkCachedFiles(PapercupsAttachment attachment) async {
+    var file = await getAttachment(attachment);
+    if (await file.exists()) {
       downloaded = 1;
       contentLength = 1;
     }
@@ -134,7 +140,7 @@ class _ChatMessageState extends State<ChatMessage> {
     var text = msg.body ?? "";
     if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
       containsAttachment = true;
-      checkCachedFiles(msg);
+      checkCachedFiles(msg.attachments!.first);
     }
     var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
     var isLast = widget.index == widget.msgs!.length - 1;
@@ -177,10 +183,7 @@ class _ChatMessageState extends State<ChatMessage> {
               Platform.isLinux ||
               Platform.isMacOS ||
               Platform.isWindows) {
-            String dir = (await getApplicationDocumentsDirectory()).path;
-            File? file = File(dir +
-                Platform.pathSeparator +
-                (msg.attachments?.first.fileName ?? "noName"));
+            var file = await getAttachment(msg.attachments!.first);
             if (file.existsSync()) {
               print("Cached at " + file.absolute.path);
               OpenFile.open(file.absolute.path);
@@ -200,7 +203,6 @@ class _ChatMessageState extends State<ChatMessage> {
       },
       onLongPress: () {
         HapticFeedback.vibrate();
-        print(text);
         final data = ClipboardData(text: text);
         Clipboard.setData(data);
         // TODO: Internationalize this
@@ -240,6 +242,7 @@ class _ChatMessageState extends State<ChatMessage> {
           text: text,
           longDay: longDay,
           conatinsAttachment: containsAttachment,
+          isDownloaded: downloaded == contentLength,
         ),
       ),
     );
