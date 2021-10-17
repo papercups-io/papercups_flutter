@@ -22,8 +22,6 @@ class ChatBubble extends StatelessWidget {
     required this.text,
     required this.longDay,
     required this.conatinsAttachment,
-    required this.isDownloaded,
-    required this.downloading,
   }) : super(key: key);
 
   final bool userSent;
@@ -37,8 +35,6 @@ class ChatBubble extends StatelessWidget {
   final String text;
   final String? longDay;
   final bool conatinsAttachment;
-  final bool isDownloaded;
-  final bool downloading;
 
   @override
   Widget build(BuildContext context) {
@@ -127,15 +123,17 @@ class ChatBubble extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (conatinsAttachment)
-                    Attachment(
-                      userSent: userSent,
-                      props: widget.props,
-                      fileName: msg.attachments!.first.fileName ?? "No Name",
-                      textColor: widget.textColor,
-                      msgHasText: msg.body != null,
-                      isDownloaded: isDownloaded,
-                      downloading: downloading,
-                    ),
+                    ...msg.attachments!.map((e) {
+                      return Attachment(
+                        userSent: userSent,
+                        props: widget.props,
+                        fileName: e.fileName ?? "No Name",
+                        textColor: widget.textColor,
+                        msgHasText:
+                            (msg.attachments!.length > 1 || msg.body != null),
+                        attachment: e,
+                      );
+                    }).toList(),
                   if (msg.body != "null")
                     MarkdownBody(
                       data: text,

@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:open_file/open_file.dart';
 import 'package:papercups_flutter/utils/fileInteraction/downloadFile.dart';
+import 'package:papercups_flutter/utils/fileInteraction/handleDownloads.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../models/models.dart';
@@ -57,10 +58,7 @@ class _ChatMessageState extends State<ChatMessage> {
   String? longDay;
   Timer? timer;
 
-  // Will only be used if there is a file
   bool containsAttachment = false;
-  bool downloaded = false;
-  bool downloading = false;
 
   @override
   void dispose() {
@@ -72,52 +70,6 @@ class _ChatMessageState extends State<ChatMessage> {
   void initState() {
     maxWidth = widget.maxWidth;
     super.initState();
-  }
-
-  Future<void> _handleDownloadStream(Stream<StreamedResponse> resp,
-      {required File file}) async {
-    List<List<int>> chunks = [];
-
-    downloading = true;
-    setState(() {});
-
-    resp.listen((StreamedResponse r) {
-      r.stream.listen((List<int> chunk) {
-        if (r.contentLength == null) {
-          print("Error");
-        }
-
-        chunks.add(chunk);
-      }, onDone: () async {
-        final Uint8List bytes = Uint8List(r.contentLength ?? 0);
-        int offset = 0;
-        for (List<int> chunk in chunks) {
-          bytes.setRange(offset, offset + chunk.length, chunk);
-          offset += chunk.length;
-        }
-        await file.writeAsBytes(bytes);
-        OpenFile.open(file.absolute.path);
-        downloading = false;
-        downloaded = true;
-        setState(() {});
-      });
-    });
-  }
-
-  Future<File> getAttachment(PapercupsAttachment attachment) async {
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File? file = File(dir +
-        Platform.pathSeparator +
-        (attachment.id ?? "noId") +
-        (attachment.fileName ?? "noName"));
-    return file;
-  }
-
-  Future<void> checkCachedFiles(PapercupsAttachment attachment) async {
-    var file = await getAttachment(attachment);
-    if (await file.exists()) {
-      downloaded = true;
-    }
   }
 
   TimeOfDay senderTime = TimeOfDay.now();
@@ -141,7 +93,6 @@ class _ChatMessageState extends State<ChatMessage> {
     var text = msg.body ?? "";
     if (msg.fileIds != null && msg.fileIds!.isNotEmpty) {
       containsAttachment = true;
-      checkCachedFiles(msg.attachments!.first);
     }
     var nextMsg = widget.msgs![min(widget.index + 1, widget.msgs!.length - 1)];
     var isLast = widget.index == widget.msgs!.length - 1;
@@ -173,33 +124,7 @@ class _ChatMessageState extends State<ChatMessage> {
         setState(() {
           isTimeSentVisible = true;
         });
-        if (widget.onMessageBubbleTap != null)
-          widget.onMessageBubbleTap!(msg);
-        else if ((msg.fileIds?.isNotEmpty ?? false) && !downloading) {
-          if (kIsWeb) {
-            String url = msg.attachments?.first.fileUrl ?? '';
-            downloadFileWeb(url);
-          } else if (Platform.isAndroid ||
-              Platform.isIOS ||
-              Platform.isLinux ||
-              Platform.isMacOS ||
-              Platform.isWindows) {
-            var file = await getAttachment(msg.attachments!.first);
-            if (file.existsSync()) {
-              print("Cached at " + file.absolute.path);
-              OpenFile.open(file.absolute.path);
-              downloaded = true;
-            } else {
-              print("Downloading!");
-              Stream<StreamedResponse> resp =
-                  await downloadFile(msg.attachments?.first.fileUrl ?? '');
-              _handleDownloadStream(
-                resp,
-                file: file,
-              );
-            }
-          }
-        }
+        if (widget.onMessageBubbleTap != null) widget.onMessageBubbleTap!(msg);
       },
       onLongPress: () {
         HapticFeedback.vibrate();
@@ -242,8 +167,6 @@ class _ChatMessageState extends State<ChatMessage> {
           text: text,
           longDay: longDay,
           conatinsAttachment: containsAttachment,
-          isDownloaded: downloaded,
-          downloading: downloading,
         ),
       ),
     );
