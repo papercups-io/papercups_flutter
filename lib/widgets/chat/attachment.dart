@@ -34,6 +34,7 @@ class Attachment extends StatefulWidget {
 class _AttachmentState extends State<Attachment> {
   bool downloading = false;
   bool downloaded = false;
+  bool uploading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +49,16 @@ class _AttachmentState extends State<Attachment> {
 
     return InkWell(
       onTap: () async {
-        if (kIsWeb) {
+        if (kIsWeb && !uploading) {
           String url = widget.attachment.fileUrl ?? '';
           downloadFileWeb(url);
-        } else if (Platform.isAndroid ||
-            Platform.isIOS ||
-            Platform.isLinux ||
-            Platform.isMacOS ||
-            Platform.isWindows) {
+        } else if ((Platform.isAndroid ||
+                Platform.isIOS ||
+                Platform.isLinux ||
+                Platform.isMacOS ||
+                Platform.isWindows) &&
+            !downloading &&
+            !uploading) {
           var file = await getAttachment(widget.attachment);
           if (file.existsSync()) {
             print("Cached at " + file.absolute.path);
@@ -95,13 +98,15 @@ class _AttachmentState extends State<Attachment> {
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  if (downloading)
+                  if (downloading || uploading)
                     CircularProgressIndicator(
                       color: Theme.of(context).canvasColor,
                     ),
                   Icon(
                     !downloaded
-                        ? Icons.download_for_offline_rounded
+                        ? uploading
+                            ? Icons.upload_rounded
+                            : Icons.download_rounded
                         : Icons.attach_file_rounded,
                     color: Theme.of(context).canvasColor,
                   ),
