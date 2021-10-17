@@ -10,6 +10,7 @@ class Attachment extends StatelessWidget {
       required this.textColor,
       required this.msgHasText,
       required this.isDownloaded,
+      required this.downloading,
       Key? key})
       : super(key: key);
 
@@ -19,6 +20,7 @@ class Attachment extends StatelessWidget {
   final Color textColor;
   final bool msgHasText;
   final bool isDownloaded;
+  final bool downloading;
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +40,33 @@ class Attachment extends StatelessWidget {
         children: [
           CircleAvatar(
             backgroundColor: props.primaryColor,
-            child: Icon(
-              !isDownloaded
-                  ? Icons.download_for_offline_rounded
-                  : Icons.attach_file_rounded,
-              color: Theme.of(context).canvasColor,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                if (downloading)
+                  CircularProgressIndicator(
+                    color: Theme.of(context).canvasColor,
+                  ),
+                Icon(
+                  !isDownloaded
+                      ? Icons.download_for_offline_rounded
+                      : Icons.attach_file_rounded,
+                  color: Theme.of(context).canvasColor,
+                ),
+              ],
             ),
           ),
-          SizedBox(width: 10),
+          SizedBox(
+            width: 10,
+          ),
           Text(
             fileName,
             style: TextStyle(
-                color: userSent
-                    ? textColor
-                    : Theme.of(context).textTheme.bodyText1!.color),
+              color: userSent
+                  ? textColor
+                  : Theme.of(context).textTheme.bodyText1!.color,
+            ),
+            overflow: TextOverflow.ellipsis,
           )
         ],
       ),

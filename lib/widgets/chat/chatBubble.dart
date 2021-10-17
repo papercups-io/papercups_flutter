@@ -23,6 +23,7 @@ class ChatBubble extends StatelessWidget {
     required this.longDay,
     required this.conatinsAttachment,
     required this.isDownloaded,
+    required this.downloading,
   }) : super(key: key);
 
   final bool userSent;
@@ -37,6 +38,7 @@ class ChatBubble extends StatelessWidget {
   final String? longDay;
   final bool conatinsAttachment;
   final bool isDownloaded;
+  final bool downloading;
 
   @override
   Widget build(BuildContext context) {
@@ -132,6 +134,7 @@ class ChatBubble extends StatelessWidget {
                       textColor: widget.textColor,
                       msgHasText: msg.body != null,
                       isDownloaded: isDownloaded,
+                      downloading: downloading,
                     ),
                   if (msg.body != "null")
                     MarkdownBody(

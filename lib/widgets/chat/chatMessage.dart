@@ -61,6 +61,7 @@ class _ChatMessageState extends State<ChatMessage> {
   bool containsAttachment = false;
   int? downloaded = 0;
   int? contentLength = 1;
+  bool downloading = false;
 
   @override
   void dispose() {
@@ -77,6 +78,9 @@ class _ChatMessageState extends State<ChatMessage> {
   Future<void> _handleDownloadStream(Stream<StreamedResponse> resp,
       {required File file}) async {
     List<List<int>> chunks = [];
+
+    downloading = true;
+    setState(() {});
 
     resp.listen((StreamedResponse r) {
       r.stream.listen((List<int> chunk) {
@@ -97,6 +101,7 @@ class _ChatMessageState extends State<ChatMessage> {
         }
         await file.writeAsBytes(bytes);
         OpenFile.open(file.absolute.path);
+        downloading = false;
         setState(() {});
       });
     });
@@ -174,7 +179,7 @@ class _ChatMessageState extends State<ChatMessage> {
         });
         if (widget.onMessageBubbleTap != null)
           widget.onMessageBubbleTap!(msg);
-        else if ((msg.fileIds?.isNotEmpty ?? false)) {
+        else if ((msg.fileIds?.isNotEmpty ?? false) && !downloading) {
           if (kIsWeb) {
             String url = msg.attachments?.first.fileUrl ?? '';
             downloadFileWeb(url);
@@ -243,6 +248,7 @@ class _ChatMessageState extends State<ChatMessage> {
           longDay: longDay,
           conatinsAttachment: containsAttachment,
           isDownloaded: downloaded == contentLength,
+          downloading: downloading,
         ),
       ),
     );
