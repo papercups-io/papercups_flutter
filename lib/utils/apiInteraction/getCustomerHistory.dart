@@ -1,14 +1,14 @@
 //Imports
 import 'updateUserMetadata.dart';
 
-import '../models/models.dart';
-import '../papercups_flutter.dart';
+import '../../models/models.dart';
+import '../../papercups_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'dart:async';
 
 import 'getCustomerDetailsFromMetadata.dart';
 import 'getPastCustomerMessages.dart';
-import 'joinConversation.dart';
+import '../socket/joinConversation.dart';
 
 /// This function is used to get the history.
 /// It also initializes the necessary funtions if the customer is known.

@@ -2,10 +2,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../papercups_flutter.dart';
+import '../../papercups_flutter.dart';
 
-import '../models/models.dart';
-import 'utils.dart';
+import '../../models/models.dart';
+import '../utils.dart';
 
 /// This function is used to update customer details on the Papercups server.
 Future<PapercupsCustomer?> updateUserMetadata(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../models/models.dart';
-import '../utils/utils.dart';
+import '../../models/models.dart';
+import '../../utils/utils.dart';
 
 class AgentAvailability extends StatelessWidget {
   final Props props;

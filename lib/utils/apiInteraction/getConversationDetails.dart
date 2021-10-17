@@ -2,7 +2,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../models/models.dart';
+import '../../models/models.dart';
 
 /// This function will get the conversation details that we need in order to join the room.
 /// The most important detail is the ID, and this will return a **new** conversation.

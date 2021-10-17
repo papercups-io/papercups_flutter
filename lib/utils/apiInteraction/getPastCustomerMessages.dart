@@ -2,8 +2,8 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../models/models.dart';
-import 'utils.dart';
+import '../../models/models.dart';
+import '../utils.dart';
 
 /// This function is used to get the past messages from the customer.
 Future<Map<String, dynamic>> getPastCustomerMessages(
@@ -38,7 +38,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
       };
     }
 
-    data[0]["messages"].forEach((val) {
+    data["messages"].forEach((val) {
       rMsgs.add(
         PapercupsMessage(
           accountId: val["account_id"],
@@ -55,9 +55,28 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                   email: val["user"]["email"],
                   id: val["user"]["id"],
                   role: val["user"]["role"],
-                  fullName: (val["user"]["full_name"] != null) ? val["user"]["full_name"] : null,
-                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null) ? val["user"]["profile_photo_url"] : null,
+                  fullName: (val["user"]["full_name"] != null)
+                      ? val["user"]["full_name"]
+                      : null,
+                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null)
+                      ? val["user"]["profile_photo_url"]
+                      : null,
                 )
+              : null,
+          attachments: (val["attachments"] != null)
+              ? (val["attachments"] as List<dynamic>).map((attachment) {
+                  return PapercupsAttachment(
+                    contentType: attachment["content_type"],
+                    fileName: attachment["filename"],
+                    fileUrl: attachment["file_url"],
+                    id: attachment["id"],
+                  );
+                }).toList()
+              : null,
+          fileIds: (val["attachments"] != null)
+              ? (val["attachments"] as List<dynamic>).map((attachment) {
+                  return attachment["id"] as String;
+                }).toList()
               : null,
         ),
       );

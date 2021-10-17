@@ -1,7 +1,7 @@
 // Imports
 import 'package:flutter/material.dart';
 
-import '../models/classes.dart';
+import '../../models/classes.dart';
 
 /// This header is shown at the top of the widget and can be customised.
 class Header extends StatelessWidget {

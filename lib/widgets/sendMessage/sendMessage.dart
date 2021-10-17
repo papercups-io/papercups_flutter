@@ -3,19 +3,20 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:papercups_flutter/utils/uploadFile.dart';
-import '../models/models.dart';
-import '../utils/utils.dart';
-import '../models/conversation.dart';
-import '../models/customer.dart';
-import '../utils/getConversationDetails.dart';
-import '../utils/getCustomerDetails.dart';
+import 'package:papercups_flutter/utils/fileInteraction/nativeFilePicker.dart';
+import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
+import 'package:papercups_flutter/utils/fileInteraction/webFilePicker.dart';
+import '../../models/models.dart';
+import '../../utils/utils.dart';
+import '../../models/conversation.dart';
+import '../../models/customer.dart';
+import '../../utils/apiInteraction/getConversationDetails.dart';
+import '../../utils/apiInteraction/getCustomerDetails.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 
-import '../models/classes.dart';
-import 'alert.dart';
+import '../../models/classes.dart';
+import '../alert.dart';
 
 /// Send message text box.
 class SendMessage extends StatefulWidget {
@@ -130,40 +131,19 @@ class _SendMessageState extends State<SendMessage> {
             size: 18,
           ),
         ),
-        onPressed: () async {
-          try {
-            var picked = await FilePicker.platform.pickFiles();
-
-            if (picked != null && picked.files.first.bytes != null) {
-              Alert.show(
-                "Uploading...",
-                context,
-                textStyle: Theme.of(context).textTheme.bodyText2,
-                backgroundColor: Theme.of(context).bottomAppBarColor,
-                gravity: Alert.bottom,
-                duration: Alert.lengthLong,
-              );
-              List<PapercupsAttachment> attachments = await uploadFile(
-                widget.props,
-                fileBytes: picked.files.first.bytes,
-                fileName: picked.files.first.name,
-              );
-              _onUploadSuccess(attachments);
-            }
-          } on Exception catch (_) {
-            Alert.show(
-              "Failed to upload attachment",
-              context,
-              textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Theme.of(context).bottomAppBarColor,
-              gravity: Alert.bottom,
-              duration: Alert.lengthLong,
-            );
-          }
-        },
+        onPressed: () => webFilePicker(
+          context: context,
+          onUploadSuccess: _onUploadSuccess,
+          widget: widget,
+        ),
       );
-    } else if (Platform.isAndroid || Platform.isIOS) {
+    } else if (Platform.isAndroid ||
+        Platform.isIOS ||
+        Platform.isWindows ||
+        Platform.isLinux ||
+        Platform.isMacOS) {
       return PopupMenuButton<FileType>(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         icon: Transform.rotate(
           angle: 0.6,
           child: Icon(
@@ -171,58 +151,12 @@ class _SendMessageState extends State<SendMessage> {
             size: 18,
           ),
         ),
-        onSelected: (type) async {
-          try {
-            final _paths = (await FilePicker.platform.pickFiles(
-              type: type,
-            ))
-                ?.files;
-            if (_paths != null && _paths.first.path != null) {
-              Alert.show(
-                "Uploading...",
-                context,
-                textStyle: Theme.of(context).textTheme.bodyText2,
-                backgroundColor: Theme.of(context).bottomAppBarColor,
-                gravity: Alert.bottom,
-                duration: Alert.lengthLong,
-              );
-              List<PapercupsAttachment> attachments = await uploadFile(
-                widget.props,
-                filePath: _paths.first.path,
-                onUploadProgress: (sentBytes, totalBytes) {
-                  Alert.show(
-                    "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% uploaded",
-                    context,
-                    textStyle: Theme.of(context).textTheme.bodyText2,
-                    backgroundColor: Theme.of(context).bottomAppBarColor,
-                    gravity: Alert.bottom,
-                    duration: Alert.lengthLong,
-                  );
-                },
-              );
-
-              _onUploadSuccess(attachments);
-            }
-          } on PlatformException catch (_) {
-            Alert.show(
-              "Failed to upload attachment",
-              context,
-              textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Theme.of(context).bottomAppBarColor,
-              gravity: Alert.bottom,
-              duration: Alert.lengthLong,
-            );
-          } catch (_) {
-            Alert.show(
-              "Failed to upload attachment",
-              context,
-              textStyle: Theme.of(context).textTheme.bodyText2,
-              backgroundColor: Theme.of(context).bottomAppBarColor,
-              gravity: Alert.bottom,
-              duration: Alert.lengthLong,
-            );
-          }
-        },
+        onSelected: (type) => nativeFilePicker(
+          context: context,
+          onUploadSuccess: _onUploadSuccess,
+          type: type,
+          widget: widget,
+        ),
         itemBuilder: (BuildContext context) => <PopupMenuEntry<FileType>>[
           PopupMenuItem<FileType>(
             value: FileType.any,
@@ -252,19 +186,6 @@ class _SendMessageState extends State<SendMessage> {
       );
     } else {
       return SizedBox();
-      // return IconButton(
-      //   icon: Icon(Icons.attach_file),
-      //   onPressed: () {
-      //     Alert.show(
-      //       "file upload is not currently supported for this platform",
-      //       context,
-      //       textStyle: Theme.of(context).textTheme.bodyText2,
-      //       backgroundColor: Colors.red,
-      //       gravity: Alert.bottom,
-      //       duration: Alert.lengthLong,
-      //     );
-      //  },
-      //);
     }
   }
 

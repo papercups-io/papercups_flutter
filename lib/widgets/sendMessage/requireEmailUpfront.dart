@@ -1,6 +1,6 @@
 // Imports
 import 'package:flutter/material.dart';
-import '../models/models.dart';
+import '../../models/models.dart';
 
 /// Requires email upfront.
 class RequireEmailUpfront extends StatefulWidget {
