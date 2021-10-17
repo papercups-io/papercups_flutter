@@ -154,27 +154,6 @@ class _SendMessageState extends State<SendMessage> {
         onSelected: (type) => nativeFilePicker(
           context: context,
           onUploadSuccess: _onUploadSuccess,
-          onUploadStarted: (List<PapercupsAttachment> files) {
-            List<String> fileIds = files.map((e) => e.id ?? "").toList();
-            _sendMessage(
-              _msgFocusNode,
-              _msgController,
-              widget.customer,
-              widget.props,
-              widget.setCustomer,
-              widget.conversation,
-              widget.setConversation,
-              widget.setConversationChannel,
-              widget.conversationChannel,
-              widget.socket,
-              widget.setState,
-              widget.messages,
-              widget.sending,
-              files,
-              fileIds,
-              true,
-            );
-          },
           type: type,
           widget: widget,
         ),
