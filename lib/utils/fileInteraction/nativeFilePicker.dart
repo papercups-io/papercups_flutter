@@ -9,13 +9,19 @@ void nativeFilePicker(
     {required FileType type,
     required BuildContext context,
     required widget,
-    required Function onUploadSuccess}) async {
+    required Function onUploadSuccess,
+    required Function onUploadStarted}) async {
   try {
     final _paths = (await FilePicker.platform.pickFiles(
       type: type,
     ))
         ?.files;
     if (_paths != null && _paths.first.path != null) {
+      onUploadStarted(_paths
+          .map((e) => PapercupsAttachment(
+                fileName: e.name,
+              ))
+          .toList());
       Alert.show(
         "Uploading...",
         context,
