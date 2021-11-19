@@ -242,7 +242,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     color: Colors.grey,
                   ),
                   Text(
-                    "No Connection",
+                    // TODO: Internationalize this
+                    widget.props.noConnectionMessage,
                     style: Theme.of(context).textTheme.headline5!.copyWith(
                           color: Colors.grey,
                         ),
@@ -281,7 +282,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                         });
                     },
                     icon: Icon(Icons.refresh_rounded),
-                    label: Text("Retry"),
+                    // TODO: Internationalize this
+                    label: Text(widget.props.retryButtonText),
                   )
                 ],
               ),

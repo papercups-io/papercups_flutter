@@ -107,19 +107,31 @@ class Props {
   /// Message displayed when the chat is loading.
   String loadingMessage;
 
+  /// Text displayed when there's no Internet connection.
+  String noConnectionMessage;
+
+  /// Text displayed in the retry button when the chat history couldn't be fetched.
+  String retryButtonLabel;
+
+  /// Text displayed when the user decides to upload a file.
+  String fileLabel;
+
+  /// Text displayed when the user decides to upload an image.
+  String imageLabel;
+
   /// This Will allow you to require an email to chat. Not recommended for an app.
   bool requireEmailUpfront;
 
   /// Whether to allow scrolling.
   bool scrollEnabled;
 
-  /// Company name to show on greeting
+  /// Company name to show on greeting.
   String companyName;
 
-  /// header Padding
+  /// Header padding.
   EdgeInsetsGeometry headerPadding;
 
-  /// Header Height
+  /// Header height.
   double? headerHeight;
 
   /// Message send icon for the chat section.
@@ -162,7 +174,11 @@ class Props {
     this.attachmentUploadedMessage = 'Attachment uploaded',
     this.textCopiedMessage = "Text copied to clipboard",
     this.attachmentNamePlaceholder = "No Name",
+    this.noConnectionMessage = "No Connection",
     this.loadingMessage = "Loading...",
+    this.retryButtonLabel = "Retry",
+    this.imageLabel = 'Image',
+    this.fileLabel = 'File',
     this.sendIcon,
   });
 }

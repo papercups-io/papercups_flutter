@@ -166,7 +166,8 @@ class _SendMessageState extends State<SendMessage> {
                 foregroundColor: widget.textColor,
                 child: Icon(Icons.insert_drive_file_outlined),
               ),
-              title: Text('File'),
+              // TODO: Internationalize this
+              title: Text(widget.props.fileLabel),
               contentPadding: EdgeInsets.all(0),
             ),
           ),
@@ -178,7 +179,8 @@ class _SendMessageState extends State<SendMessage> {
                 foregroundColor: widget.textColor,
                 child: Icon(Icons.image_outlined),
               ),
-              title: Text('Image'),
+              // TODO: Internationalize this
+              title: Text(widget.props.imageLabel),
               contentPadding: EdgeInsets.all(0),
             ),
           ),
