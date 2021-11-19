@@ -72,7 +72,7 @@ class ChatBubble extends StatelessWidget {
                               : null,
                           child: (msg.user!.profilePhotoUrl != null)
                               ? null
-                              : (msg.user != null && msg.user!.fullName == null)
+                              : (msg.user != null && msg.user!.displayName == null)
                                   ? Text(
                                       msg.user!.email!
                                           .substring(0, 1)
@@ -80,7 +80,7 @@ class ChatBubble extends StatelessWidget {
                                       style: TextStyle(color: widget.textColor),
                                     )
                                   : Text(
-                                      msg.user!.fullName!
+                                      msg.user!.displayName!
                                           .substring(0, 1)
                                           .toUpperCase(),
                                       style: TextStyle(color: widget.textColor),
@@ -187,7 +187,7 @@ class ChatBubble extends StatelessWidget {
         if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
           Padding(
               padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
-              child: (msg.user!.fullName == null)
+              child: (msg.user!.displayName == null)
                   ? Text(
                       msg.user!.email!,
                       style: TextStyle(
@@ -196,7 +196,7 @@ class ChatBubble extends StatelessWidget {
                       ),
                     )
                   : Text(
-                      msg.user!.fullName!,
+                      msg.user!.displayName!,
                       style: TextStyle(
                         color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
                         fontSize: 14,

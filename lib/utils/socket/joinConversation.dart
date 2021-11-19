@@ -65,8 +65,8 @@ PhoenixChannel? joinConversationAndListen({
                             id: event.payload!["user"]["id"],
                             role: event.payload!["user"]["role"],
                             fullName:
-                                (event.payload!["user"]["full_name"] != null)
-                                    ? event.payload!["user"]["full_name"]
+                                (event.payload!["user"]["display_name"] != null)
+                                    ? event.payload!["user"]["display_name"]
                                     : null,
                             profilePhotoUrl: (event.payload!["user"]
                                         ["profile_photo_url"] !=

@@ -91,7 +91,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
           createdAt: DateTime.now(),
           accountId: widget.props.accountId,
           user: User(
-            fullName: widget.props.companyName,
+            displayName: widget.props.companyName,
           ),
           userId: 0,
           id: "greeting",
