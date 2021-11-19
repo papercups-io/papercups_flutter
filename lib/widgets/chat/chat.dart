@@ -36,6 +36,8 @@ class ChatMessages extends StatelessWidget {
         alignment: Alignment.topCenter,
         child: NotificationListener<OverscrollIndicatorNotification>(
           onNotification: (OverscrollIndicatorNotification overscroll) {
+            // TODO: Replace when Flutter 2.6.0 stable will be out.
+            // overscroll.disallowIndicator();
             overscroll.disallowGlow();
             return false;
           },
