@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 /// Customer Metadata, this contains the customer's information.
 class CustomerMetadata {
-  //Decalration of variables.
+  //Declaration of variables.
 
   /// This is the name of your user.
   String? name;
@@ -65,7 +65,7 @@ class Props {
   /// Gradient to specify, should be used instead of primaryColor, DO NOT USE BOTH.
   Gradient? primaryGradient;
 
-  /// Required to create the wig¡dget, identifies the account.
+  /// Required to create the widget, identifies the account.
   String accountId;
 
   /// If you are self-hosting papercups, this base URL should be changed.
@@ -95,7 +95,7 @@ class Props {
   /// This allows you to choose if you want to show your status.
   //bool showAgentAvailability;
 
-  /// This Will allow you to require an emial to chat. Not recommended for an app.
+  /// This Will allow you to require an email to chat. Not recommended for an app.
   bool requireEmailUpfront;
 
   /// Whether to allow scrolling.
@@ -116,8 +116,8 @@ class Props {
   //Class definition.
   Props({
     required this.accountId,
-    //this.agentAvailableText,
-    //this.agentUnavailableText,
+    // this.agentAvailableText = "We're available.",
+    // this.agentUnavailableText  = "We're away at the moment.",
     this.baseUrl = "app.papercups.io",
     this.customer,
     this.closeIcon = const Icon(Icons.close_rounded),
