@@ -121,7 +121,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       ).then((failed) {
         if (failed) {
           Alert.show(
-            widget.props.getCustomerHistoryErrorMessage,
+            widget.props.historyFetchErrorMessage,
             context,
             backgroundColor: Theme.of(context).bottomAppBarColor,
             textStyle: Theme.of(context).textTheme.bodyText2,
