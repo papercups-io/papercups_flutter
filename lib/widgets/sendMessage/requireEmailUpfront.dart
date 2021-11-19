@@ -86,7 +86,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                             style: BorderStyle.solid,
                           ),
                         ),
-                        hintText: widget.props.enterEmailPlaceholer,
+                        hintText: widget.props.enterEmailPlaceholder,
                         hintStyle: const TextStyle(
                           fontSize: 14,
                         ),

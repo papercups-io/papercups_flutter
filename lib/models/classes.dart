@@ -107,6 +107,9 @@ class Props {
   /// Message displayed when the chat is loading.
   String loadingMessage;
 
+  /// Text displayed when an attachment doesn't have a file name.
+  String attachmentNamePlaceholder;
+
   /// Text displayed when there's no Internet connection.
   String noConnectionMessage;
 

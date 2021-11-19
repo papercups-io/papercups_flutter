@@ -283,7 +283,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     },
                     icon: Icon(Icons.refresh_rounded),
                     // TODO: Internationalize this
-                    label: Text(widget.props.retryButtonText),
+                    label: Text(widget.props.retryButtonLabel),
                   )
                 ],
               ),
