@@ -108,7 +108,7 @@ class _SendMessageState extends State<SendMessage> {
       );
       // TODO: Internationalize this.
       Alert.show(
-        "Attachment uploaded",
+        widget.props.attachmentUploadedMessage,
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
         backgroundColor: Theme.of(context).bottomAppBarColor,

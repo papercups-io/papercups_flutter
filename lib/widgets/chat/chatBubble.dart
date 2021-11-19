@@ -21,7 +21,7 @@ class ChatBubble extends StatelessWidget {
     required this.maxWidth,
     required this.text,
     required this.longDay,
-    required this.conatinsAttachment,
+    required this.containsAttachment,
   }) : super(key: key);
 
   final bool userSent;
@@ -34,7 +34,7 @@ class ChatBubble extends StatelessWidget {
   final double maxWidth;
   final String text;
   final String? longDay;
-  final bool conatinsAttachment;
+  final bool containsAttachment;
 
   @override
   Widget build(BuildContext context) {
@@ -122,12 +122,13 @@ class ChatBubble extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (conatinsAttachment)
+                  if (containsAttachment)
                     ...msg.attachments!.map((e) {
                       return Attachment(
                         userSent: userSent,
                         props: widget.props,
-                        fileName: e.fileName ?? "No Name",
+                        // TODO: Internationalize this
+                        fileName: e.fileName ?? widget.props.attachmentNamePlaceholder,
                         textColor: widget.textColor,
                         msgHasText:
                             (msg.attachments!.length > 1 || msg.body != null),
@@ -190,14 +191,14 @@ class ChatBubble extends StatelessWidget {
                   ? Text(
                       msg.user!.email!,
                       style: TextStyle(
-                        color: Theme.of(context).disabledColor.withOpacity(0.5),
+                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
                         fontSize: 14,
                       ),
                     )
                   : Text(
                       msg.user!.fullName!,
                       style: TextStyle(
-                        color: Theme.of(context).disabledColor.withOpacity(0.5),
+                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
                         fontSize: 14,
                       ),
                     )),

@@ -105,7 +105,8 @@ class _ChatMessageState extends State<ChatMessage> {
         longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt!);
       } catch (e) {
         print("ERROR: Error generating localized date!");
-        longDay = "Loading...";
+        // TODO: Internationalize this
+        longDay = widget.props.loadingMessage;
       }
     }
     if (userSent && isLast && widget.timeagoLocale != null) {
@@ -132,7 +133,7 @@ class _ChatMessageState extends State<ChatMessage> {
         Clipboard.setData(data);
         // TODO: Internationalize this
         Alert.show(
-          "Text copied to clipboard",
+          widget.props.textCopiedMessage,
           context,
           textStyle: Theme.of(context).textTheme.bodyText2,
           backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -166,7 +167,7 @@ class _ChatMessageState extends State<ChatMessage> {
           maxWidth: maxWidth,
           text: text,
           longDay: longDay,
-          conatinsAttachment: containsAttachment,
+          containsAttachment: containsAttachment,
         ),
       ),
     );

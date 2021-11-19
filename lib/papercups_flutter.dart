@@ -120,9 +120,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         props: widget.props,
       ).then((failed) {
         if (failed) {
-          // TODO: Internationalize this
           Alert.show(
-            "There was an issue retrieving your details. Please try again!",
+            widget.props.getCustomerHistoryErrorMessage,
             context,
             backgroundColor: Theme.of(context).bottomAppBarColor,
             textStyle: Theme.of(context).textTheme.bodyText2,

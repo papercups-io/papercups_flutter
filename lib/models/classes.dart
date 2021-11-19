@@ -42,7 +42,7 @@ class CustomerMetadata {
 
 /// This contains all the possible configurations for the chat widget.
 class Props {
-  //Decalration of variables.
+  //Declaration of variables.
 
   /// This is the top section of the widget, normally a welcome text.
   String title;
@@ -81,7 +81,7 @@ class Props {
   String newMessagePlaceholder;
 
   /// This is the placeholder text in the email input section.
-  String enterEmailPlaceholer;
+  String enterEmailPlaceholder;
 
   /// This is the close button in the header section.
   Widget closeIcon;
@@ -95,6 +95,18 @@ class Props {
   /// This allows you to choose if you want to show your status.
   //bool showAgentAvailability;
 
+  /// Error message displayed when the customer history couldn't be fetched.
+  String fetchHistoryErrorMessage;
+
+  /// Message displayed when an attachment has been uploaded.
+  String attachmentUploadedMessage;
+
+  /// Message displayed when a text has been copied after long press on a chat bubble.
+  String textCopiedMessage;
+
+  /// Message displayed when the chat is loading.
+  String loadingMessage;
+
   /// This Will allow you to require an email to chat. Not recommended for an app.
   bool requireEmailUpfront;
 
@@ -107,10 +119,10 @@ class Props {
   /// header Padding
   EdgeInsetsGeometry headerPadding;
 
-  /// header Height
+  /// Header Height
   double? headerHeight;
 
-  /// message send icon for the chat section.
+  /// Message send icon for the chat section.
   Widget? sendIcon;
 
   //Class definition.
@@ -145,7 +157,12 @@ class Props {
     ),
     this.companyName = "Bot",
     this.primaryGradient,
-    this.enterEmailPlaceholer = "Enter your email",
+    this.enterEmailPlaceholder = "Enter your email",
+    this.fetchHistoryErrorMessage = "There was an issue retrieving your details. Please try again!",
+    this.attachmentUploadedMessage = 'Attachment uploaded',
+    this.textCopiedMessage = "Text copied to clipboard",
+    this.attachmentNamePlaceholder = "No Name",
+    this.loadingMessage = "Loading...",
     this.sendIcon,
   });
 }
