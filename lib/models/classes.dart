@@ -96,7 +96,7 @@ class Props {
   //bool showAgentAvailability;
 
   /// Error message displayed when the customer history couldn't be fetched.
-  String fetchHistoryErrorMessage;
+  String historyFetchErrorMessage;
 
   /// Message displayed when an attachment has been uploaded.
   String attachmentUploadedMessage;
@@ -170,7 +170,7 @@ class Props {
     this.companyName = "Bot",
     this.primaryGradient,
     this.enterEmailPlaceholder = "Enter your email",
-    this.fetchHistoryErrorMessage = "There was an issue retrieving your details. Please try again!",
+    this.historyFetchErrorMessage = "There was an issue retrieving your details. Please try again!",
     this.attachmentUploadedMessage = 'Attachment uploaded',
     this.textCopiedMessage = "Text copied to clipboard",
     this.attachmentNamePlaceholder = "No Name",
