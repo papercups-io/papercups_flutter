@@ -5,16 +5,18 @@ import 'package:papercups_flutter/models/attachment.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/widgets/alert.dart';
 
-Future<void> webFilePicker(
-    {required BuildContext context,
-    required Function onUploadSuccess,
-    required widget}) async {
+Future<void> webFilePicker({
+  required BuildContext context,
+  required Function onUploadSuccess,
+  required widget,
+}) async {
   try {
     var picked = await FilePicker.platform.pickFiles();
 
     if (picked != null && picked.files.first.bytes != null) {
       Alert.show(
-        "Uploading...",
+        // TODO: Internationalize this
+        widget.props.attachmentUploadingMessage,
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
         backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -30,7 +32,8 @@ Future<void> webFilePicker(
     }
   } on Exception catch (_) {
     Alert.show(
-      "Failed to upload attachment",
+      // TODO: Internationalize this
+      widget.props.attachmentUploadErrorMessage,
       context,
       textStyle: Theme.of(context).textTheme.bodyText2,
       backgroundColor: Theme.of(context).bottomAppBarColor,

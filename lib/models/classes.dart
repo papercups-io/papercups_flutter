@@ -98,8 +98,17 @@ class Props {
   /// Error message displayed when the customer history couldn't be fetched.
   String historyFetchErrorMessage;
 
+  /// Error message displayed when an attachment could not be uploaded.
+  String attachmentUploadErrorMessage;
+
   /// Message displayed when an attachment has been uploaded.
   String attachmentUploadedMessage;
+
+  /// Message displayed when an attachment is been uploaded.
+  String attachmentUploadingMessage;
+
+  /// Message displayed after the percentage value of an attachment being uploaded.
+  String uploadedMessage;
 
   /// Message displayed when a text has been copied after long press on a chat bubble.
   String textCopiedMessage;
@@ -174,11 +183,14 @@ class Props {
     this.primaryGradient,
     this.enterEmailPlaceholder = "Enter your email",
     this.historyFetchErrorMessage = "There was an issue retrieving your details. Please try again!",
+    this.attachmentUploadErrorMessage = 'Failed to upload attachment',
     this.attachmentUploadedMessage = 'Attachment uploaded',
     this.textCopiedMessage = "Text copied to clipboard",
+    this.attachmentUploadingMessage = 'Uploading...',
     this.attachmentNamePlaceholder = "No Name",
     this.noConnectionMessage = "No Connection",
     this.loadingMessage = "Loading...",
+    this.uploadedMessage = "uploaded",
     this.retryButtonLabel = "Retry",
     this.imageLabel = 'Image',
     this.fileLabel = 'File',
