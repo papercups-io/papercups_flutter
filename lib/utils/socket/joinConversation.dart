@@ -30,7 +30,8 @@ PhoenixChannel? joinConversationAndListen({
           conversation = null;
         } else {
           if (event.event.toString().contains("shout") ||
-              event.event.toString().contains("message:created")) {
+              event.event.toString().contains("message:created") ||
+              event.payload!["type"] == "reply") {
             // https://github.com/papercups-io/papercups/pull/488
             // "message:created" is still not implemented see the PR above.
             if (event.payload!["customer"] == null)
