@@ -36,11 +36,11 @@ These releases are maintenance related, addressing some issues found on pub.dev 
 ## [2.0.0] - 16/02/2021.
 
 # 🎉 2.0 has landed!
-This release brings major changes to how this package works. Most importantly, it is now completely native, ensuring speed and performace along with more customisability. This will also enable new features such as chat message notifications, in-app overlays, local message retention and many others, make sure to leave suggestions [here](https://github.com/papercups-io/papercups_flutter) for what to build next.
+This release brings major changes to how this package works. Most importantly, it is now completely native, ensuring speed and performance along with more customisability. This will also enable new features such as chat message notifications, in-app overlays, local message retention and many others, make sure to leave suggestions [here](https://github.com/papercups-io/papercups_flutter) for what to build next.
 
 ### New Features
 * Native Dart implementation!
-* Full themeing control w/gradients.
+* Full theming control w/gradients.
 * Full Internationalization control - every part can be set to any language.
 * Dark mode
 * Added elevation option to message box
@@ -71,7 +71,7 @@ Thanks to [@Fiyiin](https://github.com/Fiyiin) for helping me out building this 
 
 ## [0.2.2] - 30/11/2020.
 
-* ⚡️ Performance imporvements to `genIframeUrl`
+* ⚡️ Performance improvements to `genIframeUrl`
 * ✨ Added `toMap()` and `toJsonString()` to the classes, better URI generation.
 
 ## [0.2.1] - 26/11/2020.
@@ -85,7 +85,7 @@ Thanks to [@Fiyiin](https://github.com/Fiyiin) for helping me out building this 
 
 ### Enhancements
 * 📝 Improved docs with higher coverage and syntax highlighting (Thanks to @Immortalin).
-* ⚡️ Web widget is now constant. Better preformance.
+* ⚡️ Web widget is now constant. Better performance.
 * ✨ Update example to show new features.
 
 ## [0.1.4] - 23/11/2020.
@@ -94,7 +94,7 @@ Thanks to [@Fiyiin](https://github.com/Fiyiin) for helping me out building this 
 
 ## [0.1.3] - 23/11/2020.
 
-* 🐛 Add platfromView stub, should fix platfrom id and pub score
+* 🐛 Add platformView stub, should fix platform id and pub score
 
 ## [0.1.2] - 22/11/2020.
 
