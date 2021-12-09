@@ -307,11 +307,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                     props: Props(
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
-                      title: titleController.text,
+                      translations: PapercupsIntl(
+                        title: titleController.text,
+                        subtitle: subtitleController.text,
+                        greeting:
+                            "Hello, have any questions or feedback? Let me know below!",
+                      ),
                       primaryColor: color,
-                      greeting:
-                          "Hello, have any questions or feedback? Let me know below!",
-                      subtitle: subtitleController.text,
                       customer: CustomerMetadata(
                         email: "admin@aguilaair.tech",
                         externalId: "123",

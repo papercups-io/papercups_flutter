@@ -15,8 +15,7 @@ Future<void> webFilePicker({
 
     if (picked != null && picked.files.first.bytes != null) {
       Alert.show(
-        // TODO: Internationalize this
-        widget.props.attachmentUploadingMessage,
+        widget.props.translations.attachmentUploadingText,
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
         backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -32,8 +31,7 @@ Future<void> webFilePicker({
     }
   } on Exception catch (_) {
     Alert.show(
-      // TODO: Internationalize this
-      widget.props.attachmentUploadErrorMessage,
+      widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: Theme.of(context).textTheme.bodyText2,
       backgroundColor: Theme.of(context).bottomAppBarColor,

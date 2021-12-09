@@ -38,7 +38,7 @@ class Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text(props.title,
+                child: Text(props.translations.title,
                     style: props.titleStyle, textAlign: props.titleAlign),
               ),
               if (closeAction != null)
@@ -58,7 +58,7 @@ class Header extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              props.subtitle,
+              props.translations.subtitle,
               style: props.subtitleStyle ??
                   TextStyle(
                     color: props.titleStyle.color?.withOpacity(0.8),

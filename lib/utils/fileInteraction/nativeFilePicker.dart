@@ -18,8 +18,7 @@ void nativeFilePicker({
         ?.files;
     if (_paths != null && _paths.first.path != null) {
       Alert.show(
-        // TODO: Internationalize this
-        widget.props.attachmentUploadingMessage,
+        widget.props.translations.attachmentUploadingText,
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
         backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -31,8 +30,7 @@ void nativeFilePicker({
         filePath: _paths.first.path,
         onUploadProgress: (sentBytes, totalBytes) {
           Alert.show(
-            // TODO: Internationalize this
-            "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% ${widget.props.uploadedMessage}",
+            "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% ${widget.props.translations.uploadedText}",
             context,
             textStyle: Theme.of(context).textTheme.bodyText2,
             backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -46,8 +44,7 @@ void nativeFilePicker({
     }
   } on PlatformException catch (_) {
     Alert.show(
-      // TODO: Internationalize this
-      widget.props.attachmentUploadErrorMessage,
+      widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: Theme.of(context).textTheme.bodyText2,
       backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -57,8 +54,7 @@ void nativeFilePicker({
     throw _;
   } catch (_) {
     Alert.show(
-      // TODO: Internationalize this
-      widget.props.attachmentUploadErrorMessage,
+      widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: Theme.of(context).textTheme.bodyText2,
       backgroundColor: Theme.of(context).bottomAppBarColor,

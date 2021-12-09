@@ -72,7 +72,8 @@ class ChatBubble extends StatelessWidget {
                               : null,
                           child: (msg.user!.profilePhotoUrl != null)
                               ? null
-                              : (msg.user != null && msg.user!.displayName == null)
+                              : (msg.user != null &&
+                                      msg.user!.displayName == null)
                                   ? Text(
                                       msg.user!.email!
                                           .substring(0, 1)
@@ -127,8 +128,8 @@ class ChatBubble extends StatelessWidget {
                       return Attachment(
                         userSent: userSent,
                         props: widget.props,
-                        // TODO: Internationalize this
-                        fileName: e.fileName ?? widget.props.attachmentNamePlaceholder,
+                        fileName: e.fileName ??
+                            widget.props.translations.attachmentNamePlaceholder,
                         textColor: widget.textColor,
                         msgHasText:
                             (msg.attachments!.length > 1 || msg.body != null),
@@ -191,14 +192,22 @@ class ChatBubble extends StatelessWidget {
                   ? Text(
                       msg.user!.email!,
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color!
+                            .withOpacity(0.5),
                         fontSize: 14,
                       ),
                     )
                   : Text(
                       msg.user!.displayName!,
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1!.color!.withOpacity(0.5),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color!
+                            .withOpacity(0.5),
                         fontSize: 14,
                       ),
                     )),

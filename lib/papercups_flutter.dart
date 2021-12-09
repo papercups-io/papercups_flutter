@@ -26,12 +26,6 @@ class PaperCupsWidget extends StatefulWidget {
   /// for the available classes.
   final timeagoLocale;
 
-  /// Text to show while message is sending. Default `"Sending..."`
-  final String sendingText;
-
-  /// Text to show when the messgae is sent. Default is `"Sent"` time will be added after.
-  final String sentText;
-
   /// If not null, close button will be shown.
   final Function? closeAction;
 
@@ -45,8 +39,6 @@ class PaperCupsWidget extends StatefulWidget {
     required this.props,
     this.dateLocale = "en-US",
     this.timeagoLocale,
-    this.sendingText = "Sending...",
-    this.sentText = "Sent",
     this.closeAction,
     this.floatingSendMessage = false,
     this.onMessageBubbleTap,
@@ -80,18 +72,18 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
 
   @override
   void didChangeDependencies() {
-    if (widget.props.greeting != null &&
+    if (widget.props.translations.greeting != null &&
         _conversation.messages
                 .indexWhere((element) => element.id == "greeting") ==
             -1) {
       _conversation.messages.add(
         PapercupsMessage(
-          body: widget.props.greeting,
+          body: widget.props.translations.greeting,
           sentAt: DateTime.now(),
           createdAt: DateTime.now(),
           accountId: widget.props.accountId,
           user: User(
-            displayName: widget.props.companyName,
+            displayName: widget.props.translations.companyName,
           ),
           userId: 0,
           id: "greeting",
@@ -121,7 +113,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
       ).then((failed) {
         if (failed) {
           Alert.show(
-            widget.props.historyFetchErrorMessage,
+            widget.props.translations.historyFetchErrorText,
             context,
             backgroundColor: Theme.of(context).bottomAppBarColor,
             textStyle: Theme.of(context).textTheme.bodyText2,
@@ -242,8 +234,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     color: Colors.grey,
                   ),
                   Text(
-                    // TODO: Internationalize this
-                    widget.props.noConnectionMessage,
+                    widget.props.translations.noConnectionText,
                     style: Theme.of(context).textTheme.headline5!.copyWith(
                           color: Colors.grey,
                         ),
@@ -282,8 +273,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                         });
                     },
                     icon: Icon(Icons.refresh_rounded),
-                    // TODO: Internationalize this
-                    label: Text(widget.props.retryButtonLabel),
+                    label: Text(widget.props.translations.retryButtonLabel),
                   )
                 ],
               ),
@@ -306,8 +296,8 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
                     _sending,
                     widget.dateLocale,
                     widget.timeagoLocale,
-                    widget.sendingText,
-                    widget.sentText,
+                    widget.props.translations.sendingText,
+                    widget.props.translations.sentText,
                     textColor,
                     widget.onMessageBubbleTap,
                   ),

@@ -105,8 +105,7 @@ class _ChatMessageState extends State<ChatMessage> {
         longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt!);
       } catch (e) {
         print("ERROR: Error generating localized date!");
-        // TODO: Internationalize this
-        longDay = widget.props.loadingMessage;
+        longDay = widget.props.translations.loadingText;
       }
     }
     if (userSent && isLast && widget.timeagoLocale != null) {
@@ -131,9 +130,8 @@ class _ChatMessageState extends State<ChatMessage> {
         HapticFeedback.vibrate();
         final data = ClipboardData(text: text);
         Clipboard.setData(data);
-        // TODO: Internationalize this
         Alert.show(
-          widget.props.textCopiedMessage,
+          widget.props.translations.textCopiedText,
           context,
           textStyle: Theme.of(context).textTheme.bodyText2,
           backgroundColor: Theme.of(context).bottomAppBarColor,
