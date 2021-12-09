@@ -62,8 +62,8 @@ That should get you up and running in just a few seconds ⚡️.
 ### Available `PapercupsIntl` parameters
 | Parameters | Type | Value | Default |
 | :--- | :--- | :----- | :------ |
-| **`agentAvailableText`** | `String` | This text will be shown if the showAgentAvailability is true and you are online | `"We're available."` |
-| **`agentUnavailableText`** | `String` | This text will be shown if the showAgentAvailability is true and you are online | `"We're away at the moment."` |
+<!-- | **`agentAvailableText`** | `String` | This text will be shown if the showAgentAvailability is true and you are online | `"We're available."` |
+| **`agentUnavailableText`** | `String` | This text will be shown if the showAgentAvailability is true and you are online | `"We're away at the moment."` | -->
 | **`attachmentNamePlaceholder`** | `String` | Text displayed when an attachment doesn't have a file name | `"No Name"` |
 | **`attachmentUploadErrorText`** | `String` | Error message displayed when an attachment could not be uploaded | `"Failed to upload attachment"` |
 | **`attachmentUploadedText`** | `String` | Text displayed when an attachment has been uploaded | `"Attachment uploaded"` |
