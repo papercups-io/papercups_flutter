@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:papercups_flutter/utils/fileInteraction/nativeFilePicker.dart';
-import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/utils/fileInteraction/webFilePicker.dart';
 import '../../models/models.dart';
 import '../../utils/utils.dart';
@@ -106,9 +105,8 @@ class _SendMessageState extends State<SendMessage> {
         fileIds,
         true,
       );
-      // TODO: Internationalize this.
       Alert.show(
-        "Attachment uploaded",
+        widget.props.translations.attachmentUploadedText,
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
         backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -119,7 +117,6 @@ class _SendMessageState extends State<SendMessage> {
   }
 
 // TODO: Separate this widget
-// TODO: Internationalize alerts and popups
   Widget _getFilePicker() {
     if (kIsWeb) {
       return IconButton(
@@ -166,7 +163,7 @@ class _SendMessageState extends State<SendMessage> {
                 foregroundColor: widget.textColor,
                 child: Icon(Icons.insert_drive_file_outlined),
               ),
-              title: Text('File'),
+              title: Text(widget.props.translations.fileText),
               contentPadding: EdgeInsets.all(0),
             ),
           ),
@@ -178,7 +175,7 @@ class _SendMessageState extends State<SendMessage> {
                 foregroundColor: widget.textColor,
                 child: Icon(Icons.image_outlined),
               ),
-              title: Text('Image'),
+              title: Text(widget.props.translations.imageText),
               contentPadding: EdgeInsets.all(0),
             ),
           ),
@@ -218,7 +215,7 @@ class _SendMessageState extends State<SendMessage> {
               child: TextField(
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintText: widget.props.newMessagePlaceholder,
+                  hintText: widget.props.translations.newMessagePlaceholder,
                   hintStyle: const TextStyle(
                     fontSize: 14,
                   ),

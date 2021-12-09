@@ -5,11 +5,12 @@ import 'package:papercups_flutter/models/models.dart';
 import 'package:papercups_flutter/utils/fileInteraction/uploadFile.dart';
 import 'package:papercups_flutter/widgets/alert.dart';
 
-void nativeFilePicker(
-    {required FileType type,
-    required BuildContext context,
-    required widget,
-    required Function onUploadSuccess}) async {
+void nativeFilePicker({
+  required FileType type,
+  required BuildContext context,
+  required widget,
+  required Function onUploadSuccess,
+}) async {
   try {
     final _paths = (await FilePicker.platform.pickFiles(
       type: type,
@@ -17,7 +18,7 @@ void nativeFilePicker(
         ?.files;
     if (_paths != null && _paths.first.path != null) {
       Alert.show(
-        "Uploading...",
+        widget.props.translations.attachmentUploadingText,
         context,
         textStyle: Theme.of(context).textTheme.bodyText2,
         backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -29,7 +30,7 @@ void nativeFilePicker(
         filePath: _paths.first.path,
         onUploadProgress: (sentBytes, totalBytes) {
           Alert.show(
-            "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% uploaded",
+            "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% ${widget.props.translations.uploadedText}",
             context,
             textStyle: Theme.of(context).textTheme.bodyText2,
             backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -43,7 +44,7 @@ void nativeFilePicker(
     }
   } on PlatformException catch (_) {
     Alert.show(
-      "Failed to upload attachment",
+      widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: Theme.of(context).textTheme.bodyText2,
       backgroundColor: Theme.of(context).bottomAppBarColor,
@@ -53,7 +54,7 @@ void nativeFilePicker(
     throw _;
   } catch (_) {
     Alert.show(
-      "Failed to upload attachment",
+      widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: Theme.of(context).textTheme.bodyText2,
       backgroundColor: Theme.of(context).bottomAppBarColor,

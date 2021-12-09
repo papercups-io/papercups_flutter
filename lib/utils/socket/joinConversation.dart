@@ -30,7 +30,8 @@ PhoenixChannel? joinConversationAndListen({
           conversation = null;
         } else {
           if (event.event.toString().contains("shout") ||
-              event.event.toString().contains("message:created")) {
+              event.event.toString().contains("message:created") ||
+              event.payload!["type"] == "reply") {
             // https://github.com/papercups-io/papercups/pull/488
             // "message:created" is still not implemented see the PR above.
             if (event.payload!["customer"] == null)
@@ -43,8 +44,7 @@ PhoenixChannel? joinConversationAndListen({
                     customerId: event.payload!["customer_id"],
                     id: event.payload!["id"],
                     attachments: (event.payload!["attachments"] != null)
-                        ? (event.payload!["attachments"] as List<dynamic>)
-                            .map((attachment) {
+                        ? (event.payload!["attachments"] as List<dynamic>).map((attachment) {
                             return PapercupsAttachment(
                               contentType: attachment["content_type"],
                               fileName: attachment["filename"],
@@ -54,8 +54,7 @@ PhoenixChannel? joinConversationAndListen({
                           }).toList()
                         : null,
                     fileIds: (event.payload!["attachments"] != null)
-                        ? (event.payload!["attachments"] as List<dynamic>)
-                            .map((attachment) {
+                        ? (event.payload!["attachments"] as List<dynamic>).map((attachment) {
                             return attachment["id"] as String;
                           }).toList()
                         : null,
@@ -64,13 +63,10 @@ PhoenixChannel? joinConversationAndListen({
                             email: event.payload!["user"]["email"],
                             id: event.payload!["user"]["id"],
                             role: event.payload!["user"]["role"],
-                            fullName:
-                                (event.payload!["user"]["full_name"] != null)
-                                    ? event.payload!["user"]["full_name"]
-                                    : null,
-                            profilePhotoUrl: (event.payload!["user"]
-                                        ["profile_photo_url"] !=
-                                    null)
+                            displayName: (event.payload!["user"]["display_name"] != null)
+                                ? event.payload!["user"]["display_name"]
+                                : null,
+                            profilePhotoUrl: (event.payload!["user"]["profile_photo_url"] != null)
                                 ? event.payload!["user"]["profile_photo_url"]
                                 : null,
                           )
@@ -82,15 +78,10 @@ PhoenixChannel? joinConversationAndListen({
                           )
                         : null,
                     userId: event.payload!["user_id"],
-                    createdAt: event.payload!["created_at"] != null
-                        ? parseDateFromUTC(event.payload!["created_at"])
-                        : null,
-                    seenAt: event.payload!["seen_at"] != null
-                        ? parseDateFromUTC(event.payload!["seen_at"])
-                        : null,
-                    sentAt: event.payload!["sent_at"] != null
-                        ? parseDateFromUTC(event.payload!["sent_at"])
-                        : null,
+                    createdAt:
+                        event.payload!["created_at"] != null ? parseDateFromUTC(event.payload!["created_at"]) : null,
+                    seenAt: event.payload!["seen_at"] != null ? parseDateFromUTC(event.payload!["seen_at"]) : null,
+                    sentAt: event.payload!["sent_at"] != null ? parseDateFromUTC(event.payload!["sent_at"]) : null,
                   ),
                 );
               }, animate: true);

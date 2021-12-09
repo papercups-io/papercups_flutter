@@ -15,8 +15,8 @@ class User {
   /// The role of the agent.
   String? role;
 
-  /// The name of the agent. May be null.
-  String? fullName;
+  /// The display name of the agent. May be null.
+  String? displayName;
 
   /// The profile photo of the agent, must be a valid URL or null.
   String? profilePhotoUrl;
@@ -27,7 +27,7 @@ class User {
     this.email,
     this.id,
     this.role,
-    this.fullName,
+    this.displayName,
     this.profilePhotoUrl,
   });
 }

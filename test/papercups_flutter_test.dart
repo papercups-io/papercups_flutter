@@ -46,46 +46,48 @@ void main() {
       //expect(props.agentAvailableText, null);
       expect(props.baseUrl, "app.papercups.io");
       //expect(props.agentUnavailableText, null);
-      expect(props.companyName, "Bot");
-      expect(props.newMessagePlaceholder, "Start typing...");
+      expect(props.translations.companyName, "Bot");
+      expect(props.translations.newMessagePlaceholder, "Start typing...");
       expect(props.primaryColor, null);
       expect(props.requireEmailUpfront, false);
       expect(props.scrollEnabled, true);
       expect(props.customer, null);
       expect(props.primaryGradient, null);
-      expect(props.subtitle, "How can we help you?");
-      expect(props.title, "Welcome!");
-      expect(props.greeting, null);
+      expect(props.translations.subtitle, "How can we help you?");
+      expect(props.translations.title, "Welcome!");
+      expect(props.translations.greeting, null);
     });
     test('are loaded correctly', () {
       props = Props(
           accountId: "this-is-an-account-id",
-          //agentAvailableText: "test",
-          //agentUnavailableText: "unavailable",
+          translations: PapercupsIntl(
+            companyName: "name",
+            greeting: "greeting",
+            //agentAvailableText: "test",
+            newMessagePlaceholder: "placeHolder",
+            //agentUnavailableText: "unavailable",
+          ),
           baseUrl: "app.papercups.io",
-          companyName: "name",
-          greeting: "greeting",
-          newMessagePlaceholder: "placeHolder",
           primaryColor: Color(0xffffff),
           requireEmailUpfront: true,
           scrollEnabled: true,
           customer: CustomerMetadata());
 
       expect(props.accountId, "this-is-an-account-id");
-      //expect(props.agentAvailableText, "test");
+      //expect(props.translations.agentAvailableText, "test");
       expect(props.baseUrl, "app.papercups.io");
-      //expect(props.agentUnavailableText, "unavailable");
-      expect(props.companyName, "name");
-      expect(props.newMessagePlaceholder, "placeHolder");
+      //expect(props.translations.agentUnavailableText, "unavailable");
+      expect(props.translations.companyName, "name");
+      expect(props.translations.newMessagePlaceholder, "placeHolder");
       expect(props.primaryColor, Color(0xffffff));
       expect(props.requireEmailUpfront, true);
       expect(props.scrollEnabled, true);
       expect(props.customer!.toJsonString(),
           '{"name":null,"email":null,"external_id":null}');
       expect(props.primaryGradient, null);
-      expect(props.subtitle, "How can we help you?");
-      expect(props.title, "Welcome!");
-      expect(props.greeting, "greeting");
+      expect(props.translations.subtitle, "How can we help you?");
+      expect(props.translations.title, "Welcome!");
+      expect(props.translations.greeting, "greeting");
     });
   });
 

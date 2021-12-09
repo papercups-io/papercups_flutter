@@ -1,5 +1,5 @@
 /// Exports for the widgets, new widgets should be added here and this is the file that should be imported instead of the specific widget.
-export 'header/agentAvaiability.dart';
+export 'header/agentAvailability.dart';
 export 'chat/chat.dart';
 export 'header/header.dart';
 export 'sendMessage/sendMessage.dart';

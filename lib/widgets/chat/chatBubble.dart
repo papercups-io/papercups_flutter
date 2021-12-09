@@ -21,7 +21,7 @@ class ChatBubble extends StatelessWidget {
     required this.maxWidth,
     required this.text,
     required this.longDay,
-    required this.conatinsAttachment,
+    required this.containsAttachment,
   }) : super(key: key);
 
   final bool userSent;
@@ -34,7 +34,7 @@ class ChatBubble extends StatelessWidget {
   final double maxWidth;
   final String text;
   final String? longDay;
-  final bool conatinsAttachment;
+  final bool containsAttachment;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +72,8 @@ class ChatBubble extends StatelessWidget {
                               : null,
                           child: (msg.user!.profilePhotoUrl != null)
                               ? null
-                              : (msg.user != null && msg.user!.fullName == null)
+                              : (msg.user != null &&
+                                      msg.user!.displayName == null)
                                   ? Text(
                                       msg.user!.email!
                                           .substring(0, 1)
@@ -80,7 +81,7 @@ class ChatBubble extends StatelessWidget {
                                       style: TextStyle(color: widget.textColor),
                                     )
                                   : Text(
-                                      msg.user!.fullName!
+                                      msg.user!.displayName!
                                           .substring(0, 1)
                                           .toUpperCase(),
                                       style: TextStyle(color: widget.textColor),
@@ -122,12 +123,13 @@ class ChatBubble extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (conatinsAttachment)
+                  if (containsAttachment)
                     ...msg.attachments!.map((e) {
                       return Attachment(
                         userSent: userSent,
                         props: widget.props,
-                        fileName: e.fileName ?? "No Name",
+                        fileName: e.fileName ??
+                            widget.props.translations.attachmentNamePlaceholder,
                         textColor: widget.textColor,
                         msgHasText:
                             (msg.attachments!.length > 1 || msg.body != null),
@@ -186,18 +188,26 @@ class ChatBubble extends StatelessWidget {
         if (!userSent && ((nextMsg.userId != msg.userId) || (isLast)))
           Padding(
               padding: EdgeInsets.only(left: 16, bottom: 5, top: 4),
-              child: (msg.user!.fullName == null)
+              child: (msg.user!.displayName == null)
                   ? Text(
                       msg.user!.email!,
                       style: TextStyle(
-                        color: Theme.of(context).disabledColor.withOpacity(0.5),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color!
+                            .withOpacity(0.5),
                         fontSize: 14,
                       ),
                     )
                   : Text(
-                      msg.user!.fullName!,
+                      msg.user!.displayName!,
                       style: TextStyle(
-                        color: Theme.of(context).disabledColor.withOpacity(0.5),
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyText1!
+                            .color!
+                            .withOpacity(0.5),
                         fontSize: 14,
                       ),
                     )),
