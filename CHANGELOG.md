@@ -1,3 +1,16 @@
+## [3.0.0] - 08/01/2022.
+This new version brings full internationalization support along with file upload. This is a breaking release due to the introduction of the `PapercupsIntl()` class.
+### ✨ New Features
+- New file upload functionality by (@ryg-git)[https://github.com/ryg-git]
+- Performance improvements 
+- Add title style and alignment by (@marwenbk)[http://github.com/marwenbk] 
+
+### 🐛Bug Fixes
+- Fixed "Last seen" variable by (@jonatascm)[http://github.com/jonatascm] 
+
+### 💥 Breaking changes
+- New `PapercupsIntl()` class for customizing the papercups, check README.md for migration guide. By (@CharlesMangwa)[https://github.com/CharlesMangwa]
+
 ## [2.1.4] - 12/09/2021.
 🐛 Fixed an issue where new customer conversations would create a new ID, stopping links between conversations.
 
