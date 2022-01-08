@@ -2,7 +2,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import '../../papercups_flutter.dart';
 
 import '../../models/models.dart';
 import '../utils.dart';

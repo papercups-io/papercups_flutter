@@ -2,7 +2,6 @@
 import 'updateUserMetadata.dart';
 
 import '../../models/models.dart';
-import '../../papercups_flutter.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'dart:async';
 

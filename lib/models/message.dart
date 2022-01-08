@@ -1,8 +1,6 @@
 // Imports
 import 'package:papercups_flutter/models/models.dart';
 
-import 'user.dart';
-import 'customer.dart';
 export 'user.dart';
 
 /// This class is the class used for each message on the chat.

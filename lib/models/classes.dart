@@ -142,10 +142,10 @@ class PapercupsIntl {
 /// This contains all the possible configurations for the chat widget.
 class Props {
   /// This is the top widget text style
-  TextStyle titleStyle;
+  TextStyle? titleStyle;
 
   /// This is the top widget title alignment
-  TextAlign titleAlign;
+  TextAlign? titleAlign;
 
   /// This is the  subtitle TextStyle
   TextStyle? subtitleStyle;

@@ -1,18 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
-import 'dart:typed_data';
-import 'dart:ui';
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:open_file/open_file.dart';
-import 'package:papercups_flutter/utils/fileInteraction/downloadFile.dart';
-import 'package:papercups_flutter/utils/fileInteraction/handleDownloads.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import '../../models/models.dart';
 

@@ -168,7 +168,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
         textColor = Colors.black;
         if (widget.props.titleStyle == null)
           widget.props.titleStyle =
-              widget.props.titleStyle.copyWith(color: Colors.black);
+              widget.props.titleStyle?.copyWith(color: Colors.black);
       } else {
         textColor = Colors.white;
       }

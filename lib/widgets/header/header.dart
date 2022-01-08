@@ -46,7 +46,7 @@ class Header extends StatelessWidget {
                   constraints: BoxConstraints(maxHeight: 21),
                   icon: props.closeIcon,
                   onPressed: closeAction as void Function()?,
-                  color: props.titleStyle.color,
+                  color: props.titleStyle?.color,
                   padding: EdgeInsets.zero,
                   iconSize: 21,
                   splashRadius: 20,
@@ -61,7 +61,7 @@ class Header extends StatelessWidget {
               props.translations.subtitle,
               style: props.subtitleStyle ??
                   TextStyle(
-                    color: props.titleStyle.color?.withOpacity(0.8),
+                    color: props.titleStyle?.color?.withOpacity(0.8),
                   ),
             ),
           )
