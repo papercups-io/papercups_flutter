@@ -1,4 +1,4 @@
-## [3.0.0] - 08/01/2022.
+## [3.0.0-beta.1] - 08/01/2022.
 This new version brings full internationalization support along with file upload. This is a breaking release due to the introduction of the `PapercupsIntl()` class.
 ### ✨ New Features
 - New file upload functionality by (@ryg-git)[https://github.com/ryg-git]
