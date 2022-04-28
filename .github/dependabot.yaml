@@ -8,3 +8,6 @@ updates:
       - "dependencies"
     reviewers:
       - "aguilaair"
+    schedule:
+      interval: "daily"
+      time: "21:30"
