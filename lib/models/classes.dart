@@ -16,7 +16,7 @@ class CustomerMetadata {
   String? externalId;
 
   /// Any extra data you want to pass can be passed as a key-value pair.
-  Map<String, String>? otherMetadata;
+  Map<String, dynamic>? otherMetadata;
 
   //Class definition.
   CustomerMetadata({
@@ -27,14 +27,13 @@ class CustomerMetadata {
   });
 
   String toJsonString() {
-    var metadata = this.otherMetadata != null ? this.otherMetadata! : {};
+    final metadata = otherMetadata != null ? otherMetadata! : {};
     return json.encode(
       {
-        "name": this.name,
-        "email": this.email,
-        "external_id": this.externalId,
-        // This will spread the custom metadata
-        ...metadata,
+        'name': name,
+        'email': email,
+        'external_id': externalId,
+        'metadata': metadata,
       },
     );
   }
@@ -113,28 +112,27 @@ class PapercupsIntl {
   //String agentUnavailableText;
 
   const PapercupsIntl({
-    this.historyFetchErrorText =
-        "There was an issue retrieving your details. Please try again!",
+    this.historyFetchErrorText = 'There was an issue retrieving your details. Please try again!',
     this.attachmentUploadErrorText = 'Failed to upload attachment',
     // this.agentUnavailableText  = "We're away at the moment.",
     this.attachmentUploadedText = 'Attachment uploaded',
-    this.textCopiedText = "Text copied to clipboard",
+    this.textCopiedText = 'Text copied to clipboard',
     this.attachmentUploadingText = 'Uploading...',
-    this.enterEmailPlaceholder = "Enter your email",
+    this.enterEmailPlaceholder = 'Enter your email',
     // this.agentAvailableText = "We're available.",
-    this.newMessagePlaceholder = "Start typing...",
-    this.noConnectionText = "No Connection",
-    this.attachmentNamePlaceholder = "No Name",
-    this.subtitle = "How can we help you?",
-    this.loadingText = "Loading...",
-    this.uploadedText = "uploaded",
-    this.retryButtonLabel = "Retry",
-    this.sendingText = "Sending...",
+    this.newMessagePlaceholder = 'Start typing...',
+    this.noConnectionText = 'No Connection',
+    this.attachmentNamePlaceholder = 'No Name',
+    this.subtitle = 'How can we help you?',
+    this.loadingText = 'Loading...',
+    this.uploadedText = 'uploaded',
+    this.retryButtonLabel = 'Retry',
+    this.sendingText = 'Sending...',
     this.imageText = 'Image',
-    this.companyName = "Bot",
+    this.companyName = 'Bot',
     this.fileText = 'File',
-    this.sentText = "Sent",
-    this.title = "Welcome!",
+    this.sentText = 'Sent',
+    this.title = 'Welcome!',
     this.greeting,
   });
 }
@@ -192,7 +190,7 @@ class Props {
   // Class definition.
   Props({
     required this.accountId,
-    this.baseUrl = "app.papercups.io",
+    this.baseUrl = 'app.papercups.io',
     this.translations = const PapercupsIntl(),
     this.customer,
     this.closeIcon = const Icon(Icons.close_rounded),
