@@ -16,7 +16,7 @@ class CustomerMetadata {
   String? externalId;
 
   /// Any extra data you want to pass can be passed as a key-value pair.
-  Map<String, String>? otherMetadata;
+  Map<String, dynamic>? otherMetadata;
 
   //Class definition.
   CustomerMetadata({
@@ -33,8 +33,7 @@ class CustomerMetadata {
         "name": this.name,
         "email": this.email,
         "external_id": this.externalId,
-        // This will spread the custom metadata
-        ...metadata,
+        "metadata": metadata,
       },
     );
   }
