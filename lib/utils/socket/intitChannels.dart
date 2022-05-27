@@ -8,7 +8,7 @@ initChannels(
   bool _connected,
   PhoenixSocket _socket,
   PhoenixChannel? _channel,
-  Props props,
+  PapercupsProps props,
   bool _canJoinConversation,
   Function setState,
 ) {

@@ -22,9 +22,9 @@ void main() {
     name: 'name',
     phone: 'phone',
   );
-  final props = Props(
+  final props = PapercupsProps(
     accountId: 'account_id',
-    customer: CustomerMetadata(externalId: 'external_id'),
+    customer: PapercupsCustomerMetadata(externalId: 'external_id'),
   );
   group('updateUserMetadata', () {
     test('returns a customer object on success', () async {
@@ -53,8 +53,7 @@ void main() {
       ).thenAnswer((_) async => http.Response(res, 200));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c =
-          await (updateUserMetadata(props, customer.id, client: client));
+      final PapercupsCustomer? c = await (updateUserMetadata(props, customer.id, client: client));
 
       verify(
         client.put(
@@ -80,8 +79,7 @@ void main() {
       ).thenThrow(HttpException('Request failed'));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c =
-          await updateUserMetadata(props, customer.id, client: client);
+      final PapercupsCustomer? c = await updateUserMetadata(props, customer.id, client: client);
 
       verify(
         client.put(

@@ -4,7 +4,7 @@ import '../../models/models.dart';
 import 'chatMessage.dart';
 
 class ChatMessages extends StatelessWidget {
-  final Props props;
+  final PapercupsProps props;
   final List<PapercupsMessage>? messages;
   final bool sending;
   final ScrollController _controller;
@@ -57,6 +57,7 @@ class ChatMessages extends StatelessWidget {
                 sendingText: sendingText,
                 sentText: sentText,
                 textColor: textColor,
+                onMessageBubbleTap: onMessageBubbleTap,
               );
             },
           ),

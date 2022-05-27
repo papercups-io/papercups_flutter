@@ -31,7 +31,7 @@ class SendMessage extends StatefulWidget {
     this.showDivider = true,
   }) : super(key: key);
 
-  final Props props;
+  final PapercupsProps props;
   final PapercupsCustomer? customer;
   final Function? setCustomer;
   final Function? setState;
@@ -103,8 +103,8 @@ class _SendMessageState extends State<SendMessage> {
       Alert.show(
         widget.props.translations.attachmentUploadedText,
         context,
-        textStyle: Theme.of(context).textTheme.bodyText2,
-        backgroundColor: Theme.of(context).bottomAppBarColor,
+        textStyle: widget.props.style.chatUploadingAlertTextStyle ?? Theme.of(context).textTheme.bodyText2,
+        backgroundColor: widget.props.style.chatUploadingAlertBackgroundColor ?? Theme.of(context).bottomAppBarColor,
         gravity: Alert.bottom,
         duration: Alert.lengthLong,
       );
@@ -129,11 +129,7 @@ class _SendMessageState extends State<SendMessage> {
           widget: widget,
         ),
       );
-    } else if (Platform.isAndroid ||
-        Platform.isIOS ||
-        Platform.isWindows ||
-        Platform.isLinux ||
-        Platform.isMacOS) {
+    } else if (Platform.isAndroid || Platform.isIOS || Platform.isWindows || Platform.isLinux || Platform.isMacOS) {
       return PopupMenuButton<FileType>(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
         icon: Transform.rotate(
@@ -154,7 +150,7 @@ class _SendMessageState extends State<SendMessage> {
             value: FileType.any,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: widget.props.primaryColor,
+                backgroundColor: widget.props.style.primaryColor,
                 foregroundColor: widget.textColor,
                 child: Icon(Icons.insert_drive_file_outlined),
               ),
@@ -166,7 +162,7 @@ class _SendMessageState extends State<SendMessage> {
             value: FileType.image,
             child: ListTile(
               leading: CircleAvatar(
-                backgroundColor: widget.props.primaryColor,
+                backgroundColor: widget.props.style.primaryColor,
                 foregroundColor: widget.textColor,
                 child: Icon(Icons.image_outlined),
               ),
@@ -188,33 +184,35 @@ class _SendMessageState extends State<SendMessage> {
       constraints: BoxConstraints(
         minHeight: 55,
       ),
-      decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          border: widget.showDivider
-              ? Border(
-                  top: BorderSide(
-                    color: Theme.of(context).dividerColor,
-                  ),
-                )
-              : null,
-          boxShadow: [
-            BoxShadow(
+      decoration: widget.props.style.sendMessageBoxDecoration ??
+          BoxDecoration(
+            color: Theme.of(context).cardColor,
+            border: widget.showDivider
+                ? Border(
+                    top: BorderSide(color: Theme.of(context).dividerColor),
+                  )
+                : null,
+            boxShadow: [
+              BoxShadow(
                 blurRadius: 30,
-                color: Theme.of(context).shadowColor.withOpacity(0.1))
-          ]),
+                color: Theme.of(context).shadowColor.withOpacity(0.1),
+              )
+            ],
+          ),
       child: Padding(
         padding: const EdgeInsets.only(left: 15, right: 0),
         child: Row(
           children: [
             Expanded(
               child: TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: widget.props.translations.newMessagePlaceholder,
-                  hintStyle: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
+                keyboardAppearance: widget.props.style.sendMessageKeyboardAppearance,
+                style: widget.props.style.sendMessageInputTextStyle,
+                decoration: widget.props.style.sendMessagePlaceholderInputDecoration ??
+                    InputDecoration(
+                      border: InputBorder.none,
+                      hintText: widget.props.translations.newMessagePlaceholder,
+                      hintStyle: widget.props.style.sendMessagePlaceholderTextStyle,
+                    ),
                 onSubmitted: (_) => triggerSend(),
                 controller: _msgController,
                 focusNode: _msgFocusNode,
@@ -229,8 +227,8 @@ class _SendMessageState extends State<SendMessage> {
                   width: 36,
                   margin: EdgeInsets.only(right: 8),
                   decoration: BoxDecoration(
-                    color: widget.props.primaryColor,
-                    gradient: widget.props.primaryGradient,
+                    color: widget.props.style.primaryColor,
+                    gradient: widget.props.style.primaryGradient,
                     shape: BoxShape.circle,
                   ),
                   child: widget.props.sendIcon ??
@@ -252,7 +250,7 @@ void _sendMessage(
   FocusNode fn,
   TextEditingController tc,
   PapercupsCustomer? cu,
-  Props p,
+  PapercupsProps p,
   Function? setCust,
   Conversation? conv,
   Function? setConv,
@@ -289,8 +287,7 @@ void _sendMessage(
     animate: true,
   );
 
-  if (conversationChannel == null ||
-      conversationChannel.state == PhoenixChannelState.closed) {
+  if (conversationChannel == null || conversationChannel.state == PhoenixChannelState.closed) {
     getCustomerDetails(p, cu, setCust).then(
       (customerDetails) {
         setCust!(customerDetails);

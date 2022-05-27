@@ -12,7 +12,7 @@ import '../socket/joinConversation.dart';
 /// This function is used to get the history.
 /// It also initializes the necessary funtions if the customer is known.
 Future<bool> getCustomerHistory({
-  required Props props,
+  required PapercupsProps props,
   PapercupsCustomer? c,
   required Function setCustomer,
   List<PapercupsMessage>? messages,

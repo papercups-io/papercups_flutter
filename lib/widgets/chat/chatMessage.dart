@@ -28,7 +28,7 @@ class ChatMessage extends StatefulWidget {
 
   final List<PapercupsMessage>? msgs;
   final int index;
-  final Props props;
+  final PapercupsProps props;
   final bool sending;
   final double maxWidth;
   final String locale;
@@ -53,7 +53,7 @@ class _ChatMessageState extends State<ChatMessage> {
 
   @override
   void dispose() {
-    if (timer != null) timer!.cancel();
+    timer?.cancel();
     super.dispose();
   }
 
@@ -89,9 +89,7 @@ class _ChatMessageState extends State<ChatMessage> {
     var isLast = widget.index == widget.msgs!.length - 1;
     var isFirst = widget.index == 0;
 
-    if (!isLast &&
-        (nextMsg.sentAt!.day != msg.sentAt!.day) &&
-        longDay == null) {
+    if (!isLast && (nextMsg.sentAt!.day != msg.sentAt!.day) && longDay == null) {
       try {
         longDay = DateFormat.yMMMMd(widget.locale).format(nextMsg.sentAt!);
       } catch (e) {
@@ -112,10 +110,8 @@ class _ChatMessageState extends State<ChatMessage> {
     if (!isLast && timer != null) timer!.cancel();
     return GestureDetector(
       onTap: () async {
-        setState(() {
-          isTimeSentVisible = true;
-        });
-        if (widget.onMessageBubbleTap != null) widget.onMessageBubbleTap!(msg);
+        setState(() => isTimeSentVisible = true);
+        widget.onMessageBubbleTap?.call(msg);
       },
       onLongPress: () {
         HapticFeedback.vibrate();

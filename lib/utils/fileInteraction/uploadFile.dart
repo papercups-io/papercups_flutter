@@ -9,7 +9,7 @@ import '../../models/models.dart';
 typedef void OnUploadProgressCallback(int sentBytes, int totalBytes);
 
 Future<List<PapercupsAttachment>> uploadFile(
-  Props p, {
+  PapercupsProps p, {
   OnUploadProgressCallback? onUploadProgress,
   String? fileName,
   Uint8List? fileBytes,
@@ -46,9 +46,7 @@ Future<List<PapercupsAttachment>> uploadFile(
 
             byteCount += data.length;
 
-            if (onUploadProgress != null) {
-              onUploadProgress(byteCount, totalByteLength);
-            }
+            onUploadProgress?.call(byteCount, totalByteLength);
           },
           handleError: (error, stack, sink) {
             throw error;

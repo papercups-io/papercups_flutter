@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,9 +12,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'mocks.mocks.dart';
 
 void main() {
-  final props = Props(
+  final props = PapercupsProps(
     accountId: 'account_id',
-    customer: CustomerMetadata(externalId: 'external_id'),
+    customer: PapercupsCustomerMetadata(externalId: 'external_id'),
   );
   final customer = PapercupsCustomer(
     id: 'id',
@@ -36,9 +35,9 @@ void main() {
   );
 
   group("Props", () {
-    Props props;
+    PapercupsProps props;
     test('default values', () {
-      props = Props(
+      props = PapercupsProps(
         accountId: "this-is-an-account-id",
       );
 
@@ -48,17 +47,17 @@ void main() {
       //expect(props.agentUnavailableText, null);
       expect(props.translations.companyName, "Bot");
       expect(props.translations.newMessagePlaceholder, "Start typing...");
-      expect(props.primaryColor, null);
+      expect(props.style.primaryColor, null);
       expect(props.requireEmailUpfront, false);
       expect(props.scrollEnabled, true);
       expect(props.customer, null);
-      expect(props.primaryGradient, null);
+      expect(props.style.primaryGradient, null);
       expect(props.translations.subtitle, "How can we help you?");
       expect(props.translations.title, "Welcome!");
       expect(props.translations.greeting, null);
     });
     test('are loaded correctly', () {
-      props = Props(
+      props = PapercupsProps(
           accountId: "this-is-an-account-id",
           translations: PapercupsIntl(
             companyName: "name",
@@ -68,10 +67,10 @@ void main() {
             //agentUnavailableText: "unavailable",
           ),
           baseUrl: "app.papercups.io",
-          primaryColor: Color(0xffffff),
+          style: PapercupsStyle(primaryColor: Color(0xffffff)),
           requireEmailUpfront: true,
           scrollEnabled: true,
-          customer: CustomerMetadata());
+          customer: PapercupsCustomerMetadata());
 
       expect(props.accountId, "this-is-an-account-id");
       //expect(props.translations.agentAvailableText, "test");
@@ -79,12 +78,11 @@ void main() {
       //expect(props.translations.agentUnavailableText, "unavailable");
       expect(props.translations.companyName, "name");
       expect(props.translations.newMessagePlaceholder, "placeHolder");
-      expect(props.primaryColor, Color(0xffffff));
+      expect(props.style.primaryColor, Color(0xffffff));
       expect(props.requireEmailUpfront, true);
       expect(props.scrollEnabled, true);
-      expect(props.customer!.toJsonString(),
-          '{"name":null,"email":null,"external_id":null}');
-      expect(props.primaryGradient, null);
+      expect(props.customer!.toJsonString(), '{"name":null,"email":null,"external_id":null}');
+      expect(props.style.primaryGradient, null);
       expect(props.translations.subtitle, "How can we help you?");
       expect(props.translations.title, "Welcome!");
       expect(props.translations.greeting, "greeting");
@@ -92,32 +90,26 @@ void main() {
   });
 
   group("Customer Metadata", () {
-    CustomerMetadata cm;
+    PapercupsCustomerMetadata cm;
     test('default values', () {
-      cm = CustomerMetadata();
+      cm = PapercupsCustomerMetadata();
 
       expect(cm.email, null);
       expect(cm.externalId, null);
       expect(cm.name, null);
       expect(cm.otherMetadata, null);
-      expect(
-          cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
+      expect(cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
     });
     test('are loaded correctly', () {
-      cm = CustomerMetadata(
-          email: "test@test.com",
-          externalId: "1234",
-          name: "name",
-          otherMetadata: {
-            "Test": "string",
-          });
+      cm = PapercupsCustomerMetadata(email: "test@test.com", externalId: "1234", name: "name", otherMetadata: {
+        "Test": "string",
+      });
 
       expect(cm.email, "test@test.com");
       expect(cm.externalId, "1234");
       expect(cm.name, "name");
       expect(cm.otherMetadata, {"Test": "string"});
-      expect(cm.toJsonString(),
-          '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
+      expect(cm.toJsonString(), '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
     });
   });
   group('Theming', () {
@@ -220,8 +212,7 @@ void main() {
       ).thenAnswer((_) => throw (HttpException('Request failed')));
 
       expect(
-        getConversationDetails(props, Conversation(), customer, () => {},
-            client: client),
+        getConversationDetails(props, Conversation(), customer, () => {}, client: client),
         throwsException,
       );
     });
@@ -367,9 +358,7 @@ void main() {
         ),
       ).thenThrow(HttpException('Request failed'));
 
-      expect(
-          getCustomerDetailsFromMetadata(props, customer, sc, client: client),
-          throwsException);
+      expect(getCustomerDetailsFromMetadata(props, customer, sc, client: client), throwsException);
     });
   });
 

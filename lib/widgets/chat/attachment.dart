@@ -21,7 +21,7 @@ class Attachment extends StatefulWidget {
       : super(key: key);
 
   final bool userSent;
-  final Props props;
+  final PapercupsProps props;
   final String fileName;
   final Color textColor;
   final bool msgHasText;
@@ -81,20 +81,24 @@ class _AttachmentState extends State<Attachment> {
       },
       child: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: widget.userSent
-              ? darken(widget.props.primaryColor!, 20)
-              : Theme.of(context).brightness == Brightness.light
-                  ? brighten(Theme.of(context).disabledColor, 70)
-                  : Color(0xff282828),
-        ),
+        decoration: widget.userSent && widget.props.style.userAttachmentBoxDecoration != null
+            ? widget.props.style.userAttachmentBoxDecoration
+            : !widget.userSent && widget.props.style.botAttachmentBoxDecoration != null
+                ? widget.props.style.botAttachmentBoxDecoration
+                : BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: widget.userSent
+                        ? darken(widget.props.style.primaryColor!, 20)
+                        : Theme.of(context).brightness == Brightness.light
+                            ? brighten(Theme.of(context).disabledColor, 70)
+                            : Color(0xff282828),
+                  ),
         padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         margin: EdgeInsets.symmetric(vertical: !widget.msgHasText ? 0 : 5),
         child: Row(
           children: [
             CircleAvatar(
-              backgroundColor: widget.props.primaryColor,
+              backgroundColor: widget.props.style.primaryColor,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -119,11 +123,13 @@ class _AttachmentState extends State<Attachment> {
             Expanded(
               child: Text(
                 widget.fileName,
-                style: TextStyle(
-                  color: widget.userSent
-                      ? widget.textColor
-                      : Theme.of(context).textTheme.bodyText1!.color,
-                ),
+                style: widget.userSent && widget.props.style.userAttachmentTextStyle != null
+                    ? widget.props.style.userAttachmentTextStyle
+                    : !widget.userSent && widget.props.style.botAttachmentTextStyle != null
+                        ? widget.props.style.botAttachmentTextStyle
+                        : TextStyle(
+                            color: widget.userSent ? widget.textColor : Theme.of(context).textTheme.bodyText1?.color,
+                          ),
                 overflow: TextOverflow.ellipsis,
               ),
             )

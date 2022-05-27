@@ -7,7 +7,7 @@ import '../utils.dart';
 
 /// This function is used to get the past messages from the customer.
 Future<Map<String, dynamic>> getPastCustomerMessages(
-  Props p,
+  PapercupsProps p,
   PapercupsCustomer c, {
   Client? client,
 }) async {
@@ -55,12 +55,8 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                   email: val["user"]["email"],
                   id: val["user"]["id"],
                   role: val["user"]["role"],
-                  displayName: (val["user"]["display_name"] != null)
-                      ? val["user"]["display_name"]
-                      : null,
-                  profilePhotoUrl: (val["user"]["profile_photo_url"] != null)
-                      ? val["user"]["profile_photo_url"]
-                      : null,
+                  displayName: val["user"]["display_name"],
+                  profilePhotoUrl: val["user"]["profile_photo_url"],
                 )
               : null,
           attachments: (val["attachments"] != null)
@@ -74,9 +70,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                 }).toList()
               : null,
           fileIds: (val["attachments"] != null)
-              ? (val["attachments"] as List<dynamic>).map((attachment) {
-                  return attachment["id"] as String;
-                }).toList()
+              ? (val["attachments"] as List<dynamic>).map((attachment) => attachment["id"] as String).toList()
               : null,
         ),
       );

@@ -8,7 +8,7 @@ import '../utils.dart';
 
 /// This function is used to update customer details on the Papercups server.
 Future<PapercupsCustomer?> updateUserMetadata(
-  Props p,
+  PapercupsProps p,
   String? cId, {
   Client? client,
 }) async {
@@ -28,21 +28,13 @@ Future<PapercupsCustomer?> updateUserMetadata(
     );
     var data = jsonDecode(res.body)["data"];
     c = PapercupsCustomer(
-      createdAt: data["created_at"] != null
-          ? parseDateFromUTC(data["created_at"])
-          : null,
+      createdAt: parseDateFromUTC(data["created_at"]),
       email: data["email"],
       externalId: data["external_id"],
-      firstSeen: data["first_seen"] != null
-          ? parseDateFromUTC(data["first_seen"])
-          : null,
+      firstSeen: parseDateFromUTC(data["first_seen"]),
       id: data["id"],
-      lastSeenAt: data["last_seen_at"] != null
-          ? parseDateFromUTC(data["last_seen_at"])
-          : null,
-      updatedAt: data["updated_at"] != null
-          ? parseDateFromUTC(data["updated_at"])
-          : null,
+      lastSeenAt: parseDateFromUTC(data["last_seen_at"]),
+      updatedAt: parseDateFromUTC(data["updated_at"]),
       name: data["name"],
       phone: data["phone"],
     );

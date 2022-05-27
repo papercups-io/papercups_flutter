@@ -7,11 +7,13 @@ class TimeWidget extends StatelessWidget {
     required this.userSent,
     required this.msg,
     required this.isVisible,
+    this.textStyle,
   }) : super(key: key);
 
   final bool userSent;
   final PapercupsMessage msg;
   final bool isVisible;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,11 @@ class TimeWidget extends StatelessWidget {
         padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
         child: Text(
           TimeOfDay.fromDateTime(msg.createdAt!).format(context),
-          style: TextStyle(
-            color: Theme.of(context).textTheme.bodyText1!.color!.withAlpha(100),
-            fontSize: 10,
-          ),
+          style: textStyle ??
+              TextStyle(
+                color: Theme.of(context).textTheme.bodyText1?.color?.withAlpha(100),
+                fontSize: 10,
+              ),
         ),
       ),
     );

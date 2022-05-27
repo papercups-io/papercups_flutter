@@ -5,12 +5,16 @@ import '../../models/models.dart';
 /// Requires email upfront.
 class RequireEmailUpfront extends StatefulWidget {
   final Function setCustomer;
-  final Props props;
+  final PapercupsProps props;
   final Color textColor;
   final bool showDivider;
 
   RequireEmailUpfront(
-      this.setCustomer, this.props, this.textColor, this.showDivider);
+    this.setCustomer,
+    this.props,
+    this.textColor,
+    this.showDivider,
+  );
   @override
   _RequireEmailUpfrontState createState() => _RequireEmailUpfrontState();
 }
@@ -64,40 +68,37 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                     padding: const EdgeInsets.only(right: 15),
                     child: TextField(
                       controller: c,
-                      decoration: InputDecoration(
-                        border: UnderlineInputBorder(
-                          borderSide: new BorderSide(
-                            color: Theme.of(context).dividerColor,
-                            width: 0.5,
-                            style: BorderStyle.solid,
+                      keyboardAppearance: widget.props.style.requireEmailUpfrontKeyboardAppearance,
+                      decoration: widget.props.style.requireEmailUpfrontInputDecoration ??
+                          InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).dividerColor,
+                                width: 0.5,
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).dividerColor,
+                                width: 0.5,
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).dividerColor,
+                                width: 0.5,
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                            hintText: widget.props.translations.enterEmailPlaceholder,
+                            hintStyle: widget.props.style.requireEmailUpfrontInputHintStyle,
                           ),
-                        ),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: new BorderSide(
-                            color: Theme.of(context).dividerColor,
-                            width: 0.5,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: new BorderSide(
-                            color: Theme.of(context).dividerColor,
-                            width: 0.5,
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                        hintText:
-                            widget.props.translations.enterEmailPlaceholder,
-                        hintStyle: const TextStyle(
-                          fontSize: 14,
-                        ),
-                      ),
+                      style: widget.props.style.requireEmailUpfrontInputTextStyle,
                       onSubmitted: (val) {
                         if (hasMatch)
-                          widget.setCustomer(
-                              PapercupsCustomer(
-                                  createdAt: DateTime.now(), email: val),
-                              rebuild: true);
+                          widget.setCustomer(PapercupsCustomer(createdAt: DateTime.now(), email: val), rebuild: true);
                       },
                     ),
                   ),
@@ -109,17 +110,15 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                   child: InkWell(
                     customBorder: CircleBorder(),
                     onTap: hasMatch
-                        ? () => widget.setCustomer(
-                            PapercupsCustomer(
-                                createdAt: DateTime.now(), email: c.value.text),
+                        ? () => widget.setCustomer(PapercupsCustomer(createdAt: DateTime.now(), email: c.value.text),
                             rebuild: true)
                         : null,
                     child: Icon(
                       Icons.navigate_next_rounded,
                       color: hasMatch
-                          ? widget.props.primaryColor == null
-                              ? widget.props.primaryGradient!.colors.first
-                              : widget.props.primaryColor
+                          ? widget.props.style.primaryColor == null
+                              ? widget.props.style.primaryGradient!.colors.first
+                              : widget.props.style.primaryColor
                           : Theme.of(context).disabledColor,
                       size: 20,
                     ),
@@ -135,9 +134,7 @@ class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {
                       enabled: false,
                       border: InputBorder.none,
                       hintText: widget.props.translations.newMessagePlaceholder,
-                      hintStyle: const TextStyle(
-                        fontSize: 14,
-                      ),
+                      hintStyle: widget.props.style.sendMessagePlaceholderTextStyle,
                     ),
                   ),
                 ),
