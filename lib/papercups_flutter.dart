@@ -98,8 +98,9 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
           Alert.show(
             widget.props.translations.historyFetchErrorText,
             context,
-            backgroundColor: Theme.of(context).bottomAppBarColor,
-            textStyle: Theme.of(context).textTheme.bodyText2,
+            textStyle: widget.props.style.chatNoConnectionAlertTextStyle ?? Theme.of(context).textTheme.bodyText2,
+            backgroundColor:
+                widget.props.style.chatNoConnectionAlertBackgroundColor ?? Theme.of(context).bottomAppBarColor,
             gravity: Alert.bottom,
             duration: Alert.lengthLong,
           );
