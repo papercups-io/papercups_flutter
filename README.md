@@ -382,6 +382,30 @@ That should get you up and running in just a few seconds ⚡️.
         <td>The background color of the error alert shown when an attachment failed to upload.</td>
         <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
     </tr>
+    <tr>
+        <td><b><code>chatNoConnectionAlertTextStyle</code></b></td>
+        <td><code>TextStyle</code></td>
+        <td>The text style of the alert shown when the chat is displayed but no Internet connection is available.</td>
+        <td><pre lang="dart">Theme.of(context).textTheme.bodyText2</pre></td>
+    </tr>
+    <tr>
+        <td><b><code>chatNoConnectionAlertBackgroundColor</code></b></td>
+        <td><code>Color</code></td>
+        <td>The background color of the alert shown when the chat is displayed but no Internet connection is available.</td>
+        <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
+    </tr>
+    <tr>
+        <td><b><code>chatCopiedTextAlertTextStyle</code></b></td>
+        <td><code>TextStyle</code></td>
+        <td>The text style of the alert shown when a chat bubble gets long pressed and its text copied.</td>
+        <td><pre lang="dart">Theme.of(context).textTheme.bodyText2</pre></td>
+    </tr>
+    <tr>
+        <td><b><code>chatCopiedTextAlertBackgroundColor</code></b></td>
+        <td><code>Color</code></td>
+        <td>The background color of the alert shown when a chat bubble gets long pressed and its text copied.</td>
+        <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
+    </tr>
 </table>
 
 ### Available `PapercupsIntl` parameters

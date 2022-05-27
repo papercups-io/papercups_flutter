@@ -211,6 +211,18 @@ class PapercupsStyle {
   /// Background color of the error alert shown when an attachment failed to upload.
   final Color? chatUploadErrorAlertBackgroundColor;
 
+  /// Text style of the alert shown when the chat is displayed but no Internet connection is available.
+  final TextStyle? chatNoConnectionAlertTextStyle;
+
+  /// Background color of the alert shown when the chat is displayed but no Internet connection is available.
+  final Color? chatNoConnectionAlertBackgroundColor;
+
+  /// Text style of the alert shown when a chat bubble gets long pressed and its text copied.
+  final TextStyle? chatCopiedTextAlertTextStyle;
+
+  /// Background color of the alert shown when a chat bubble gets long pressed and its text copied.
+  final Color? chatCopiedTextAlertBackgroundColor;
+
   // Class definition.
   const PapercupsStyle({
     this.primaryColor = const Color(0xFF1890FF),
@@ -253,6 +265,10 @@ class PapercupsStyle {
     this.chatUploadingAlertBackgroundColor,
     this.chatUploadErrorAlertTextStyle,
     this.chatUploadErrorAlertBackgroundColor,
+    this.chatNoConnectionAlertTextStyle,
+    this.chatNoConnectionAlertBackgroundColor,
+    this.chatCopiedTextAlertTextStyle,
+    this.chatCopiedTextAlertBackgroundColor,
   });
 }
 
