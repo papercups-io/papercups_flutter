@@ -7,7 +7,7 @@ import '../../models/models.dart';
 /// This funtction is used to get the customer details from Papercups.
 /// This is the function responsible for finding the Customer's ID.
 Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
-  Props p,
+  PapercupsProps p,
   PapercupsCustomer? c,
   Function sc, {
   Client? client,

@@ -15,7 +15,7 @@ export 'package:timeago/timeago.dart';
 /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
 class PapercupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
-  final Props props;
+  final PapercupsProps props;
 
   /// Locale for the date, use the locales from the `intl` package.
   /// For example `"es"` or `"en-UK"`.

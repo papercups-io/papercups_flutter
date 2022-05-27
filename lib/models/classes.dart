@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 /// Customer Metadata, this contains the customer's information.
-class CustomerMetadata {
-  //Declaration of variables.
+class PapercupsCustomerMetadata {
+  // Declaration of variables.
 
   /// This is the name of your user.
   String? name;
@@ -18,8 +18,8 @@ class CustomerMetadata {
   /// Any extra data you want to pass can be passed as a key-value pair.
   Map<String, dynamic>? otherMetadata;
 
-  //Class definition.
-  CustomerMetadata({
+  // Class definition.
+  const PapercupsCustomerMetadata({
     this.email,
     this.externalId,
     this.name,
@@ -138,7 +138,7 @@ class PapercupsIntl {
 }
 
 /// This contains all the possible configurations for the chat widget.
-class Props {
+class PapercupsProps {
   /// This is the top widget text style
   TextStyle? titleStyle;
 
@@ -160,8 +160,8 @@ class Props {
   /// If you are self-hosting papercups, this base URL should be changed.
   String baseUrl;
 
-  /// This is the data that you will see on your dashboard such as the email or the name of the person.
-  CustomerMetadata? customer;
+  /// This is the data that you will see on your dashboard such as the email or the name of the user.
+  final PapercupsCustomerMetadata? customer;
 
   /// This is the close button in the header section.
   Widget closeIcon;
@@ -188,7 +188,7 @@ class Props {
   PapercupsIntl translations;
 
   // Class definition.
-  Props({
+  const PapercupsProps({
     required this.accountId,
     this.baseUrl = 'app.papercups.io',
     this.translations = const PapercupsIntl(),

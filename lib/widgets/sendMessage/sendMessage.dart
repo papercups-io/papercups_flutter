@@ -31,7 +31,7 @@ class SendMessage extends StatefulWidget {
     this.showDivider = true,
   }) : super(key: key);
 
-  final Props props;
+  final PapercupsProps props;
   final PapercupsCustomer? customer;
   final Function? setCustomer;
   final Function? setState;
@@ -252,7 +252,7 @@ void _sendMessage(
   FocusNode fn,
   TextEditingController tc,
   PapercupsCustomer? cu,
-  Props p,
+  PapercupsProps p,
   Function? setCust,
   Conversation? conv,
   Function? setConv,

@@ -8,7 +8,7 @@ import '../utils.dart';
 
 /// This function is used to update customer details on the Papercups server.
 Future<PapercupsCustomer?> updateUserMetadata(
-  Props p,
+  PapercupsProps p,
   String? cId, {
   Client? client,
 }) async {

@@ -13,9 +13,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'mocks.mocks.dart';
 
 void main() {
-  final props = Props(
+  final props = PapercupsProps(
     accountId: 'account_id',
-    customer: CustomerMetadata(externalId: 'external_id'),
+    customer: PapercupsCustomerMetadata(externalId: 'external_id'),
   );
   final customer = PapercupsCustomer(
     id: 'id',
@@ -36,9 +36,9 @@ void main() {
   );
 
   group("Props", () {
-    Props props;
+    PapercupsProps props;
     test('default values', () {
-      props = Props(
+      props = PapercupsProps(
         accountId: "this-is-an-account-id",
       );
 
@@ -58,7 +58,7 @@ void main() {
       expect(props.translations.greeting, null);
     });
     test('are loaded correctly', () {
-      props = Props(
+      props = PapercupsProps(
           accountId: "this-is-an-account-id",
           translations: PapercupsIntl(
             companyName: "name",
@@ -71,7 +71,7 @@ void main() {
           primaryColor: Color(0xffffff),
           requireEmailUpfront: true,
           scrollEnabled: true,
-          customer: CustomerMetadata());
+          customer: PapercupsCustomerMetadata());
 
       expect(props.accountId, "this-is-an-account-id");
       //expect(props.translations.agentAvailableText, "test");
@@ -92,9 +92,9 @@ void main() {
   });
 
   group("Customer Metadata", () {
-    CustomerMetadata cm;
+    PapercupsCustomerMetadata cm;
     test('default values', () {
-      cm = CustomerMetadata();
+      cm = PapercupsCustomerMetadata();
 
       expect(cm.email, null);
       expect(cm.externalId, null);
@@ -104,13 +104,9 @@ void main() {
           cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
     });
     test('are loaded correctly', () {
-      cm = CustomerMetadata(
-          email: "test@test.com",
-          externalId: "1234",
-          name: "name",
-          otherMetadata: {
-            "Test": "string",
-          });
+      cm = PapercupsCustomerMetadata(email: "test@test.com", externalId: "1234", name: "name", otherMetadata: {
+        "Test": "string",
+      });
 
       expect(cm.email, "test@test.com");
       expect(cm.externalId, "1234");

@@ -5,7 +5,7 @@ import '../../models/models.dart';
 /// Requires email upfront.
 class RequireEmailUpfront extends StatefulWidget {
   final Function setCustomer;
-  final Props props;
+  final PapercupsProps props;
   final Color textColor;
   final bool showDivider;
 

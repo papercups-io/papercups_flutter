@@ -21,7 +21,7 @@ class Attachment extends StatefulWidget {
       : super(key: key);
 
   final bool userSent;
-  final Props props;
+  final PapercupsProps props;
   final String fileName;
   final Color textColor;
   final bool msgHasText;

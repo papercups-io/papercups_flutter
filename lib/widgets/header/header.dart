@@ -11,7 +11,7 @@ class Header extends StatelessWidget {
     this.closeAction,
   }) : super(key: key);
 
-  final Props props;
+  final PapercupsProps props;
   final Function? closeAction;
 
   @override

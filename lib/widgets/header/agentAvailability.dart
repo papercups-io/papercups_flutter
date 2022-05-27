@@ -3,7 +3,7 @@ import '../../models/models.dart';
 import '../../utils/utils.dart';
 
 class AgentAvailability extends StatelessWidget {
-  final Props props;
+  final PapercupsProps props;
   AgentAvailability(this.props);
   @override
   Widget build(BuildContext context) {

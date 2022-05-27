@@ -5,7 +5,7 @@ import '../../models/models.dart';
 import '../utils.dart';
 
 Future<PapercupsCustomer> getCustomerDetails(
-  Props p,
+  PapercupsProps p,
   PapercupsCustomer? c,
   Function? sc, {
   Client? client,

@@ -7,7 +7,7 @@ import '../utils.dart';
 
 /// This function is used to get the past messages from the customer.
 Future<Map<String, dynamic>> getPastCustomerMessages(
-  Props p,
+  PapercupsProps p,
   PapercupsCustomer c, {
   Client? client,
 }) async {

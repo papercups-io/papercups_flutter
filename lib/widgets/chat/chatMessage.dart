@@ -28,7 +28,7 @@ class ChatMessage extends StatefulWidget {
 
   final List<PapercupsMessage>? msgs;
   final int index;
-  final Props props;
+  final PapercupsProps props;
   final bool sending;
   final double maxWidth;
   final String locale;

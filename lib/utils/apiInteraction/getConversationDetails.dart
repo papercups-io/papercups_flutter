@@ -7,7 +7,7 @@ import '../../models/models.dart';
 /// This function will get the conversation details that we need in order to join the room.
 /// The most important detail is the ID, and this will return a **new** conversation.
 Future<Conversation> getConversationDetails(
-  Props p,
+  PapercupsProps p,
   Conversation conversation,
   PapercupsCustomer customer,
   Function sc, {
