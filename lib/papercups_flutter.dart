@@ -13,7 +13,7 @@ export 'models/classes.dart';
 export 'package:timeago/timeago.dart';
 
 /// Returns the webview which contains the chat. To use it simply call PaperCupsWidget(), making sure to add the props!
-class PaperCupsWidget extends StatefulWidget {
+class PapercupsWidget extends StatefulWidget {
   /// Initialize the props that you will pass on PaperCupsWidget.
   final Props props;
 
@@ -26,7 +26,7 @@ class PaperCupsWidget extends StatefulWidget {
   /// for the available classes.
   final timeagoLocale;
 
-  /// If not null, close button will be shown.
+  PapercupsWidget({
   final Function? closeAction;
 
   /// Set to true in order to make the send message section float
@@ -35,7 +35,6 @@ class PaperCupsWidget extends StatefulWidget {
   /// Function to handle message bubble tap action
   final void Function(PapercupsMessage)? onMessageBubbleTap;
 
-  PaperCupsWidget({
     required this.props,
     this.dateLocale = "en-US",
     this.timeagoLocale,
@@ -45,10 +44,10 @@ class PaperCupsWidget extends StatefulWidget {
   });
 
   @override
-  _PaperCupsWidgetState createState() => _PaperCupsWidgetState();
+  _PapercupsWidgetState createState() => _PapercupsWidgetState();
 }
 
-class _PaperCupsWidgetState extends State<PaperCupsWidget> {
+class _PapercupsWidgetState extends State<PapercupsWidget> {
   bool _connected = false;
   PhoenixSocket? _socket;
   PhoenixChannel? _channel;
@@ -155,7 +154,7 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
   }
 
   @override
-  void didUpdateWidget(PaperCupsWidget oldWidget) {
+  void didUpdateWidget(PapercupsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.props.primaryColor != widget.props.primaryColor) {
       if ((widget.props.primaryColor != null &&

@@ -296,7 +296,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 margin: EdgeInsets.all(20),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
-                  child: PaperCupsWidget(
+                  child: PapercupsWidget(
                     floatingSendMessage: elevated,
                     closeAction: () {
                       setState(() {
