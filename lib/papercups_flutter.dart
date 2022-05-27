@@ -80,9 +80,8 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
       _socket = PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')..connect();
       _subscribeToSocket();
     }
-    if (widget.props.customer != null &&
-        widget.props.customer!.externalId != null &&
-        (_customer == null || _customer!.createdAt == null) &&
+    if (widget.props.customer?.externalId != null &&
+        _customer?.createdAt == null &&
         _conversation.id == null &&
         _conversation.messages.length <= 1) {
       getCustomerHistory(
@@ -221,8 +220,7 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                         _socket = PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')..connect();
                         _subscribeToSocket();
                       }
-                      if (widget.props.customer != null &&
-                          widget.props.customer!.externalId != null &&
+                      if (widget.props.customer?.externalId != null &&
                           (_customer == null || _customer!.createdAt == null) &&
                           _conversation.id == null)
                         getCustomerHistory(

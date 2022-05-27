@@ -16,7 +16,7 @@ void nativeFilePicker({
       type: type,
     ))
         ?.files;
-    if (_paths != null && _paths.first.path != null) {
+    if (_paths?.first.path != null) {
       Alert.show(
         widget.props.translations.attachmentUploadingText,
         context,
@@ -27,7 +27,7 @@ void nativeFilePicker({
       );
       List<PapercupsAttachment> attachments = await uploadFile(
         widget.props,
-        filePath: _paths.first.path,
+        filePath: _paths?.first.path,
         onUploadProgress: (sentBytes, totalBytes) {
           Alert.show(
             "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% ${widget.props.translations.uploadedText}",

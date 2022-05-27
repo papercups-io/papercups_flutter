@@ -46,9 +46,7 @@ Future<List<PapercupsAttachment>> uploadFile(
 
             byteCount += data.length;
 
-            if (onUploadProgress != null) {
-              onUploadProgress(byteCount, totalByteLength);
-            }
+            onUploadProgress?.call(byteCount, totalByteLength);
           },
           handleError: (error, stack, sink) {
             throw error;

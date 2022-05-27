@@ -12,7 +12,7 @@ Future<void> webFilePicker({
   try {
     var picked = await FilePicker.platform.pickFiles();
 
-    if (picked != null && picked.files.first.bytes != null) {
+    if (picked?.files.first.bytes != null) {
       Alert.show(
         widget.props.translations.attachmentUploadingText,
         context,
@@ -23,7 +23,7 @@ Future<void> webFilePicker({
       );
       List<PapercupsAttachment> attachments = await uploadFile(
         widget.props,
-        fileBytes: picked.files.first.bytes,
+        fileBytes: picked!.files.first.bytes,
         fileName: picked.files.first.name,
       );
       onUploadSuccess(attachments);

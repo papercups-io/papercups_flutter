@@ -89,7 +89,7 @@ class PapercupsCustomerMetadata {
   });
 
   String toJsonString() {
-    final metadata = otherMetadata != null ? otherMetadata! : {};
+    final metadata = otherMetadata ?? {};
     return json.encode(
       {
         'name': name,

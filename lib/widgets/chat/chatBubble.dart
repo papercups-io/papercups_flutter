@@ -64,10 +64,10 @@ class ChatBubble extends StatelessWidget {
                           radius: 16,
                           backgroundColor: Colors.transparent,
                           backgroundImage:
-                              (msg.user!.profilePhotoUrl != null) ? NetworkImage(msg.user!.profilePhotoUrl!) : null,
-                          child: (msg.user!.profilePhotoUrl != null)
+                              (msg.user?.profilePhotoUrl != null) ? NetworkImage(msg.user!.profilePhotoUrl!) : null,
+                          child: (msg.user?.profilePhotoUrl != null)
                               ? null
-                              : (msg.user != null && msg.user!.displayName == null)
+                              : (msg.user?.displayName == null)
                                   ? Text(
                                       msg.user!.email!.substring(0, 1).toUpperCase(),
                                       style: TextStyle(color: widget.textColor),

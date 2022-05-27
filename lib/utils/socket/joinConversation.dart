@@ -43,35 +43,28 @@ PhoenixChannel? joinConversationAndListen({
                     id: event.payload!["id"],
                     attachments: (event.payload!["attachments"] != null)
                         ? (event.payload!["attachments"] as List<dynamic>)
-                            .map((attachment) {
-                            return PapercupsAttachment(
-                              contentType: attachment["content_type"],
-                              fileName: attachment["filename"],
-                              fileUrl: attachment["file_url"],
-                              id: attachment["id"],
-                            );
-                          }).toList()
+                            .map(
+                              (attachment) => PapercupsAttachment(
+                                contentType: attachment["content_type"],
+                                fileName: attachment["filename"],
+                                fileUrl: attachment["file_url"],
+                                id: attachment["id"],
+                              ),
+                            )
+                            .toList()
                         : null,
                     fileIds: (event.payload!["attachments"] != null)
                         ? (event.payload!["attachments"] as List<dynamic>)
-                            .map((attachment) {
-                            return attachment["id"] as String;
-                          }).toList()
+                            .map((attachment) => attachment["id"] as String)
+                            .toList()
                         : null,
                     user: (event.payload!["user"] != null)
                         ? User(
                             email: event.payload!["user"]["email"],
                             id: event.payload!["user"]["id"],
                             role: event.payload!["user"]["role"],
-                            displayName:
-                                (event.payload!["user"]["display_name"] != null)
-                                    ? event.payload!["user"]["display_name"]
-                                    : null,
-                            profilePhotoUrl: (event.payload!["user"]
-                                        ["profile_photo_url"] !=
-                                    null)
-                                ? event.payload!["user"]["profile_photo_url"]
-                                : null,
+                            displayName: event.payload!["user"]["display_name"],
+                            profilePhotoUrl: event.payload!["user"]["profile_photo_url"],
                           )
                         : null,
                     customer: (event.payload!["customer"] != null)
@@ -81,15 +74,9 @@ PhoenixChannel? joinConversationAndListen({
                           )
                         : null,
                     userId: event.payload!["user_id"],
-                    createdAt: event.payload!["created_at"] != null
-                        ? parseDateFromUTC(event.payload!["created_at"])
-                        : null,
-                    seenAt: event.payload!["seen_at"] != null
-                        ? parseDateFromUTC(event.payload!["seen_at"])
-                        : null,
-                    sentAt: event.payload!["sent_at"] != null
-                        ? parseDateFromUTC(event.payload!["sent_at"])
-                        : null,
+                    createdAt: parseDateFromUTC(event.payload!["created_at"]),
+                    seenAt: parseDateFromUTC(event.payload!["seen_at"]),
+                    sentAt: parseDateFromUTC(event.payload!["sent_at"]),
                   ),
                 );
               }, animate: true);
