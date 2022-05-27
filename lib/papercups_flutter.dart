@@ -190,15 +190,19 @@ class _PaperCupsWidgetState extends State<PaperCupsWidget> {
     _conversationChannel = c;
   }
 
+  /// This allows a value of type T or T?
+  /// to be treated as a value of type T?.
+  ///
+  /// We use this so that APIs that have become
+  /// non-nullable can still be used with `!` and `?`
+  /// to support older versions of the API as well.
+  T? _ambiguate<T>(T? value) => value;
+
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     if (mounted) setState(fn);
-    if (animate &&
-        mounted &&
-        _conversation.messages.isNotEmpty &&
-        WidgetsBinding.instance != null &&
-        _controller.hasClients) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) {
+    if (animate && mounted && _conversation.messages.isNotEmpty && _controller.hasClients) {
+      _ambiguate(WidgetsBinding.instance)?.addPostFrameCallback((_) {
         _controller.animateTo(
           _controller.position.maxScrollExtent,
           curve: Curves.easeIn,
