@@ -57,6 +57,7 @@ class ChatMessages extends StatelessWidget {
                 sendingText: sendingText,
                 sentText: sentText,
                 textColor: textColor,
+                onMessageBubbleTap: onMessageBubbleTap,
               );
             },
           ),
