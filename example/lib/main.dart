@@ -41,10 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var show = true;
   var elevated = false;
 
-  TextEditingController titleController =
-      TextEditingController(text: "Welcome to Papercups!");
-  TextEditingController subtitleController =
-      TextEditingController(text: "Ask us anything using the chat window!");
+  TextEditingController titleController = TextEditingController(text: "Welcome to Papercups!");
+  TextEditingController subtitleController = TextEditingController(text: "Ask us anything using the chat window!");
   Color color = Color(0xff1890ff);
 
   @override
@@ -117,8 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ElevatedButton.icon(
                           icon: Icon(Icons.code_rounded),
                           onPressed: () {
-                            launch(
-                                "https://github.com/papercups-io/papercups_flutter");
+                            launch("https://github.com/papercups-io/papercups_flutter");
                           },
                           label: Text("View the code"),
                         ),
@@ -129,19 +126,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             color: Color(0xff1890ff),
                           ),
                           onPressed: () {
-                            launch(
-                                "https://pub.dev/packages/papercups_flutter");
+                            launch("https://pub.dev/packages/papercups_flutter");
                           },
                           label: Text(
                             "View the Package",
                             style: TextStyle(color: Colors.black),
                           ),
                           style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
+                            backgroundColor: MaterialStateProperty.resolveWith<Color>(
                               (Set<MaterialState> states) {
-                                return Colors
-                                    .white; // Use the component's default.
+                                return Colors.white; // Use the component's default.
                               },
                             ),
                           ),
@@ -151,8 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text(
-                        "Hello! Try customizing the chat widget's display text and colors."),
+                    Text("Hello! Try customizing the chat widget's display text and colors."),
                     Divider(
                       height: 20,
                     ),
@@ -170,8 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ThemeModeSelector(
                                 height: 25,
                                 onChanged: (mode) {
-                                  ThemeModeManager.of(context)!.themeMode =
-                                      mode;
+                                  ThemeModeManager.of(context)!.themeMode = mode;
                                 }),
                           ],
                         ),
@@ -209,11 +201,9 @@ class _MyHomePageState extends State<MyHomePage> {
                           hintText: 'Enter a title',
                           contentPadding: EdgeInsets.all(10),
                           isCollapsed: true,
-                          border: const OutlineInputBorder(
-                              borderRadius: BorderRadius.zero),
+                          border: const OutlineInputBorder(borderRadius: BorderRadius.zero),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xff1890ff)),
-                              borderRadius: BorderRadius.zero),
+                              borderSide: BorderSide(color: Color(0xff1890ff)), borderRadius: BorderRadius.zero),
                         ),
                       ),
                     ),
@@ -245,8 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     SizedBox(
                       height: 40,
                     ),
-                    Text(
-                        "Try changing the color (you can enter any value you want!)"),
+                    Text("Try changing the color (you can enter any value you want!)"),
                     SizedBox(
                       height: 15,
                     ),
@@ -297,22 +286,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: PapercupsWidget(
-                    floatingSendMessage: elevated,
-                    closeAction: () {
-                      setState(() {
-                        show = !show;
-                      });
-                    },
-                    props: Props(
+                    props: PapercupsProps(
                       accountId: "843d8a14-8cbc-43c7-9dc9-3445d427ac4e",
                       translations: PapercupsIntl(
                         title: titleController.text,
                         subtitle: subtitleController.text,
-                        greeting:
-                            "Hello, have any questions or feedback? Let me know below!",
+                        greeting: "Hello, have any questions or feedback? Let me know below!",
                       ),
-                      primaryColor: color,
-                      customer: CustomerMetadata(
+                      floatingSendMessage: elevated,
+                      closeAction: () {
+                        setState(() {
+                          show = !show;
+                        });
+                      },
+                      style: PapercupsStyle(primaryColor: color),
+                      customer: PapercupsCustomerMetadata(
                         email: "admin@aguilaair.tech",
                         externalId: "123",
                       ),
@@ -334,12 +322,10 @@ class ThemeModeManager extends StatefulWidget {
   final Widget Function(ThemeMode? themeMode)? builder;
   final ThemeMode? defaultThemeMode;
 
-  const ThemeModeManager({Key? key, this.builder, this.defaultThemeMode})
-      : super(key: key);
+  const ThemeModeManager({Key? key, this.builder, this.defaultThemeMode}) : super(key: key);
 
   @override
-  _ThemeModeManagerState createState() =>
-      _ThemeModeManagerState(themeMode: defaultThemeMode);
+  _ThemeModeManagerState createState() => _ThemeModeManagerState(themeMode: defaultThemeMode);
 
   static _ThemeModeManagerState? of(BuildContext context) {
     return context.findAncestorStateOfType<_ThemeModeManagerState>();

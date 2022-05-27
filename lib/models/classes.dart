@@ -1,22 +1,84 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:papercups_flutter/models/message.dart';
+
+/// This contains all the possible configurations for the chat widget.
+class PapercupsProps {
+  /// Required to create the widget, identifies the account.
+  final String accountId;
+
+  /// If you are self-hosting papercups, this base URL should be changed.
+  final String baseUrl;
+
+  /// This is the data that you will see on your dashboard such as the email or the name of the user.
+  final PapercupsCustomerMetadata? customer;
+
+  /// This is the close button displayed in the header section.
+  final Widget closeIcon;
+
+  /// Function to handle closing the widget.
+  /// If not null, close button will be shown.
+  final VoidCallback? closeAction;
+
+  /// This allows you to choose if you want to show your status.
+  // final bool showAgentAvailability;
+
+  /// Whether or not to allow scrolling.
+  final bool scrollEnabled;
+
+  /// Set to true in order to make the send message section float
+  final bool floatingSendMessage;
+
+  /// If you want to require unidentified customers to provide their email before they can message you.
+  /// Not recommended for apps.
+  final bool requireEmailUpfront;
+
+  /// Message send icon in the chat text field
+  final Widget? sendIcon;
+
+  /// Function to handle message bubble tap action.
+  final void Function(PapercupsMessage)? onMessageBubbleTap;
+
+  /// This class contains all the styling options used by the widget.
+  final PapercupsStyle style;
+
+  /// This contains all the texts that can be displayed by the widget.
+  final PapercupsIntl translations;
+
+  // Class definition.
+  const PapercupsProps({
+    required this.accountId,
+    this.baseUrl = 'app.papercups.io',
+    this.customer,
+    this.closeIcon = const Icon(Icons.close_rounded),
+    this.closeAction,
+    //this.showAgentAvailability = false,
+    this.scrollEnabled = true,
+    this.floatingSendMessage = false,
+    this.requireEmailUpfront = false,
+    this.sendIcon,
+    this.onMessageBubbleTap,
+    this.style = const PapercupsStyle(),
+    this.translations = const PapercupsIntl(),
+  });
+}
 
 /// Customer Metadata, this contains the customer's information.
 class PapercupsCustomerMetadata {
   // Declaration of variables.
 
   /// This is the name of your user.
-  String? name;
+  final String? name;
 
   /// This is the email of the user.
-  String? email;
+  final String? email;
 
   /// This is an external ID of the user.
-  String? externalId;
+  final String? externalId;
 
   /// Any extra data you want to pass can be passed as a key-value pair.
-  Map<String, dynamic>? otherMetadata;
+  final Map<String, dynamic>? otherMetadata;
 
   // Class definition.
   const PapercupsCustomerMetadata({
@@ -37,6 +99,161 @@ class PapercupsCustomerMetadata {
       },
     );
   }
+}
+
+/// This class contains all the styling options used by the widget.
+class PapercupsStyle {
+  /// Color in which the header is going to be in, if not defined will be primary color used in app.
+  final Color? primaryColor;
+
+  /// Gradient to specify, should be used instead of primaryColor, DO NOT USE BOTH.
+  final Gradient? primaryGradient;
+
+  /// Color used in the background of the entire widget.
+  final Color? backgroundColor;
+
+  /// Text style of the title at the top of the chat widget.
+  final TextStyle? titleStyle;
+
+  /// This is the top widget title alignment.
+  final TextAlign? titleAlign;
+
+  /// This is the widget sub title text style.
+  final TextStyle? subtitleStyle;
+
+  /// Widget header height.
+  final double? headerHeight;
+
+  /// Widget header padding.
+  final EdgeInsetsGeometry headerPadding;
+
+  /// Widget displayed in the widget when there's no Internet connection.
+  final Widget? noConnectionIcon;
+
+  /// Text style of the text displayed in the widget when there's no Internet connection.
+  final TextStyle? noConnectionTextStyle;
+
+  /// Input decoration of the require email text field.
+  final InputDecoration? requireEmailUpfrontInputDecoration;
+
+  /// Keyboard brightness of the require email text field
+  final Brightness? requireEmailUpfrontKeyboardAppearance;
+
+  /// Text style of the require email text field.
+  final TextStyle? requireEmailUpfrontInputTextStyle;
+
+  /// Text style of the require email text field hint.
+  final TextStyle? requireEmailUpfrontInputHintStyle;
+
+  /// Box decoration of the message text field when `floatingSendMessage` prop is `true`.
+  final BoxDecoration? floatingSendMessageBoxDecoration;
+
+  /// Box decoration of the message text field.
+  final BoxDecoration? sendMessageBoxDecoration;
+
+  /// Keyboard brightness of the send message text field.
+  final Brightness? sendMessageKeyboardAppearance;
+
+  /// Input decoration of the message text field.
+  final InputDecoration? sendMessagePlaceholderInputDecoration;
+
+  /// Text style of the message text field input hint text.
+  final TextStyle? sendMessagePlaceholderTextStyle;
+
+  /// Text style of the message text field input.
+  final TextStyle? sendMessageInputTextStyle;
+
+  /// Box decoration of the bot chat bubbles.
+  final BoxDecoration? botBubbleBoxDecoration;
+
+  /// Text style of the bot chat bubbles.
+  final TextStyle? botBubbleTextStyle;
+
+  /// Box decoration of the bot attachment (images, files) chat bubbles.
+  final BoxDecoration? botAttachmentBoxDecoration;
+
+  /// Text style of the bot attachments file name.
+  final TextStyle? botAttachmentTextStyle;
+
+  /// Text style of bot user name displayed below its chat bubbles.
+  final TextStyle? botBubbleUsernameTextStyle;
+
+  /// Box decoration of the user chat bubbles.
+  final BoxDecoration? userBubbleBoxDecoration;
+
+  /// Text style of the user chat bubbles.
+  final TextStyle? userBubbleTextStyle;
+
+  /// Box decoration of the user attachment (images, files) chat bubbles.
+  final BoxDecoration? userAttachmentBoxDecoration;
+
+  /// Text style of the user attachments file name.
+  final TextStyle? userAttachmentTextStyle;
+
+  /// Text style of the _"Sent x ago"_ (or _"Sending..."_) text displayed below the latest user chat bubble.
+  final TextStyle? userBubbleSentAtTextStyle;
+
+  /// Text style of the time stamp displayed (on tap) next to the any chat bubble.
+  final TextStyle? chatBubbleTimeTextStyle;
+
+  /// Text style of the date displayed centered in the chat before the chat bubbles of a given day.
+  final TextStyle? chatBubbleFullDateTextStyle;
+
+  /// Text style of the alert shown when an attachment is being uploaded.
+  final TextStyle? chatUploadingAlertTextStyle;
+
+  /// Background color of the alert shown when an attachment is being uploaded.
+  final Color? chatUploadingAlertBackgroundColor;
+
+  /// Text style of the error alert shown when an attachment failed to upload.
+  final TextStyle? chatUploadErrorAlertTextStyle;
+
+  /// Background color of the error alert shown when an attachment failed to upload.
+  final Color? chatUploadErrorAlertBackgroundColor;
+
+  // Class definition.
+  const PapercupsStyle({
+    this.primaryColor = const Color(0xFF1890FF),
+    this.primaryGradient,
+    this.backgroundColor,
+    this.titleStyle = const TextStyle(
+      color: Colors.white,
+      fontSize: 21,
+      fontWeight: FontWeight.w600,
+    ),
+    this.titleAlign = TextAlign.left,
+    this.subtitleStyle,
+    this.headerHeight,
+    this.headerPadding = const EdgeInsets.only(top: 16, right: 20, left: 20, bottom: 12),
+    this.noConnectionIcon,
+    this.noConnectionTextStyle,
+    this.requireEmailUpfrontInputDecoration,
+    this.requireEmailUpfrontKeyboardAppearance = Brightness.light,
+    this.requireEmailUpfrontInputHintStyle = const TextStyle(fontSize: 14),
+    this.requireEmailUpfrontInputTextStyle,
+    this.floatingSendMessageBoxDecoration,
+    this.sendMessageBoxDecoration,
+    this.sendMessageKeyboardAppearance = Brightness.light,
+    this.sendMessagePlaceholderInputDecoration,
+    this.sendMessagePlaceholderTextStyle = const TextStyle(fontSize: 14),
+    this.sendMessageInputTextStyle,
+    this.botBubbleBoxDecoration,
+    this.botBubbleTextStyle,
+    this.userBubbleBoxDecoration,
+    this.botAttachmentBoxDecoration,
+    this.botAttachmentTextStyle,
+    this.botBubbleUsernameTextStyle,
+    this.userBubbleTextStyle,
+    this.userAttachmentBoxDecoration,
+    this.userAttachmentTextStyle,
+    this.userBubbleSentAtTextStyle,
+    this.chatBubbleTimeTextStyle,
+    this.chatBubbleFullDateTextStyle,
+    this.chatUploadingAlertTextStyle,
+    this.chatUploadingAlertBackgroundColor,
+    this.chatUploadErrorAlertTextStyle,
+    this.chatUploadErrorAlertBackgroundColor,
+  });
 }
 
 /// This class contains all the text that can be displayed by the widget.
@@ -134,85 +351,5 @@ class PapercupsIntl {
     this.sentText = 'Sent',
     this.title = 'Welcome!',
     this.greeting,
-  });
-}
-
-/// This contains all the possible configurations for the chat widget.
-class PapercupsProps {
-  /// This is the top widget text style
-  TextStyle? titleStyle;
-
-  /// This is the top widget title alignment
-  TextAlign? titleAlign;
-
-  /// This is the  subtitle TextStyle
-  TextStyle? subtitleStyle;
-
-  /// Color in which the header is going to be in, if not defined will be primary color used in app.
-  Color? primaryColor;
-
-  /// Gradient to specify, should be used instead of primaryColor, DO NOT USE BOTH.
-  Gradient? primaryGradient;
-
-  /// Required to create the widget, identifies the account.
-  String accountId;
-
-  /// If you are self-hosting papercups, this base URL should be changed.
-  String baseUrl;
-
-  /// This is the data that you will see on your dashboard such as the email or the name of the user.
-  final PapercupsCustomerMetadata? customer;
-
-  /// This is the close button in the header section.
-  Widget closeIcon;
-
-  /// This allows you to choose if you want to show your status.
-  //bool showAgentAvailability;
-
-  /// This Will allow you to require an email to chat. Not recommended for an app.
-  bool requireEmailUpfront;
-
-  /// Whether to allow scrolling.
-  bool scrollEnabled;
-
-  /// Header padding.
-  EdgeInsetsGeometry headerPadding;
-
-  /// Header height.
-  double? headerHeight;
-
-  /// Message send icon for the chat section.
-  Widget? sendIcon;
-
-  /// This contains all the texts that can be displayed by the widget.
-  PapercupsIntl translations;
-
-  // Class definition.
-  const PapercupsProps({
-    required this.accountId,
-    this.baseUrl = 'app.papercups.io',
-    this.translations = const PapercupsIntl(),
-    this.customer,
-    this.closeIcon = const Icon(Icons.close_rounded),
-    this.primaryColor,
-    this.requireEmailUpfront = false,
-    this.scrollEnabled = true,
-    //this.showAgentAvailability = false,
-    this.titleStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 21,
-      fontWeight: FontWeight.w600,
-    ),
-    this.subtitleStyle,
-    this.titleAlign = TextAlign.left,
-    this.headerHeight,
-    this.headerPadding = const EdgeInsets.only(
-      top: 16,
-      right: 20,
-      left: 20,
-      bottom: 12,
-    ),
-    this.primaryGradient,
-    this.sendIcon,
   });
 }
