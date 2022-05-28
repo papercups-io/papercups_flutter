@@ -36,7 +36,7 @@ That should get you up and running in just a few seconds ⚡️.
 | :------------------ | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------- | :-------- |
 | **`props`**         | `PapercupsProps`   | **Required**. This is where all of the config for the chat is contained.                                                                 | N/A       |
 | **`dateLocale`**    | `String`  | Locale for the date, use the locales from the `intl` package.                                                                            | `"en-US"` |
-| **`timeagoLocale`** | `dynamic` | Check [`timeago` messages](https://github.com/andresaraujo/timeago.dart/tree/master/timeago/lib/src/messages) for the available classes. | N/A       |
+| **`timeagoLocale`** | `dynamic` | Check [`timeago` messages](https://github.com/andresaraujo/timeago.dart/tree/master/packages/timeago/lib/src/messages) for the available classes. | N/A       |
 
 
 ### Available `PapercupsProps` parameters
