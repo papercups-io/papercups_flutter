@@ -1,3 +1,34 @@
+## [3.0.0] - 28/05/2022
+This new version brings full internationalization support along with file upload and unlimited chat appearance customization. This is a breaking release due to the introduction of the `PapercupsIntl()` and `PapercupsStyle()` classes.
+
+A HUGE thank you to all of the contributors in this release. It is great to see new people contributing features. To the rest, thank you for your patience, here's the new release!
+
+### ✨ New Features
+
+- New file upload functionality by @ryg-git (w/ improvements by @aguilaair)
+- Performance improvements
+- Add title style and alignment by @marwenbk
+- Implement theming `PapercupStyle()` by @marwenbk
+
+### 🐛Bug Fixes
+
+- Fixed "Last seen" variable by @jonatascm
+- Fix CustomerMetadata otherMetadata not being saved by @CharlesMangwa
+
+### 💥 Breaking changes
+
+- New `PapercupsIntl()`  and `PapercupsStyle()` classes for customizing the papercups, check README.md for migration guide. By @CharlesMangwa
+
+## New Contributors
+
+* @ryg-git made their first contribution in <https://github.com/papercups-io/papercups_flutter/pull/66>
+- @jonatascm made their first contribution in <https://github.com/papercups-io/papercups_flutter/pull/68>
+- @marwenbk made their first contribution in <https://github.com/papercups-io/papercups_flutter/pull/74>
+- @CharlesMangwa made their first contribution in <https://github.com/papercups-io/papercups_flutter/pull/77>
+- @dependabot made their first contribution in <https://github.com/papercups-io/papercups_flutter/pull/80>
+
+**Full Changelog**: <https://github.com/papercups-io/papercups_flutter/compare/2.1.4...3.0.0>
+
 ## [3.0.0-beta.1] - 08/01/2022.
 This new version brings full internationalization support along with file upload. This is a breaking release due to the introduction of the `PapercupsIntl()` class.
 ### ✨ New Features
