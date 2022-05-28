@@ -1,3 +1,7 @@
+## [3.0.1] - 28/05/2022
+- Apply flutter lints
+- Formatting and applying conventions
+
 ## [3.0.0] - 28/05/2022
 This new version brings full internationalization support along with file upload and unlimited chat appearance customization. This is a breaking release due to the introduction of the `PapercupsIntl()` and `PapercupsStyle()` classes.
 
