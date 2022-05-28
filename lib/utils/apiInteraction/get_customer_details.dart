@@ -13,9 +13,7 @@ Future<PapercupsCustomer> getCustomerDetails(
   if (c?.id != null) {
     return Future.value(c);
   }
-  if (client == null) {
-    client = Client();
-  }
+  client ??= Client();
   try {
     var timeNow = DateTime.now().toUtc().toIso8601String();
     var metadata = p.customer?.otherMetadata ?? {};
@@ -33,7 +31,7 @@ Future<PapercupsCustomer> getCustomerDetails(
       },
     );
     var res = await client.post(
-      Uri.parse("https://" + p.baseUrl + "/api/customers"),
+      Uri.parse("https://${p.baseUrl}/api/customers"),
       headers: {
         "content-type": "application/json",
       },
@@ -52,7 +50,7 @@ Future<PapercupsCustomer> getCustomerDetails(
       phone: data["phone"],
     );
   } catch (e) {
-    throw (e);
+    rethrow;
   }
   client.close();
   return c;

@@ -5,22 +5,22 @@ import 'package:phoenix_socket/phoenix_socket.dart';
 
 /// This function creates the necessary channels, sockets and rooms for papercups to communicate.
 initChannels(
-  bool _connected,
-  PhoenixSocket _socket,
-  PhoenixChannel? _channel,
+  bool connected,
+  PhoenixSocket socket,
+  PhoenixChannel? channel,
   PapercupsProps props,
-  bool _canJoinConversation,
+  bool canJoinConversation,
   Function setState,
 ) {
-  if (_connected & _socket.channels.isEmpty) {
-    _channel = _socket.addChannel(
-      topic: 'room:' + props.accountId,
+  if (connected & socket.channels.isEmpty) {
+    channel = socket.addChannel(
+      topic: 'room:${props.accountId}',
     );
-    _channel.join().onReply(
+    channel.join().onReply(
       "ok",
       (res) {
-        if (res.isOk && !_canJoinConversation) {
-          _canJoinConversation = true;
+        if (res.isOk && !canJoinConversation) {
+          canJoinConversation = true;
         }
       },
     );

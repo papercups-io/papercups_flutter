@@ -20,12 +20,15 @@ class Header extends StatelessWidget {
       padding: props.style.headerPadding,
       width: double.infinity,
       height: props.style.headerHeight,
-      decoration: BoxDecoration(color: props.style.primaryColor, gradient: props.style.primaryGradient, boxShadow: [
-        BoxShadow(
-          blurRadius: 5,
-          color: Theme.of(context).shadowColor.withOpacity(0.4),
-        )
-      ]),
+      decoration: BoxDecoration(
+          color: props.style.primaryColor,
+          gradient: props.style.primaryGradient,
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5,
+              color: Theme.of(context).shadowColor.withOpacity(0.4),
+            )
+          ]),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,11 +38,13 @@ class Header extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Flexible(
-                child: Text(props.translations.title, style: props.style.titleStyle, textAlign: props.style.titleAlign),
+                child: Text(props.translations.title,
+                    style: props.style.titleStyle,
+                    textAlign: props.style.titleAlign),
               ),
               if (closeAction != null)
                 IconButton(
-                  constraints: BoxConstraints(maxHeight: 21),
+                  constraints: const BoxConstraints(maxHeight: 21),
                   icon: props.closeIcon,
                   onPressed: closeAction,
                   color: props.style.titleStyle?.color,

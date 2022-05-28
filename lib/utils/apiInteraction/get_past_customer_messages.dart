@@ -1,6 +1,7 @@
 //Imports
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import '../../models/models.dart';
 import '../utils.dart';
@@ -11,9 +12,7 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
   PapercupsCustomer c, {
   Client? client,
 }) async {
-  if (client == null) {
-    client = Client();
-  }
+  client ??= Client();
   List<PapercupsMessage> rMsgs = [];
   PapercupsCustomer newCust;
 
@@ -70,7 +69,9 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
                 }).toList()
               : null,
           fileIds: (val["attachments"] != null)
-              ? (val["attachments"] as List<dynamic>).map((attachment) => attachment["id"] as String).toList()
+              ? (val["attachments"] as List<dynamic>)
+                  .map((attachment) => attachment["id"] as String)
+                  .toList()
               : null,
         ),
       );
@@ -89,7 +90,9 @@ Future<Map<String, dynamic>> getPastCustomerMessages(
       phone: customerData["phone"],
     );
   } catch (e) {
-    print("An error ocurred while getting past customer data.");
+    if (kDebugMode) {
+      print("An error ocurred while getting past customer data.");
+    }
     return {
       "msgs": [],
       "cust": c,

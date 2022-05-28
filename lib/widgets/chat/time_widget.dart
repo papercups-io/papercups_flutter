@@ -19,15 +19,19 @@ class TimeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: isVisible ? 1 : 0,
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       curve: Curves.easeIn,
       child: Padding(
-        padding: EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
+        padding: const EdgeInsets.only(bottom: 5.0, left: 4, right: 4),
         child: Text(
           TimeOfDay.fromDateTime(msg.createdAt!).format(context),
           style: textStyle ??
               TextStyle(
-                color: Theme.of(context).textTheme.bodyText1?.color?.withAlpha(100),
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.color
+                    ?.withAlpha(100),
                 fontSize: 10,
               ),
         ),

@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
 import 'package:open_file/open_file.dart';
 import 'package:papercups_flutter/models/models.dart';
@@ -19,7 +20,9 @@ Future<void> handleDownloadStream(
   resp.listen((StreamedResponse r) {
     r.stream.listen((List<int> chunk) {
       if (r.contentLength == null) {
-        print("Error");
+        if (kDebugMode) {
+          print("Error");
+        }
       }
 
       chunks.add(chunk);

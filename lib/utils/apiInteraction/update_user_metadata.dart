@@ -12,9 +12,7 @@ Future<PapercupsCustomer?> updateUserMetadata(
   String? cId, {
   Client? client,
 }) async {
-  if (client == null) {
-    client = Client();
-  }
+  client ??= Client();
   PapercupsCustomer? c;
   var json = p.customer!.toJsonString();
   try {

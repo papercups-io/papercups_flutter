@@ -12,7 +12,7 @@ PhoenixChannel? joinConversationAndListen({
   required Function setChannel,
 }) {
   // Adding the channel.
-  conversation = socket.addChannel(topic: "conversation:" + convId);
+  conversation = socket.addChannel(topic: "conversation:$convId");
   // Joining channel.
   if (conversation.state == PhoenixChannelState.closed) conversation.join();
   // Function to set the channel.
@@ -32,7 +32,7 @@ PhoenixChannel? joinConversationAndListen({
               event.payload!["type"] == "reply") {
             // https://github.com/papercups-io/papercups/pull/488
             // "message:created" is still not implemented see the PR above.
-            if (event.payload!["customer"] == null)
+            if (event.payload!["customer"] == null) {
               setState!(() {
                 messages!.add(
                   PapercupsMessage(
@@ -64,7 +64,8 @@ PhoenixChannel? joinConversationAndListen({
                             id: event.payload!["user"]["id"],
                             role: event.payload!["user"]["role"],
                             displayName: event.payload!["user"]["display_name"],
-                            profilePhotoUrl: event.payload!["user"]["profile_photo_url"],
+                            profilePhotoUrl: event.payload!["user"]
+                                ["profile_photo_url"],
                           )
                         : null,
                     customer: (event.payload!["customer"] != null)
@@ -80,6 +81,7 @@ PhoenixChannel? joinConversationAndListen({
                   ),
                 );
               }, animate: true);
+            }
           }
         }
       }

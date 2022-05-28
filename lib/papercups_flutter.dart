@@ -1,12 +1,14 @@
+// ignore_for_file: library_private_types_in_public_api
+
 library papercups_flutter;
 
 // Imports.
 import 'package:flutter/material.dart';
-import 'utils/utils.dart';
-import 'widgets/widgets.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'models/models.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'utils/utils.dart';
+import 'widgets/widgets.dart';
 
 // Exports.
 export 'models/classes.dart';
@@ -24,13 +26,15 @@ class PapercupsWidget extends StatefulWidget {
   /// Locale for the fuzzy timestamps. Check timeago locales. For example `EsMessages()`.
   /// Check https://github.com/andresaraujo/timeago.dart/tree/master/timeago/lib/src/messages
   /// for the available classes.
+  // ignore: prefer_typing_uninitialized_variables
   final timeagoLocale;
 
-  PapercupsWidget({
+  const PapercupsWidget({
+    Key? key,
     required this.props,
     this.dateLocale = "en-US",
     this.timeagoLocale,
-  });
+  }) : super(key: key);
 
   @override
   _PapercupsWidgetState createState() => _PapercupsWidgetState();
@@ -42,9 +46,9 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
   PhoenixChannel? _channel;
   PhoenixChannel? _conversationChannel;
   PapercupsCustomer? _customer;
-  bool _canJoinConversation = false;
+  final bool _canJoinConversation = false;
   Conversation _conversation = Conversation(messages: []);
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
   bool _sending = false;
   bool noConnection = false;
   Color textColor = Colors.white;
@@ -61,7 +65,9 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
   @override
   void didChangeDependencies() {
     if (widget.props.translations.greeting != null &&
-        _conversation.messages.indexWhere((element) => element.id == "greeting") == -1) {
+        _conversation.messages
+                .indexWhere((element) => element.id == "greeting") ==
+            -1) {
       _conversation.messages.add(
         PapercupsMessage(
           body: widget.props.translations.greeting,
@@ -77,7 +83,8 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
       );
     }
     if (_socket == null) {
-      _socket = PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')..connect();
+      _socket = PhoenixSocket("wss://${widget.props.baseUrl}/socket/websocket")
+        ..connect();
       _subscribeToSocket();
     }
     if (widget.props.customer?.externalId != null &&
@@ -98,9 +105,11 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
           Alert.show(
             widget.props.translations.historyFetchErrorText,
             context,
-            textStyle: widget.props.style.chatNoConnectionAlertTextStyle ?? Theme.of(context).textTheme.bodyText2,
+            textStyle: widget.props.style.chatNoConnectionAlertTextStyle ??
+                Theme.of(context).textTheme.bodyText2,
             backgroundColor:
-                widget.props.style.chatNoConnectionAlertBackgroundColor ?? Theme.of(context).bottomAppBarColor,
+                widget.props.style.chatNoConnectionAlertBackgroundColor ??
+                    Theme.of(context).bottomAppBarColor,
             gravity: Alert.bottom,
             duration: Alert.lengthLong,
           );
@@ -110,15 +119,23 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
         }
       });
     }
-    if ((widget.props.style.primaryColor != null && widget.props.style.primaryColor!.computeLuminance() > 0.5) ||
+    if ((widget.props.style.primaryColor != null &&
+            widget.props.style.primaryColor!.computeLuminance() > 0.5) ||
         (widget.props.style.primaryGradient != null &&
-            widget.props.style.primaryGradient!.colors[0].computeLuminance() > 0.5) ||
-        (widget.props.style.primaryColor == null && Theme.of(context).primaryColor.computeLuminance() > 0.5))
+            widget.props.style.primaryGradient!.colors[0].computeLuminance() >
+                0.5) ||
+        (widget.props.style.primaryColor == null &&
+            Theme.of(context).primaryColor.computeLuminance() > 0.5)) {
       textColor = Colors.black;
-    if (widget.props.baseUrl.contains("http")) throw "Do not provide a protocol in baseURL";
+    }
+    if (widget.props.baseUrl.contains("http")) {
+      throw "Do not provide a protocol in baseURL";
+    }
     if (widget.props.baseUrl.endsWith("/")) throw "Do not provide a trailing /";
-    if (widget.props.style.primaryGradient != null && widget.props.style.primaryColor != null)
+    if (widget.props.style.primaryGradient != null &&
+        widget.props.style.primaryColor != null) {
       throw "Expected either primaryColor or primaryGradient to be null";
+    }
     if (widget.props.customer != null) {
       setCustomer(PapercupsCustomer(
         email: widget.props.customer!.email,
@@ -138,10 +155,13 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
   void didUpdateWidget(PapercupsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.props.style.primaryColor != widget.props.style.primaryColor) {
-      if ((widget.props.style.primaryColor != null && widget.props.style.primaryColor!.computeLuminance() > 0.5) ||
+      if ((widget.props.style.primaryColor != null &&
+              widget.props.style.primaryColor!.computeLuminance() > 0.5) ||
           (widget.props.style.primaryGradient != null &&
-              widget.props.style.primaryGradient!.colors[0].computeLuminance() > 0.5) ||
-          (widget.props.style.primaryColor == null && Theme.of(context).primaryColor.computeLuminance() > 0.5)) {
+              widget.props.style.primaryGradient!.colors[0].computeLuminance() >
+                  0.5) ||
+          (widget.props.style.primaryColor == null &&
+              Theme.of(context).primaryColor.computeLuminance() > 0.5)) {
         textColor = Colors.black;
       } else {
         textColor = Colors.white;
@@ -175,12 +195,15 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
   void rebuild(void Function() fn, {bool stateMsg = false, animate = false}) {
     _sending = stateMsg;
     if (mounted) setState(fn);
-    if (animate && mounted && _conversation.messages.isNotEmpty && _controller.hasClients) {
+    if (animate &&
+        mounted &&
+        _conversation.messages.isNotEmpty &&
+        _controller.hasClients) {
       _ambiguate(WidgetsBinding.instance)?.addPostFrameCallback((_) {
         _controller.animateTo(
           _controller.position.maxScrollExtent,
           curve: Curves.easeIn,
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
         );
       });
     }
@@ -197,14 +220,15 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
       rebuild,
     );
     return Container(
-      color: widget.props.style.backgroundColor ?? Theme.of(context).canvasColor,
+      color:
+          widget.props.style.backgroundColor ?? Theme.of(context).canvasColor,
       child: noConnection
           ? Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   widget.props.style.noConnectionIcon ??
-                      Icon(
+                      const Icon(
                         Icons.wifi_off_rounded,
                         size: 100,
                         color: Colors.grey,
@@ -212,18 +236,23 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                   Text(
                     widget.props.translations.noConnectionText,
                     style: widget.props.style.noConnectionTextStyle ??
-                        Theme.of(context).textTheme.headline5?.copyWith(color: Colors.grey),
+                        Theme.of(context)
+                            .textTheme
+                            .headline5
+                            ?.copyWith(color: Colors.grey),
                   ),
                   TextButton.icon(
                     onPressed: () {
                       if (!_socket!.isConnected) {
                         _socket!.dispose();
-                        _socket = PhoenixSocket("wss://" + widget.props.baseUrl + '/socket/websocket')..connect();
+                        _socket = PhoenixSocket(
+                            "wss://${widget.props.baseUrl}/socket/websocket")
+                          ..connect();
                         _subscribeToSocket();
                       }
                       if (widget.props.customer?.externalId != null &&
                           (_customer == null || _customer!.createdAt == null) &&
-                          _conversation.id == null)
+                          _conversation.id == null) {
                         getCustomerHistory(
                           conversationChannel: _conversationChannel,
                           c: _customer,
@@ -239,8 +268,9 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                             if (mounted) setState(() => noConnection = false);
                           }
                         });
+                      }
                     },
-                    icon: Icon(Icons.refresh_rounded),
+                    icon: const Icon(Icons.refresh_rounded),
                     label: Text(widget.props.translations.retryButtonLabel),
                   )
                 ],
@@ -270,10 +300,10 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                     widget.props.onMessageBubbleTap,
                   ),
                 ),
-                if (!widget.props.floatingSendMessage) PoweredBy(),
+                if (!widget.props.floatingSendMessage) const PoweredBy(),
                 Container(
                   margin: widget.props.floatingSendMessage
-                      ? EdgeInsets.only(
+                      ? const EdgeInsets.only(
                           right: 15,
                           left: 15,
                         )
@@ -285,16 +315,21 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                             boxShadow: [
                               BoxShadow(
                                 blurRadius: 10,
-                                color: Theme.of(context).brightness == Brightness.light
+                                color: Theme.of(context).brightness ==
+                                        Brightness.light
                                     ? Colors.grey.withOpacity(0.4)
                                     : Colors.black.withOpacity(0.8),
                               ),
                             ],
                           )
-                      : BoxDecoration(),
-                  clipBehavior: widget.props.floatingSendMessage ? Clip.antiAlias : Clip.none,
-                  child: (widget.props.requireEmailUpfront && (_customer == null || _customer!.email == null))
-                      ? RequireEmailUpfront(setCustomer, widget.props, textColor, !widget.props.floatingSendMessage)
+                      : const BoxDecoration(),
+                  clipBehavior: widget.props.floatingSendMessage
+                      ? Clip.antiAlias
+                      : Clip.none,
+                  child: (widget.props.requireEmailUpfront &&
+                          (_customer == null || _customer!.email == null))
+                      ? RequireEmailUpfront(setCustomer, widget.props,
+                          textColor, !widget.props.floatingSendMessage)
                       : SendMessage(
                           props: widget.props,
                           customer: _customer,
@@ -312,8 +347,8 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                         ),
                 ),
                 if (widget.props.floatingSendMessage)
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
+                  const Padding(
+                    padding: EdgeInsets.all(4.0),
                     child: PoweredBy(),
                   ),
               ],
@@ -323,11 +358,12 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
 
   void _subscribeToSocket() {
     _socket!.closeStream.listen((event) {
-      if (mounted)
+      if (mounted) {
         setState(() {
           _connected = false;
           noConnection = true;
         });
+      }
     });
 
     _socket!.openStream.listen(

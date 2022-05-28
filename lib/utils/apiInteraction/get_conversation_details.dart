@@ -13,14 +13,12 @@ Future<Conversation> getConversationDetails(
   Function sc, {
   Client? client,
 }) async {
-  if (client == null) {
-    client = Client();
-  }
+  client ??= Client();
   Conversation conv;
 
   try {
     var res = await client.post(
-      Uri.parse("https://" + p.baseUrl + "/api/conversations"),
+      Uri.parse("https://${p.baseUrl}/api/conversations"),
       headers: {
         "content-type": "application/json",
       },
@@ -45,7 +43,7 @@ Future<Conversation> getConversationDetails(
     );
     sc(conv);
   } catch (e) {
-    throw (e);
+    rethrow;
   }
   client.close();
   return conv;

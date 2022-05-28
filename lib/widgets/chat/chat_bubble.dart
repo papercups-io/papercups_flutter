@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:papercups_flutter/models/models.dart';
-import 'package:papercups_flutter/utils/colorMod.dart';
+import 'package:papercups_flutter/utils/color_mod.dart';
 import 'package:papercups_flutter/widgets/chat/attachment.dart';
-import 'package:papercups_flutter/widgets/chat/timeWidget.dart';
+import 'package:papercups_flutter/widgets/chat/time_widget.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-import 'chatMessage.dart';
+import 'chat_message.dart';
 
 class ChatBubble extends StatelessWidget {
   const ChatBubble({
@@ -42,7 +42,8 @@ class ChatBubble extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisAlignment:
+              userSent ? MainAxisAlignment.end : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             if (!userSent)
@@ -53,7 +54,9 @@ class ChatBubble extends StatelessWidget {
                   top: isFirst ? 15 : 4,
                   bottom: 5,
                 ),
-                child: (widget.msgs!.length == 1 || nextMsg.userId != msg.userId || isLast)
+                child: (widget.msgs!.length == 1 ||
+                        nextMsg.userId != msg.userId ||
+                        isLast)
                     ? Container(
                         decoration: BoxDecoration(
                           color: widget.props.style.primaryColor,
@@ -63,17 +66,22 @@ class ChatBubble extends StatelessWidget {
                         child: CircleAvatar(
                           radius: 16,
                           backgroundColor: Colors.transparent,
-                          backgroundImage:
-                              (msg.user?.profilePhotoUrl != null) ? NetworkImage(msg.user!.profilePhotoUrl!) : null,
+                          backgroundImage: (msg.user?.profilePhotoUrl != null)
+                              ? NetworkImage(msg.user!.profilePhotoUrl!)
+                              : null,
                           child: (msg.user?.profilePhotoUrl != null)
                               ? null
                               : (msg.user?.displayName == null)
                                   ? Text(
-                                      msg.user!.email!.substring(0, 1).toUpperCase(),
+                                      msg.user!.email!
+                                          .substring(0, 1)
+                                          .toUpperCase(),
                                       style: TextStyle(color: widget.textColor),
                                     )
                                   : Text(
-                                      msg.user!.displayName!.substring(0, 1).toUpperCase(),
+                                      msg.user!.displayName!
+                                          .substring(0, 1)
+                                          .toUpperCase(),
                                       style: TextStyle(color: widget.textColor),
                                     ),
                         ),
@@ -88,17 +96,22 @@ class ChatBubble extends StatelessWidget {
                 textStyle: widget.props.style.chatBubbleTimeTextStyle,
               ),
             Container(
-              decoration: userSent && widget.props.style.userBubbleBoxDecoration != null
+              decoration: userSent &&
+                      widget.props.style.userBubbleBoxDecoration != null
                   ? widget.props.style.userBubbleBoxDecoration
-                  : !userSent && widget.props.style.botBubbleBoxDecoration != null
+                  : !userSent &&
+                          widget.props.style.botBubbleBoxDecoration != null
                       ? widget.props.style.botBubbleBoxDecoration
                       : BoxDecoration(
                           color: userSent
                               ? widget.props.style.primaryColor
                               : Theme.of(context).brightness == Brightness.light
-                                  ? brighten(Theme.of(context).disabledColor, 80)
+                                  ? brighten(
+                                      Theme.of(context).disabledColor, 80)
                                   : const Color(0xff282828),
-                          gradient: userSent ? widget.props.style.primaryGradient : null,
+                          gradient: userSent
+                              ? widget.props.style.primaryGradient
+                              : null,
                           borderRadius: BorderRadius.circular(4),
                         ),
               constraints: BoxConstraints(
@@ -121,9 +134,11 @@ class ChatBubble extends StatelessWidget {
                       return Attachment(
                         userSent: userSent,
                         props: widget.props,
-                        fileName: e.fileName ?? widget.props.translations.attachmentNamePlaceholder,
+                        fileName: e.fileName ??
+                            widget.props.translations.attachmentNamePlaceholder,
                         textColor: widget.textColor,
-                        msgHasText: msg.attachments!.length > 1 || msg.body != null,
+                        msgHasText:
+                            msg.attachments!.length > 1 || msg.body != null,
                         attachment: e,
                       );
                     }).toList(),
@@ -131,16 +146,27 @@ class ChatBubble extends StatelessWidget {
                     MarkdownBody(
                       data: text,
                       styleSheet: MarkdownStyleSheet(
-                          blockquote: const TextStyle(decoration: TextDecoration.underline),
-                          p: userSent && widget.props.style.userBubbleTextStyle != null
+                          blockquote: const TextStyle(
+                              decoration: TextDecoration.underline),
+                          p: userSent &&
+                                  widget.props.style.userBubbleTextStyle != null
                               ? widget.props.style.userBubbleTextStyle
-                              : !userSent && widget.props.style.botBubbleTextStyle != null
+                              : !userSent &&
+                                      widget.props.style.botBubbleTextStyle !=
+                                          null
                                   ? widget.props.style.botBubbleTextStyle
                                   : TextStyle(
-                                      color: userSent ? widget.textColor : Theme.of(context).textTheme.bodyText1?.color,
+                                      color: userSent
+                                          ? widget.textColor
+                                          : Theme.of(context)
+                                              .textTheme
+                                              .bodyText1
+                                              ?.color,
                                     ),
                           a: TextStyle(
-                            color: userSent ? Colors.white : Theme.of(context).textTheme.bodyText1!.color,
+                            color: userSent
+                                ? Colors.white
+                                : Theme.of(context).textTheme.bodyText1!.color,
                           ),
                           blockquotePadding: const EdgeInsets.only(bottom: 2),
                           blockquoteDecoration: BoxDecoration(
@@ -149,7 +175,11 @@ class ChatBubble extends StatelessWidget {
                                 width: 1.5,
                                 color: userSent
                                     ? widget.textColor
-                                    : Theme.of(context).textTheme.bodyText1!.color ?? Colors.white,
+                                    : Theme.of(context)
+                                            .textTheme
+                                            .bodyText1!
+                                            .color ??
+                                        Colors.white,
                               ),
                             ),
                           )
@@ -180,7 +210,11 @@ class ChatBubble extends StatelessWidget {
                     msg.user!.email!,
                     style: widget.props.style.botBubbleUsernameTextStyle ??
                         TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color?.withOpacity(0.5),
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.color
+                              ?.withOpacity(0.5),
                           fontSize: 14,
                         ),
                   )
@@ -188,7 +222,11 @@ class ChatBubble extends StatelessWidget {
                     msg.user!.displayName!,
                     style: widget.props.style.botBubbleUsernameTextStyle ??
                         TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1?.color?.withOpacity(0.5),
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.color
+                              ?.withOpacity(0.5),
                           fontSize: 14,
                         ),
                   ),
@@ -202,9 +240,12 @@ class ChatBubble extends StatelessWidget {
               right: 18,
             ),
             child: Text(
-              widget.sending ? widget.sendingText : '${widget.sentText} ${timeago.format(msg.createdAt!)}',
+              widget.sending
+                  ? widget.sendingText
+                  : '${widget.sentText} ${timeago.format(msg.createdAt!)}',
               textAlign: TextAlign.end,
-              style: widget.props.style.userBubbleSentAtTextStyle ?? const TextStyle(color: Colors.grey),
+              style: widget.props.style.userBubbleSentAtTextStyle ??
+                  const TextStyle(color: Colors.grey),
             ),
           ),
         if (isLast || nextMsg.userId != msg.userId)
@@ -220,7 +261,7 @@ class ChatBubble extends StatelessWidget {
                 longDay!,
                 textAlign: TextAlign.center,
                 style: widget.props.style.chatBubbleFullDateTextStyle ??
-                    TextStyle(
+                    const TextStyle(
                       color: Colors.grey,
                     ),
               ),

@@ -12,7 +12,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'mocks.mocks.dart';
 
 void main() {
-  final props = PapercupsProps(
+  const props = PapercupsProps(
     accountId: 'account_id',
     customer: PapercupsCustomerMetadata(externalId: 'external_id'),
   );
@@ -37,7 +37,7 @@ void main() {
   group("Props", () {
     PapercupsProps props;
     test('default values', () {
-      props = PapercupsProps(
+      props = const PapercupsProps(
         accountId: "this-is-an-account-id",
       );
 
@@ -57,7 +57,7 @@ void main() {
       expect(props.translations.greeting, null);
     });
     test('are loaded correctly', () {
-      props = PapercupsProps(
+      props = const PapercupsProps(
           accountId: "this-is-an-account-id",
           translations: PapercupsIntl(
             companyName: "name",
@@ -67,7 +67,7 @@ void main() {
             //agentUnavailableText: "unavailable",
           ),
           baseUrl: "app.papercups.io",
-          style: PapercupsStyle(primaryColor: Color(0xffffff)),
+          style: PapercupsStyle(primaryColor: Color(0x00ffffff)),
           requireEmailUpfront: true,
           scrollEnabled: true,
           customer: PapercupsCustomerMetadata());
@@ -78,10 +78,11 @@ void main() {
       //expect(props.translations.agentUnavailableText, "unavailable");
       expect(props.translations.companyName, "name");
       expect(props.translations.newMessagePlaceholder, "placeHolder");
-      expect(props.style.primaryColor, Color(0xffffff));
+      expect(props.style.primaryColor, const Color(0x00ffffff));
       expect(props.requireEmailUpfront, true);
       expect(props.scrollEnabled, true);
-      expect(props.customer!.toJsonString(), '{"name":null,"email":null,"external_id":null}');
+      expect(props.customer!.toJsonString(),
+          '{"name":null,"email":null,"external_id":null}');
       expect(props.style.primaryGradient, null);
       expect(props.translations.subtitle, "How can we help you?");
       expect(props.translations.title, "Welcome!");
@@ -92,24 +93,30 @@ void main() {
   group("Customer Metadata", () {
     PapercupsCustomerMetadata cm;
     test('default values', () {
-      cm = PapercupsCustomerMetadata();
+      cm = const PapercupsCustomerMetadata();
 
       expect(cm.email, null);
       expect(cm.externalId, null);
       expect(cm.name, null);
       expect(cm.otherMetadata, null);
-      expect(cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
+      expect(
+          cm.toJsonString(), '{"name":null,"email":null,"external_id":null}');
     });
     test('are loaded correctly', () {
-      cm = PapercupsCustomerMetadata(email: "test@test.com", externalId: "1234", name: "name", otherMetadata: {
-        "Test": "string",
-      });
+      cm = const PapercupsCustomerMetadata(
+          email: "test@test.com",
+          externalId: "1234",
+          name: "name",
+          otherMetadata: {
+            "Test": "string",
+          });
 
       expect(cm.email, "test@test.com");
       expect(cm.externalId, "1234");
       expect(cm.name, "name");
       expect(cm.otherMetadata, {"Test": "string"});
-      expect(cm.toJsonString(), '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
+      expect(cm.toJsonString(),
+          '{"name":"name","email":"test@test.com","external_id":"1234","Test":"string"}');
     });
   });
   group('Theming', () {
@@ -119,7 +126,7 @@ void main() {
       });
 
       test('Darkens the color by 10%', () {
-        final color = Color.fromARGB(100, 100, 100, 100);
+        const color = Color.fromARGB(100, 100, 100, 100);
         final darkenedColor = darken(color, 10);
         expect(darkenedColor.alpha, equals(100));
         expect(darkenedColor.red, equals(90));
@@ -134,7 +141,7 @@ void main() {
       });
 
       test('Brightens the color by 10%', () {
-        final color = Color.fromARGB(155, 155, 155, 155);
+        const color = Color.fromARGB(155, 155, 155, 155);
         final brightenedColor = brighten(color, 10);
         expect(brightenedColor.alpha, equals(155));
         expect(brightenedColor.red, equals(165));
@@ -209,10 +216,11 @@ void main() {
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
-      ).thenAnswer((_) => throw (HttpException('Request failed')));
+      ).thenAnswer((_) => throw (const HttpException('Request failed')));
 
       expect(
-        getConversationDetails(props, Conversation(), customer, () => {}, client: client),
+        getConversationDetails(props, Conversation(), customer, () => {},
+            client: client),
         throwsException,
       );
     });
@@ -274,7 +282,7 @@ void main() {
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
-      ).thenThrow(HttpException('Request failed'));
+      ).thenThrow(const HttpException('Request failed'));
 
       expect(
         getCustomerDetails(props, customer, () => {}, client: client),
@@ -356,9 +364,11 @@ void main() {
             },
           ),
         ),
-      ).thenThrow(HttpException('Request failed'));
+      ).thenThrow(const HttpException('Request failed'));
 
-      expect(getCustomerDetailsFromMetadata(props, customer, sc, client: client), throwsException);
+      expect(
+          getCustomerDetailsFromMetadata(props, customer, sc, client: client),
+          throwsException);
     });
   });
 
@@ -442,7 +452,7 @@ void main() {
           }),
           headers: anyNamed('headers'),
         ),
-      ).thenThrow(HttpException('Request failed'));
+      ).thenThrow(const HttpException('Request failed'));
       when(client.close()).thenReturn(null);
 
       await getPastCustomerMessages(

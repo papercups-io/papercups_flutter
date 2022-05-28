@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 /// Powered By, multiple optins to show this.
 /// The options are blue logo, gray logo and plain text.
 class PoweredBy extends StatelessWidget {
+  const PoweredBy({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +19,7 @@ class PoweredBy extends StatelessWidget {
           child: const Text(
             "Powered by",
             textAlign: TextAlign.center,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.grey,
               fontSize: 14,
             ),

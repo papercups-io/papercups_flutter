@@ -1,13 +1,13 @@
 //Imports
-import 'updateUserMetadata.dart';
+import 'update_user_metadata.dart';
 
 import '../../models/models.dart';
 import 'package:phoenix_socket/phoenix_socket.dart';
 import 'dart:async';
 
-import 'getCustomerDetailsFromMetadata.dart';
-import 'getPastCustomerMessages.dart';
-import '../socket/joinConversation.dart';
+import 'get_customer_details_from_metadata.dart';
+import 'get_past_customer_messages.dart';
+import '../socket/join_conversation.dart';
 
 /// This function is used to get the history.
 /// It also initializes the necessary funtions if the customer is known.

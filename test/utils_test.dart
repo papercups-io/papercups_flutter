@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:papercups_flutter/models/models.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:papercups_flutter/utils/apiInteraction/updateUserMetadata.dart';
+import 'package:papercups_flutter/utils/apiInteraction/update_user_metadata.dart';
 
 import 'mocks.mocks.dart';
 
@@ -22,7 +22,7 @@ void main() {
     name: 'name',
     phone: 'phone',
   );
-  final props = PapercupsProps(
+  const props = PapercupsProps(
     accountId: 'account_id',
     customer: PapercupsCustomerMetadata(externalId: 'external_id'),
   );
@@ -53,7 +53,8 @@ void main() {
       ).thenAnswer((_) async => http.Response(res, 200));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c = await (updateUserMetadata(props, customer.id, client: client));
+      final PapercupsCustomer? c =
+          await (updateUserMetadata(props, customer.id, client: client));
 
       verify(
         client.put(
@@ -76,10 +77,11 @@ void main() {
           headers: anyNamed('headers'),
           body: anyNamed('body'),
         ),
-      ).thenThrow(HttpException('Request failed'));
+      ).thenThrow(const HttpException('Request failed'));
       when(client.close()).thenReturn(null);
 
-      final PapercupsCustomer? c = await updateUserMetadata(props, customer.id, client: client);
+      final PapercupsCustomer? c =
+          await updateUserMetadata(props, customer.id, client: client);
 
       verify(
         client.put(

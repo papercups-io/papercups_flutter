@@ -12,9 +12,7 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
   Function sc, {
   Client? client,
 }) async {
-  if (client == null) {
-    client = Client();
-  }
+  client ??= Client();
   try {
     // HTTP client getting info
     var res = await client.get(
@@ -42,7 +40,7 @@ Future<PapercupsCustomer> getCustomerDetailsFromMetadata(
       updatedAt: c?.updatedAt,
     );
   } catch (e) {
-    throw (e);
+    rethrow;
   }
   // Function to set the client.
   if (c.id != null) {

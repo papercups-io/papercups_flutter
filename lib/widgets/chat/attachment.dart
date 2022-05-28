@@ -4,8 +4,8 @@ import 'package:http/http.dart';
 import 'package:open_file/open_file.dart';
 import 'package:papercups_flutter/models/attachment.dart';
 import 'package:papercups_flutter/models/classes.dart';
-import 'package:papercups_flutter/utils/fileInteraction/downloadFile.dart';
-import 'package:papercups_flutter/utils/fileInteraction/handleDownloads.dart';
+import 'package:papercups_flutter/utils/fileInteraction/download_file.dart';
+import 'package:papercups_flutter/utils/fileInteraction/handle_downloads.dart';
 import 'package:papercups_flutter/utils/utils.dart';
 import 'package:universal_io/io.dart';
 
@@ -61,7 +61,9 @@ class _AttachmentState extends State<Attachment> {
             !uploading) {
           var file = await getAttachment(widget.attachment);
           if (file.existsSync()) {
-            print("Cached at " + file.absolute.path);
+            if (kDebugMode) {
+              print("Cached at ${file.absolute.path}");
+            }
             OpenFile.open(file.absolute.path);
             downloaded = true;
           } else {
@@ -81,9 +83,11 @@ class _AttachmentState extends State<Attachment> {
       },
       child: Container(
         width: double.infinity,
-        decoration: widget.userSent && widget.props.style.userAttachmentBoxDecoration != null
+        decoration: widget.userSent &&
+                widget.props.style.userAttachmentBoxDecoration != null
             ? widget.props.style.userAttachmentBoxDecoration
-            : !widget.userSent && widget.props.style.botAttachmentBoxDecoration != null
+            : !widget.userSent &&
+                    widget.props.style.botAttachmentBoxDecoration != null
                 ? widget.props.style.botAttachmentBoxDecoration
                 : BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -91,9 +95,9 @@ class _AttachmentState extends State<Attachment> {
                         ? darken(widget.props.style.primaryColor!, 20)
                         : Theme.of(context).brightness == Brightness.light
                             ? brighten(Theme.of(context).disabledColor, 70)
-                            : Color(0xff282828),
+                            : const Color(0xff282828),
                   ),
-        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
         margin: EdgeInsets.symmetric(vertical: !widget.msgHasText ? 0 : 5),
         child: Row(
           children: [
@@ -117,18 +121,22 @@ class _AttachmentState extends State<Attachment> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
               child: Text(
                 widget.fileName,
-                style: widget.userSent && widget.props.style.userAttachmentTextStyle != null
+                style: widget.userSent &&
+                        widget.props.style.userAttachmentTextStyle != null
                     ? widget.props.style.userAttachmentTextStyle
-                    : !widget.userSent && widget.props.style.botAttachmentTextStyle != null
+                    : !widget.userSent &&
+                            widget.props.style.botAttachmentTextStyle != null
                         ? widget.props.style.botAttachmentTextStyle
                         : TextStyle(
-                            color: widget.userSent ? widget.textColor : Theme.of(context).textTheme.bodyText1?.color,
+                            color: widget.userSent
+                                ? widget.textColor
+                                : Theme.of(context).textTheme.bodyText1?.color,
                           ),
                 overflow: TextOverflow.ellipsis,
               ),

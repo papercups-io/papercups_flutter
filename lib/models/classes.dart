@@ -236,7 +236,8 @@ class PapercupsStyle {
     this.titleAlign = TextAlign.left,
     this.subtitleStyle,
     this.headerHeight,
-    this.headerPadding = const EdgeInsets.only(top: 16, right: 20, left: 20, bottom: 12),
+    this.headerPadding =
+        const EdgeInsets.only(top: 16, right: 20, left: 20, bottom: 12),
     this.noConnectionIcon,
     this.noConnectionTextStyle,
     this.requireEmailUpfrontInputDecoration,
@@ -345,7 +346,8 @@ class PapercupsIntl {
   //String agentUnavailableText;
 
   const PapercupsIntl({
-    this.historyFetchErrorText = 'There was an issue retrieving your details. Please try again!',
+    this.historyFetchErrorText =
+        'There was an issue retrieving your details. Please try again!',
     this.attachmentUploadErrorText = 'Failed to upload attachment',
     // this.agentUnavailableText  = "We're away at the moment.",
     this.attachmentUploadedText = 'Attachment uploaded',

@@ -12,7 +12,7 @@ DateTime? parseDateFromUTC(String? time) {
     if (time.endsWith("Z") || !time.contains(":")) {
       processed = DateTime.tryParse(time);
     } else {
-      processed = DateTime.tryParse(time + "Z");
+      processed = DateTime.tryParse("${time}Z");
     }
   }
 
