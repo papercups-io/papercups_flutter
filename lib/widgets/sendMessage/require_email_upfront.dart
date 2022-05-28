@@ -11,12 +11,12 @@ class RequireEmailUpfront extends StatefulWidget {
   final bool showDivider;
 
   const RequireEmailUpfront(
-    Key? key,
     this.setCustomer,
     this.props,
     this.textColor,
-    this.showDivider,
-  ) : super(key: key);
+    this.showDivider, {
+    Key? key,
+  }) : super(key: key);
   @override
   _RequireEmailUpfrontState createState() => _RequireEmailUpfrontState();
 }

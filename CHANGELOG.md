@@ -1,3 +1,7 @@
+## [3.0.1+1] - 28/05/2022
+
+- Fix RequireEmailUpfront key constructor
+
 ## [3.0.1] - 28/05/2022
 - Apply flutter lints
 - Formatting and applying conventions
