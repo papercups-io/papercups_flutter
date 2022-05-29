@@ -42,7 +42,7 @@ class ChatMessage extends StatefulWidget {
   final void Function(PapercupsMessage)? onMessageBubbleTap;
 
   @override
-  _ChatMessageState createState() => _ChatMessageState();
+  State<ChatMessage> createState() => _ChatMessageState();
 }
 
 class _ChatMessageState extends State<ChatMessage> {

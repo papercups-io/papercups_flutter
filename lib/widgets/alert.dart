@@ -120,7 +120,7 @@ class ToastWidget extends StatefulWidget {
   final Duration duration;
 
   @override
-  _ToastWidgetState createState() => _ToastWidgetState();
+  State<ToastWidget> createState() => _ToastWidgetState();
 }
 
 class _ToastWidgetState extends State<ToastWidget> {

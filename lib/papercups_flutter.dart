@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 library papercups_flutter;
 
 // Imports.
@@ -37,7 +35,7 @@ class PapercupsWidget extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _PapercupsWidgetState createState() => _PapercupsWidgetState();
+  State<PapercupsWidget> createState() => _PapercupsWidgetState();
 }
 
 class _PapercupsWidgetState extends State<PapercupsWidget> {

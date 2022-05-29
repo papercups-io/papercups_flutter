@@ -46,7 +46,7 @@ class SendMessage extends StatefulWidget {
   final bool showDivider;
 
   @override
-  _SendMessageState createState() => _SendMessageState();
+  State<SendMessage> createState() => _SendMessageState();
 }
 
 class _SendMessageState extends State<SendMessage> {

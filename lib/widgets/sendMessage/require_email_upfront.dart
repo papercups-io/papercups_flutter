@@ -18,7 +18,7 @@ class RequireEmailUpfront extends StatefulWidget {
     Key? key,
   }) : super(key: key);
   @override
-  _RequireEmailUpfrontState createState() => _RequireEmailUpfrontState();
+  State<RequireEmailUpfront> createState() => _RequireEmailUpfrontState();
 }
 
 class _RequireEmailUpfrontState extends State<RequireEmailUpfront> {

@@ -37,7 +37,7 @@ dependencies:
   flex_color_picker: ^2.0.0-nullsafety.3
   thememode_selector:
     git:
-      url: git://github.com/aguilaair/thememode_selector
+      url: https://github.com/aguilaair/thememode_selector
       ref: main
   url_launcher: ^6.0.2
 
