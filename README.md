@@ -9,6 +9,7 @@
 
 [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/demoButton.svg)](https://papercups-demo.eduardom.dev/)      [![button](https://raw.githubusercontent.com/papercups-io/papercups_flutter/main/images/getPapercups.svg)](https://papercups.io/)
 
+Compatible with **all** platforms: Windows, Android, Linux, MacOS, and iOS
 
 ## Installing
 To get started simply add `papercups_flutter:` and the latest version to your pubspec.yaml.

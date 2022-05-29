@@ -1,6 +1,6 @@
 name: papercups_flutter
 description: Native Flutter implementation of the papercups.io chat widget.
-version: 3.0.1+1
+version: 3.1.0
 homepage: https://github.com/aguilaair/papercups_flutter
 
 environment:
@@ -27,8 +27,5 @@ dev_dependencies:
   mockito: ^5.0.1
   build_runner: ">=1.12.2 <3.0.0"
   flutter_lints: ^2.0.1
-
-dependency_overrides:
-  platform: ^3.1.0
 
 flutter:
