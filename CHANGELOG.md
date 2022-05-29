@@ -1,3 +1,10 @@
+## [3.1.0] - 29/05/2022
+
+- Fix build issues related to platform 3.0.0
+- Stop using private types in public APIs
+- Fix example
+- Update dependencies
+
 ## [3.0.1+1] - 28/05/2022
 
 - Fix RequireEmailUpfront key constructor
