@@ -39,7 +39,7 @@ dependencies:
     git:
       url: https://github.com/aguilaair/thememode_selector
       ref: main
-  url_launcher: ^6.0.2
+  url_launcher: ^6.1.2
 
 dev_dependencies:
   flutter_test:
