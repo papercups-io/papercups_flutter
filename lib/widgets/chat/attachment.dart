@@ -108,7 +108,7 @@ class _AttachmentState extends State<Attachment> {
                 children: [
                   if (downloading || uploading)
                     CircularProgressIndicator(
-                      color: Theme.of(context).canvasColor,
+                      color: widget.textColor,
                     ),
                   Icon(
                     !downloaded
@@ -116,7 +116,7 @@ class _AttachmentState extends State<Attachment> {
                             ? Icons.upload_rounded
                             : Icons.download_rounded
                         : Icons.attach_file_rounded,
-                    color: Theme.of(context).canvasColor,
+                    color: widget.textColor,
                   ),
                 ],
               ),
