@@ -228,11 +228,7 @@ class PapercupsStyle {
     this.primaryColor = const Color(0xFF1890FF),
     this.primaryGradient,
     this.backgroundColor,
-    this.titleStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 21,
-      fontWeight: FontWeight.w600,
-    ),
+    this.titleStyle,
     this.titleAlign = TextAlign.left,
     this.subtitleStyle,
     this.headerHeight,

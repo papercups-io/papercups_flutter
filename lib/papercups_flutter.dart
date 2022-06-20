@@ -281,6 +281,7 @@ class _PapercupsWidgetState extends State<PapercupsWidget> {
                 Header(
                   props: widget.props,
                   closeAction: widget.props.closeAction,
+                  textColor: textColor,
                 ),
                 // if (widget.props.showAgentAvailability)
                 //   AgentAvailability(widget.props),

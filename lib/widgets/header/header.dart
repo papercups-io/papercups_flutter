@@ -9,10 +9,12 @@ class Header extends StatelessWidget {
     Key? key,
     required this.props,
     this.closeAction,
+    required this.textColor,
   }) : super(key: key);
 
   final PapercupsProps props;
   final VoidCallback? closeAction;
+  final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,12 @@ class Header extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(props.translations.title,
-                    style: props.style.titleStyle,
+                    style: props.style.titleStyle ??
+                        TextStyle(
+                          color: textColor,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w600,
+                        ),
                     textAlign: props.style.titleAlign),
               ),
               if (closeAction != null)
@@ -47,7 +54,7 @@ class Header extends StatelessWidget {
                   constraints: const BoxConstraints(maxHeight: 21),
                   icon: props.closeIcon,
                   onPressed: closeAction,
-                  color: props.style.titleStyle?.color,
+                  color: props.style.titleStyle?.color ?? textColor,
                   padding: EdgeInsets.zero,
                   iconSize: 21,
                   splashRadius: 20,
@@ -62,7 +69,8 @@ class Header extends StatelessWidget {
               props.translations.subtitle,
               style: props.style.subtitleStyle ??
                   TextStyle(
-                    color: props.style.titleStyle?.color?.withOpacity(0.8),
+                    color: (props.style.titleStyle?.color ?? textColor)
+                        .withOpacity(0.8),
                   ),
             ),
           )

@@ -95,7 +95,7 @@ That should get you up and running in just a few seconds ⚡️.
         <td><code>TextStyle</code></td>
         <td>The text style of the title at the top of the chat widget.</td>
         <td><pre lang="dart">TextStyle(
-  color: Colors.white,
+  color: textColor, // Using computeLuminance
   fontSize: 21,
   fontWeight: FontWeight.w600,
 )</pre></td>
