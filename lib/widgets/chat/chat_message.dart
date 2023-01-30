@@ -131,10 +131,10 @@ class _ChatMessageState extends State<ChatMessage> {
           widget.props.translations.textCopiedText,
           context,
           textStyle: widget.props.style.chatCopiedTextAlertTextStyle ??
-              Theme.of(context).textTheme.bodyText2,
+              Theme.of(context).textTheme.bodyMedium,
           backgroundColor:
               widget.props.style.chatCopiedTextAlertBackgroundColor ??
-                  Theme.of(context).bottomAppBarColor,
+                  BottomAppBarTheme.of(context).color!,
           gravity: Alert.bottom,
           duration: Alert.lengthLong,
         );

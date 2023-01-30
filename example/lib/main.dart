@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     Text(
                       "Papercups Flutter Demo",
-                      style: Theme.of(context).textTheme.headline3,
+                      style: Theme.of(context).textTheme.displaySmall,
                     ),
                     SizedBox(
                       height: 20,

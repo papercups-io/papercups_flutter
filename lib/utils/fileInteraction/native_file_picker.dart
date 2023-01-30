@@ -23,9 +23,9 @@ void nativeFilePicker({
         widget.props.translations.attachmentUploadingText,
         context,
         textStyle: widget.props.style.chatUploadingAlertTextStyle ??
-            Theme.of(context).textTheme.bodyText2,
+            Theme.of(context).textTheme.bodyMedium,
         backgroundColor: widget.props.style.chatUploadingAlertBackgroundColor ??
-            Theme.of(context).bottomAppBarColor,
+            BottomAppBarTheme.of(context).color!,
         gravity: Alert.bottom,
         duration: Alert.lengthLong,
       );
@@ -37,10 +37,10 @@ void nativeFilePicker({
             "${(sentBytes * 100 / totalBytes).toStringAsFixed(2)}% ${widget.props.translations.uploadedText}",
             context,
             textStyle: widget.props.style.chatUploadingAlertTextStyle ??
-                Theme.of(context).textTheme.bodyText2,
+                Theme.of(context).textTheme.bodyMedium,
             backgroundColor:
                 widget.props.style.chatUploadingAlertBackgroundColor ??
-                    Theme.of(context).bottomAppBarColor,
+                    BottomAppBarTheme.of(context).color!,
             gravity: Alert.bottom,
             duration: Alert.lengthLong,
           );
@@ -54,9 +54,9 @@ void nativeFilePicker({
       widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: widget.props.style.chatUploadErrorAlertTextStyle ??
-          Theme.of(context).textTheme.bodyText2,
+          Theme.of(context).textTheme.bodyMedium,
       backgroundColor: widget.props.style.chatUploadErrorAlertBackgroundColor ??
-          Theme.of(context).bottomAppBarColor,
+          BottomAppBarTheme.of(context).color!,
       gravity: Alert.bottom,
       duration: Alert.lengthLong,
     );
@@ -66,9 +66,9 @@ void nativeFilePicker({
       widget.props.translations.attachmentUploadErrorText,
       context,
       textStyle: widget.props.style.chatUploadErrorAlertTextStyle ??
-          Theme.of(context).textTheme.bodyText2,
+          Theme.of(context).textTheme.bodyMedium,
       backgroundColor: widget.props.style.chatUploadErrorAlertBackgroundColor ??
-          Theme.of(context).bottomAppBarColor,
+          BottomAppBarTheme.of(context).color!,
       gravity: Alert.bottom,
       duration: Alert.lengthLong,
     );

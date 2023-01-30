@@ -145,7 +145,7 @@ That should get you up and running in just a few seconds ⚡️.
         <td><b><code>noConnectionTextStyle</code></b></td>
         <td><code>TextStyle</code></td>
         <td>The text style of the text displayed in the chat widget when there's no Internet connection.</td>
-        <td><pre lang="dart">Theme.of(context).textTheme.headline5?.copyWith(color: code.grey)</pre></td>
+        <td><pre lang="dart">Theme.of(context).textTheme.headlineSmall?.copyWith(color: code.grey)</pre></td>
     </tr>
     <tr>
         <td><b><code>requireEmailUpfrontInputDecoration</code></b></td>
@@ -275,7 +275,7 @@ That should get you up and running in just a few seconds ⚡️.
         <td><code>TextStyle</code></td>
         <td>The text style of the bot chat bubbles.</td>
         <td><pre lang="dart">TextStyle(
-  color: Theme.of(context).textTheme.bodyText1?.color,
+  color: Theme.of(context).textTheme.bodyLarge?.color,
 )</pre></td>
     </tr>
     <tr>
@@ -295,7 +295,7 @@ That should get you up and running in just a few seconds ⚡️.
         <td><code>TextStyle</code></td>
         <td>The text style of the bot attachments file name.</td>
         <td><pre lang="dart">TextStyle(
-  color: Theme.of(context).textTheme.bodyText1?.color,
+  color: Theme.of(context).textTheme.bodyLarge?.color,
 )</pre></td>
     </tr>
      <tr>
@@ -303,7 +303,7 @@ That should get you up and running in just a few seconds ⚡️.
         <td><code>TextStyle</code></td>
         <td>The text style of bot user name displayed below its chat bubbles.</td>
         <td><pre lang="dart">TextStyle(
-  color: Theme.of(context).textTheme.bodyText1?.color?.withOpacity(0.5),
+  color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.5),
   fontSize: 14,
 )</pre></td>
     </tr>
@@ -349,7 +349,7 @@ That should get you up and running in just a few seconds ⚡️.
         <td><code>TextStyle</code></td>
         <td>The text style of the time stamp displayed (on tap) next to the any chat bubble.</td>
         <td><pre lang="dart">TextStyle(
-  color: Theme.of(context).textTheme.bodyText1?.color?.withAlpha(100),
+  color: Theme.of(context).textTheme.bodyLarge?.color?.withAlpha(100),
   fontSize: 10,
 )</pre></td>
     </tr>
@@ -363,49 +363,49 @@ That should get you up and running in just a few seconds ⚡️.
         <td><b><code>chatUploadingAlertTextStyle</code></b></td>
         <td><code>TextStyle</code></td>
         <td>The text style of the alert shown when an attachment is being uploaded.</td>
-        <td><pre lang="dart">Theme.of(context).textTheme.bodyText2</pre></td>
+        <td><pre lang="dart">Theme.of(context).textTheme.bodyMedium</pre></td>
     </tr>
     <tr>
         <td><b><code>chatUploadingAlertBackgroundColor</code></b></td>
         <td><code>Color</code></td>
         <td>The background color of the alert shown when an attachment is being uploaded.</td>
-        <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
+        <td><pre lang="dart">BottomAppBarTheme.of(context).color!</pre></td>
     </tr>
     <tr>
         <td><b><code>chatUploadErrorAlertTextStyle</code></b></td>
         <td><code>TextStyle</code></td>
         <td>The text style of the error alert shown when an attachment failed to upload.</td>
-        <td><pre lang="dart">Theme.of(context).textTheme.bodyText2</pre></td>
+        <td><pre lang="dart">Theme.of(context).textTheme.bodyMedium</pre></td>
     </tr>
     <tr>
         <td><b><code>chatUploadErrorAlertBackgroundColor</code></b></td>
         <td><code>Color</code></td>
         <td>The background color of the error alert shown when an attachment failed to upload.</td>
-        <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
+        <td><pre lang="dart">BottomAppBarTheme.of(context).color!</pre></td>
     </tr>
     <tr>
         <td><b><code>chatNoConnectionAlertTextStyle</code></b></td>
         <td><code>TextStyle</code></td>
         <td>The text style of the alert shown when the chat is displayed but no Internet connection is available.</td>
-        <td><pre lang="dart">Theme.of(context).textTheme.bodyText2</pre></td>
+        <td><pre lang="dart">Theme.of(context).textTheme.bodyMedium</pre></td>
     </tr>
     <tr>
         <td><b><code>chatNoConnectionAlertBackgroundColor</code></b></td>
         <td><code>Color</code></td>
         <td>The background color of the alert shown when the chat is displayed but no Internet connection is available.</td>
-        <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
+        <td><pre lang="dart">BottomAppBarTheme.of(context).color!</pre></td>
     </tr>
     <tr>
         <td><b><code>chatCopiedTextAlertTextStyle</code></b></td>
         <td><code>TextStyle</code></td>
         <td>The text style of the alert shown when a chat bubble gets long pressed and its text copied.</td>
-        <td><pre lang="dart">Theme.of(context).textTheme.bodyText2</pre></td>
+        <td><pre lang="dart">Theme.of(context).textTheme.bodyMedium</pre></td>
     </tr>
     <tr>
         <td><b><code>chatCopiedTextAlertBackgroundColor</code></b></td>
         <td><code>Color</code></td>
         <td>The background color of the alert shown when a chat bubble gets long pressed and its text copied.</td>
-        <td><pre lang="dart">Theme.of(context).bottomAppBarColor</pre></td>
+        <td><pre lang="dart">BottomAppBarTheme.of(context).color!</pre></td>
     </tr>
 </table>
 

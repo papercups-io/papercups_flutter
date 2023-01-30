@@ -160,13 +160,13 @@ class ChatBubble extends StatelessWidget {
                                           ? widget.textColor
                                           : Theme.of(context)
                                               .textTheme
-                                              .bodyText1
+                                              .bodyLarge
                                               ?.color,
                                     ),
                           a: TextStyle(
                             color: userSent
                                 ? Colors.white
-                                : Theme.of(context).textTheme.bodyText1!.color,
+                                : Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                           blockquotePadding: const EdgeInsets.only(bottom: 2),
                           blockquoteDecoration: BoxDecoration(
@@ -177,7 +177,7 @@ class ChatBubble extends StatelessWidget {
                                     ? widget.textColor
                                     : Theme.of(context)
                                             .textTheme
-                                            .bodyText1!
+                                            .bodyLarge!
                                             .color ??
                                         Colors.white,
                               ),
@@ -212,7 +212,7 @@ class ChatBubble extends StatelessWidget {
                         TextStyle(
                           color: Theme.of(context)
                               .textTheme
-                              .bodyText1
+                              .bodyLarge
                               ?.color
                               ?.withOpacity(0.5),
                           fontSize: 14,
@@ -224,7 +224,7 @@ class ChatBubble extends StatelessWidget {
                         TextStyle(
                           color: Theme.of(context)
                               .textTheme
-                              .bodyText1
+                              .bodyLarge
                               ?.color
                               ?.withOpacity(0.5),
                           fontSize: 14,

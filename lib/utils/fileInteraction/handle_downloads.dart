@@ -1,8 +1,6 @@
-import 'dart:typed_data';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:papercups_flutter/models/models.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:universal_io/io.dart';
@@ -34,7 +32,7 @@ Future<void> handleDownloadStream(
         offset += chunk.length;
       }
       await file.writeAsBytes(bytes);
-      OpenFile.open(file.absolute.path);
+      OpenFilex.open(file.absolute.path);
       if (onDownloaded != null) {
         onDownloaded();
       }

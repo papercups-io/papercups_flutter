@@ -15,11 +15,11 @@ dependencies:
   universal_io: ^2.0.4
   flutter_markdown: ">=0.5.2 <0.7.0"
   timeago: ">=2.0.30 <4.0.0"
-  intl: ">=0.16.1 <0.18.0"
-  file_picker: ^4.1.4
+  intl: ">=0.16.1 <0.19.0"
+  file_picker: ^5.2.5
   path_provider: ^2.0.1
   url_launcher: ^6.1.2
-  open_file: ^3.2.1
+  open_filex: ^4.3.2
 
 dev_dependencies:
   flutter_test:

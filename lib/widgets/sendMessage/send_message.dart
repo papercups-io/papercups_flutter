@@ -104,9 +104,9 @@ class _SendMessageState extends State<SendMessage> {
         widget.props.translations.attachmentUploadedText,
         context,
         textStyle: widget.props.style.chatUploadingAlertTextStyle ??
-            Theme.of(context).textTheme.bodyText2,
+            Theme.of(context).textTheme.bodyMedium,
         backgroundColor: widget.props.style.chatUploadingAlertBackgroundColor ??
-            Theme.of(context).bottomAppBarColor,
+            BottomAppBarTheme.of(context).color!,
         gravity: Alert.bottom,
         duration: Alert.lengthLong,
       );

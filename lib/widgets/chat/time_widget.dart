@@ -29,7 +29,7 @@ class TimeWidget extends StatelessWidget {
               TextStyle(
                 color: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyLarge
                     ?.color
                     ?.withAlpha(100),
                 fontSize: 10,

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:papercups_flutter/models/attachment.dart';
 import 'package:papercups_flutter/models/classes.dart';
 import 'package:papercups_flutter/utils/fileInteraction/download_file.dart';
@@ -64,7 +64,7 @@ class _AttachmentState extends State<Attachment> {
             if (kDebugMode) {
               print("Cached at ${file.absolute.path}");
             }
-            OpenFile.open(file.absolute.path);
+            OpenFilex.open(file.absolute.path);
             downloaded = true;
           } else {
             Stream<StreamedResponse> resp =
@@ -136,7 +136,7 @@ class _AttachmentState extends State<Attachment> {
                         : TextStyle(
                             color: widget.userSent
                                 ? widget.textColor
-                                : Theme.of(context).textTheme.bodyText1?.color,
+                                : Theme.of(context).textTheme.bodyLarge?.color,
                           ),
                 overflow: TextOverflow.ellipsis,
               ),
