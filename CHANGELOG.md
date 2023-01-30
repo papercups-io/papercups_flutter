@@ -1,3 +1,9 @@
+## [3.1.1] - 29/01/2023
+
+- Fix deprecations
+- Solve issues where `INSTALL_PACKAGES` was set, issues with Google Play Review
+- Upgrade dependencies
+
 ## [3.1.0] - 29/05/2022
 
 - Fix build issues related to platform 3.0.0
